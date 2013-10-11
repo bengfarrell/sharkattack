@@ -1,0 +1,31 @@
+{
+    "name": "Blastanova",
+    "description": "music feed aggregator",
+    "author": "Ben Farrell <ben@benfarrell.com>",
+    "version": "1.0.0",
+    "systemdependencies": "mediainfo, youtube-dl, ffmpeg, lamemp3lib",
+    "dependencies": {
+        "grunt": "~0.4.0",
+        "grunt-curl": "~1.1.1",
+        "grunt-ftp-deploy": "git://github.com/bengfarrell/grunt-ftp-deploy.git",
+        "grunt-contrib-copy": "~0.4.0",
+        "grunt-contrib-clean": "~0.4.0",
+        "event-stream": "3.0.x",
+        "feedparser": "0.9.13",
+        "request": "2.27.x",
+        "sax": "0.3.x",
+        "http-get": "0.3.x",
+        "xml2js": "0.1.x",
+        "youtube-dl": "1.2.x",
+        "ffmpeg-node": "0.0.x",
+        "mediainfo": "0.0.x",
+        "mongodb": "1.0.x",
+        "oauth": "0.9.8",
+        "apac": "0.0.11",
+        "express": "~3.0.0",
+        "nodemailer": "~0.5.2",
+        "cron": "~1.0.1",
+        "git-rev": "~0.2.1"
+    },
+    "engine": "node >= 0.10.x"
+}

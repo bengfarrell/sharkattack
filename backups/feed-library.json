@@ -1,0 +1,339 @@
+{
+    "sources": [
+            {
+                "label": "KEXP Song of the Day",
+                "type": "rss",
+                "url": "http://feeds.kexp.org/kexp/songoftheday?format=xml",
+                "page": "http://kexp.org/podcasting/past.asp?podcast=songoftheday",
+                "description": "KEXP is more than a radio station. KEXP is a dynamic arts organization that provides rich music experiences on the air, online, and on the streets. KEXPs unique services benefit three distinct groups: Music Lovers, Artists, and the Arts Community. KEXPs curatorial staff of 40 DJs, who are widely recognized as experts in their field, present the newest emerging popular artists alongside established bands. KEXPs programming features both variety and specialty shows that brings you the emerging sounds and long-time favorites from the Pacific Northwest, the country, and throughout the world.",
+                "id": "kxpsotd",
+                "thumb": "http://www.blastanova.com/images/kxpsotd.jpg"
+            },
+            {
+                "label": "Matador Records",
+                "type": "webpage",
+                "url": "http://www.matadorrecords.com/matablog",
+                "page": "http://www.matadorrecords.com/matablog",
+                "description": "Matador is a NY-based record label with a music blog they update featuring their artists.",
+                "id": "matador",
+                "thumb": "http://www.blastanova.com/images/matador.jpg"
+            },
+            {
+                "label": "Hero Hill",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/herohill",
+                "page": "http://www.herohill.com",
+                "description": "HeroHill is the two-man music review &amp; banter strikeforce comprised of Bryan “Ack” Acker and Shane “Naedoo” Nadeau, two long-time friends both born and raised in Halifax, Nova Scotia.  You’d be hard pressed to find another blog that does a more thorough job of covering the independent music scene here in Canada. But Herohill’s coverage doesn’t stop at the 49th parallel –  if it’s good, there’s a chance you’ll find it on the hill, no matter where it comes from.",
+                "id": "hhill",
+                "thumb": "http://www.blastanova.com/images/hhill.jpg"
+            },
+            {
+                "label": "KCRW Music Blog",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/kcrw/musicblog",
+                "page": "http://blogs.kcrw.com/musicnews",
+                "description": "The KCRW Music Blog provides a sneak peek into the inner workings of the Santa Monica public radio station’s famed music department. Expect a steady flow of new music discovery of “Artists You Should Know”  selected by KCRW Staff and DJs and including streaming mp3s. Also, enjoy video clips of our favorite songs from our own Morning Becomes Eclectic in-studio sessions, as well as the EXCLUSIVE material that we are sometimes given to share with our readers!",
+                "id": "kcrw",
+                "thumb": "http://www.blastanova.com/images/kcrw.jpg"
+            },
+            {
+                "label": "Obssessive Compulsive Music Disorder",
+                "type": "webpage",
+                "url": "http://theocmd.com/",
+                "page": "http://theocmd.com",
+                "description": "Hello. My name is Julie and I have Obsessive Compulsive Music Disorder. Okay, so it’s not a clinical affliction. But it should be; its a real problem for me. I collect, hoard, and obsess over new music all the time. My voracious appetite for music has slowly evolved into a time sucking (but very OC satisfying) daily ritual of listening, reading, and reviewing my carefully cultivated list of music resources and news. Im constantly on the prowl for the next new artist and audio masterpiece, that quintessential album you crave and can’t stop listening to, the one that gets better with each listen and doesn’t fade. I imagine it’s a similar experience a junkie might have looking for their next fix. There’s the anxiety and tension that builds from the search until finally the craving is satisfied with the sweet relief of a score. That’s me, but music is my crack.",
+                "id": "ocmd",
+                "thumb": "http://www.blastanova.com/images/ocmd.jpg"
+            },
+            {
+                "label": "Loose Lips Music",
+                "type": "rss",
+                "url": "http://www.looselipsmusic.com/feeds/posts/default",
+                "page": "http://www.looselipsmusic.com",
+                "description": "Loose L!ps S!nk Sh!ps, but good music shouldn’t be kept secret.",
+                "id": "looselips",
+                "thumb": "http://www.blastanova.com/images/looselips.jpg"
+            },
+            {
+                "label": "Ears of the Beholder",
+                "type": "webpage",
+                "url": "http://www.earsofthebeholder.com/",
+                "page": "http://www.earsofthebeholder.com",
+                "description": "My name is Peter and I live in San Francisco. I started Ears of the Beholder in 2008 as a place to feature music from emerging artists and have since moved on to produce concerts/parties and co-found a record label. My day job is planning the NightLife events at California Academy of Sciences. Feel free to submit your music, but please understand that I get lots of email and it’s hard for me to respond to everything. I love getting vinyl in the mail. Just ask me for my address if you want to send me something. Thanks for checking out EOTB.",
+                "id": "earobehold",
+                "thumb": "http://www.blastanova.com/images/earobehold.jpg"
+            },
+            {
+                "label": "Perfect Porridge",
+                "type": "rss",
+                "url": "http://perfectporridge.com/feed/",
+                "page": "http://perfectporridge.com",
+                "description": "This here is a music blog, sucka. We’re based in Minneapolis, MN, although we cover national and international music and news.",
+                "id": "pporr",
+                "thumb": "http://www.blastanova.com/images/pporr.jpg",
+                "notes": "Minneapolis Based Music Blog"
+            },
+            {
+                "label": "Wild Tundra",
+                "type": "rss",
+                "url": "http://wildtundra.tumblr.com/rss",
+                "page": "http://wildtundra.tumblr.com/",
+                "description": "A music blog from Minneapolis.",
+                "id": "wtundra",
+                "thumb": "http://www.blastanova.com/images/wtundra.jpg",
+                "notes": "Minneapolis Based Music Blog"
+            },
+            {
+                "label": "Minneapolis Fucking Rocks",
+                "type": "webpage",
+                "url": "http://music.minneapolisfuckingrocks.com/rss",
+                "page": "http://blog.minneapolisfuckingrocks.com",
+                "description": "MFR is a Minneapolis-based music blog by Ian Anderson and Laura Yurich.",
+                "id": "mfs",
+                "thumb": "http://www.blastanova.com/images/mfs.jpg"
+            },
+            {
+                "label": "Minnesota Public Radio",
+                "type": "rss",
+                "url": "http://minnesota.publicradio.org/tools/podcasts/song-of-the-day.php",
+                "page": "http://minnesota.publicradio.org",
+                "description": "Music lovers from 89.3 The Current comb through mountains of music to choose the best new, independent, and unreleased songs to share with you each weekday.",
+                "id": "mpr",
+                "thumb": "http://www.blastanova.com/images/mpr.jpg"
+            },
+            {
+                "label": "New Dust",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/newdust",
+                "page": "http://www.newdust.com",
+                "description": "Newdust.com is a music blog based in Dallas and D.C., devoted to sharing new and vintage indie, electronic, and pop music through album reviews, mp3 streams, and mixtapes. The contributors also make an active effort to promote new and undiscovered bands as often as possible.",
+                "id": "newdust",
+                "thumb": "http://www.blastanova.com/images/newdust.jpg"
+            },
+            {
+                "label": "Under the Radar Magazine",
+                "type": "webpage",
+                "url": "http://www.undertheradarmag.com/media/",
+                "page": "http://www.undertheradarmag.com/media",
+                "description": "Under the Radar is an indie music magazine that prints five issues a year, is distributed across North America and internationally, and bills itself as “the solution to music pollution.” The independent magazine was founded in 2001 by publishers (and now husband and wife) Mark Redfern (a writer) and Wendy Lynch Redfern (a photographer) and is known for in-depth and characterized interviews with bands large and small, as well as their accompanying unique and stylistic photo-shoots. It offers intelligent, and sometimes humorous, articles that go far beyond a band’s major influences, often accompanied by exclusive photo shoots.",
+                "id": "underradar",
+                "thumb": "http://www.blastanova.com/images/underradar.jpg"
+            },
+            {
+                "label": "Hear Ya",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/Hearya",
+                "page": "http://www.hearya.com",
+                "description": "HearYa is an indie music blog that gives indie music enthusiasts a destination to cut through the clutter when discovering new music. We’re a community of fans that want to see the music we love reach the ears of new friends and survive.",
+                "id": "hearya",
+                "thumb": "http://www.blastanova.com/images/hearya.jpg"
+            },
+            {
+                "label": "Off the Radar Music",
+                "type": "webpage",
+                "url": "http://www.offtheradarmusic.com/",
+                "page": "http://www.offtheradarmusic.com",
+                "description": "Your source for cutting-edge new music",
+                "id": "otradar",
+                "thumb": "http://www.blastanova.com/images/otradar.jpg"
+            },
+            {
+                "label": "StereoGum",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/stereogum/cBYa?format=xml",
+                "page": "http://stereogum.com",
+                "description": "Stereo was one of the first Mp3 blogs. It was created by Scott Lapatine in January 2002 with a focus on independent and alternative music news, downloads, videos, and gossip. Stereogum has received several awards and citations, including the 2008 Plug Award for best music blog, Blender’s Powergeek 25, and Entertainment Weekly‘s Best Music Websites. In 2010, Stereogum was named an Official Honoree of the Webby Awards in the music category and won the Omma Award for Web Site Excellence in the Entertainment/Music category.",
+                "id": "strgm",
+                "thumb": "http://www.blastanova.com/images/strgm.jpg"
+            },
+            {
+                "label": "Pitchfork Best New Tracks",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/PitchforkBestNewTracks?format=xml",
+                "page": "http://pitchfork.com/reviews/best/tracks",
+                "description": "Pitchform Media, usually known simply as Pitchfork, is a Chicago-based daily internet publication established in 1995 that is devoted to music criticism and commentary, music news, and artist interviews. Its focus is on underground and independent music, especially indie rock.",
+                "id": "pbnt",
+                "thumb": "http://www.blastanova.com/images/pbnt.jpg"
+            },
+            {
+                "label": "Pasta Primavera",
+                "type": "rss",
+                "url": "http://feeds2.feedburner.com/blogspot/KnmN",
+                "page": "http://pastaprima.net",
+                "description": "What is Pasta Primavera, you ask?  Well, we’re an indie music blog operating out of Baltimore.  We try to cover the large music scene here in Charm City as well as DC, Philly, and Virginia.  We also post about upcoming bands and their music happenings throughout the world.  So I guess we just cover music in general…that we like…and we hope you like too.",
+                "id": "pasta",
+                "thumb": "http://www.blastanova.com/images/pasta.jpg"
+            },
+            {
+                "label": "So Much Silence",
+                "type": "rss",
+                "url": "http://somuchsilence.com/?feed=rss2",
+                "page": "http://somuchsilence.com",
+                "description": "Music blog So Much Silence.",
+                "id": "somuch",
+                "thumb": "http://www.blastanova.com/images/somuch.jpg"
+            },
+            {
+                "label": "Deftune",
+                "type": "rss",
+                "url": "http://www.deftune.com/feed",
+                "page": "http://www.deftune.com",
+                "description": "Deftune is an online publication specializing in new independent music recommendation. Hit us up with your music, we’ll do anything from features, reviews, live show reviews, photos, or feature you on our podcast.",
+                "id": "deftune",
+                "thumb": "http://www.blastanova.com/images/deftune.jpg"
+            },
+            {
+                "label": "Insomnia Radio",
+                "type": "rss",
+                "url": "http://pipes.yahoo.com/pipes/pipe.run?_id=dcfa0e261383ba2f9aa95b0a2a48ce5c&_render=rss",
+                "page": "http://insomniaradio.net",
+                "description": "Insomnia Radio is a small tight-knit family of volunteers on different continents working to bring you a wide variety of quality indie music since 2004. Usually rock centric, we consistently dive into the musical ether for the love of helping quality independents, for the appreciation of discovery, and for the pure joy of being music fanatics.",
+                "id": "insom",
+                "thumb": "http://www.blastanova.com/images/insom.jpg"
+            },
+            {
+                "label": "Muzzle of Bees",
+                "type": "webpage",
+                "url": "http://www.muzzleofbees.com",
+                "page": "http://www.muzzleofbees.com",
+                "description": "Music blog Muzzle of Bees.",
+                "id": "muzbe",
+                "thumb": "http://www.blastanova.com/images/muzbe.jpg"
+            },
+            {
+                "label": "I am Fuel, You are Friends",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/fuelfriends",
+                "page": "http://www.fuelfriendsblog.com",
+                "description": "Music Blog by Heather Browne",
+                "thumb": "http://www.blastanova.com/images/ffriends.jpg",
+                "id": "ffriends"
+            },
+            {
+                "label": "Obscure Sound",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/ObscureSound",
+                "page": "http://www.obscuresound.com",
+                "description": "Obscure Sound is an indie music site that I formed in February 2006 out of a love for music, journalism, and creative writing. Obscure Sound is run by Mike Mineo who wrote for Pop Matters and Stylus Magazine a few years before OS. This site’s aim is relatively straightforward: to provide music fans with the latest and greatest music.",
+                "id": "obscnd",
+                "thumb": "http://www.blastanova.com/images/obscnd.jpg"
+            },
+            {
+                "label": "Gorrilla vs Bear",
+                "type": "webpage",
+                "url": "http://www.gorillavsbear.net",
+                "page": "http://www.gorillavsbear.net",
+                "description": "Gorrlla vs Bear is a Texas-based music blog. Once called “the New Yorker Hipster of music blogs”, we blog about relevant artists of the day, with no particular genre-specific focus.",
+                "id": "gvsb",
+                "thumb": "http://www.blastanova.com/images/gvsb.jpg"
+            },
+            {
+                "label": "Chromewaves",
+                "type": "webpage",
+                "url": "http://www.chromewaves.net",
+                "page": "http://www.chromewaves.net",
+                "description": "It’s amazing what you can accomplish with a little free time and an obsessive-compulsive disorder. This blog began Fall of 2002 as an experiment in something or other. Since then, it’s spiraled horribly out of control, becoming an all-consuming part of life and a second full-time job. The mandate Chromewaves has always been, and will remain, to be about whatever tickles the author’s fancy. Nothing more, nothing less. His interests are pretty much indie rock, movies, television, comic books and pop culture in general, so that’s what you’ll find here. If I someday develop a fascination for needlepoint or chinchillas, that’s what you’ll find here. The name of this blog comes from the song “Chrome Waves” by UK band “Ride”, taken from one of my favourite albums (Going Blank Again) and bands ever, respectively.",
+                "id": "cwaves",
+                "thumb": "http://www.blastanova.com/images/cwaves.jpg"
+            },
+            {
+                "label": "Scary Squids",
+                "type": "webpage",
+                "url": "http://www.scarysquids.com/",
+                "page": "http://www.scarysquids.com",
+                "description": "Scary Squids is a music review site, created and maintained by me (Ben Martin). I like reviewing albums, and plan to start sharing new (and old) music that I like on this site. While I am a music listener first and foremost, I also have recorded some albums. One is called “Days and Dreams” and it’s a solo record, and another is called “Voices”, and it’s an instrumental rock record I did with a band called Room For A Ghost.",
+                "id": "scarysquids",
+                "thumb": "http://www.blastanova.com/images/scarysquids.jpg"
+            },
+            {
+                "label": "Icarus and Occident",
+                "type": "webpage",
+                "url": "http://www.icarusandoccident.com",
+                "page": "http://www.icarusandoccident.com",
+                "description": "This is our daily juxtaposition. Stories of hope and hopelessness. Stories told with music and photography, with light and sound. A soundtrack to a single moment of the human condition, suspended in time. Moments, like Occident, neither flying nor falling, but paused for an instant of wonder. Stories, like Icarus, falling from the heights of our greatest achievements. May these photographs be for you an instant of wonder. May these songs be for you a choir of joy and sorrow. And may we all write that which matters upon our chests.",
+                "id": "icocs",
+                "thumb": "http://www.blastanova.com/images/icocs.jpg"
+            },
+            {
+                "label": "Maimed and Tamed",
+                "type": "webpage",
+                "url": "http://maimedandtamed.com",
+                "page": "http://maimedandtamed.com",
+                "description": "We started this blog so that we could share our music tastes with everyone and anyone who is interested. We know that you may not love every song that we post, but maybe we will pique your interest in a new genre or introduce you to a band that you fall in love with, you’ll never know what could happen if you keep your ears and your mind open. We encourage you to comment on posts and send us links or emails because it creates an active discussion around music which is a great starting point for interacting with new people and finding fresh music.",
+                "id": "maimtame",
+                "thumb": "http://www.blastanova.com/images/maimtame.jpg"
+            },
+            {
+                "label": "Quick Before it Melts",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/quickbeforeitmelts/yluG",
+                "page": "http://www.quickbeforeitmelts.com",
+                "description": "In 2006, after being a fan and regular reader of many music blogs, I decided to launch my own and share my thoughts and opinions with the world (or the world who stumbled upon my blog accidentally). Quick Before It melts takes its name from a Cinerama song of the same name ( that can be found on their albumTorino).  There was never a clear agenda when I started the project, but QBiM did have it’s roots in my first foray into the blogosphere, a project called The Act of Just Being Here (that borrowed it’s name from a line in the Stars song “What I’m Trying To Say” from the album Set Yourself On Fire).  TAOJBH, as I affectionately referred to it as, was borne out of a brush with mortality at a younger age than I should have experienced.",
+                "id": "quickmelt",
+                "thumb": "http://www.blastanova.com/images/quickmelt.jpg"
+            },
+            {
+                "label": "I Guess I'm Floating",
+                "type": "rss",
+                "url": "http://www.iguessimfloating.net/feed",
+                "page": "http://www.iguessimfloating.net",
+                "description": "Although IGIF might look different than the IGIFs of the past, our intentions are what they’ve always been. For hours every day we strive to complete two goals: First, to introduce new bands to people who are just as excited about music as we are. Second, but not least, to provide an accessible avenue of promotion and distribution to bands and artists who might not otherwise pick up the recognition they deserve. This is, in fact, the only reason why music blogs should exist. That being said there are still two kinds of music blogs — 1) those that cycle hype and talk about bands that are already being talked about, that even leak music under the premise of “firsties”. This is deplorable, self-interested behavior concerned more with ad revenue than contributing to the community. At the same time there are those that seek out new bands and new sounds, those that discover next year’s buzz bands. We always strive to be the latter because in the end that’s what IGIF is all about: helping music fans discover awesome new music and helping bands discover awesome new fans.",
+                "id": "guessfloat",
+                "thumb": "http://www.blastanova.com/images/guessfloat.jpg"
+            },
+            {
+                "label": "Cause = Time",
+                "type": "rss",
+                "url": "http://feeds2.feedburner.com/causeequalstime/JoPS",
+                "page": "http://causeequalstime.com/category/music/",
+                "description": "Cause=Time out of Denver, Colorado",
+                "id": "causeetime",
+                "thumb": "http://www.blastanova.com/images/causeetime.jpg"
+            },
+            {
+                "label": "Covert Curiosity",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/CovertCuriosity",
+                "page": "http://covertcuriosity.blogspot.com/",
+                "description": "Covert Curiousity - locally focused on Austin, Texas",
+                "id": "covertcuriosity",
+                "thumb": "http://www.blastanova.com/images/covertcuriosity.jpg"
+            },
+            {
+                "label": "Shark Attack Requests",
+                "type": "rss",
+                "maxitems": "30",
+                "url": "http://sharkattack.blastanova.com/requests.xml",
+                "id": "sareq"
+            },
+            {
+                "label": "The Music Slut",
+                "type": "webpage",
+                "url": "http://themusicslut.com",
+                "page": "ttp://themusicslut.com",
+                "description": "Once upon a time, a brown-haired, hazel-eyed girl named Jen moved to Scotland in pursuit of something greater than her small life on Long Island. There she found Jamie, a Ph.D. classicist with sparkling blue eyes and a penchant for S Club 7. As their friendship grew, so did their foray into music geekery. Then one drunken summer’s eve, Jamie came up with an idea: they should bring their obsession to the world. They should start, A MUSIC BLOG and it shall be called, THE MUSIC SLUT because unlike other blogs, we wouldn’t be mired down with obscure indie snobbery, we would embrace our love of Kylie Minogue just as much as Sigur Ros.",
+                "id": "musicslut",
+                "thumb": "http://www.blastanova.com/images/musicslut.jpg"
+            },
+            {
+                "label": "Eclectic Eaves Droppings",
+                "type": "rss",
+                "url": "http://eclecticeavesdroppings.tumblr.com/rss",
+                "page": "http://eclecticeavesdroppings.tumblr.com",
+                "id": "eedrop"
+            },
+            {
+                "label": "IndieFeed",
+                "type": "rss",
+                "url": "http://indiefeed.com/feed",
+                "id": "indfd"
+            },
+            {
+                "label": "MBV",
+                "type": "rss",
+                "url": "http://feeds.feedburner.com/mbv",
+                "page": "http://www.mbvmusic.com",
+                "id": "mbv"
+            }
+        ]
+}

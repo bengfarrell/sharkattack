@@ -1,0 +1,37 @@
+<html ng-app="app">
+    <head>
+        <title>SharkAttack Personal Radio</title>
+        <script type="text/javascript" src="../jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" media="all" href="../bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="all" href="main.css">
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <script src="../angular.min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controllers/RadioController.js"></script>
+    </head>
+    <body class="sharkApp" ng-controller="RadioController">
+
+        <nav class="navbar navbar-inverse sharkheader navbar-fixed-top" role="navigation">
+            <p class="navbar-header">
+                <a class="navbar-brand" href="#">SharkAttack Radio</a>
+            </p>
+            <p class="navbar-right navbar-brand">v{{about.version}}</p>
+            <p class="navbar-right">
+                <audio src="http://localhost:3000/stream"
+                       controls="false" preload="auto"
+                       autobuffer autoplay="true">
+                </audio>
+            </p>
+        </nav>
+
+        <div class="content">
+            <ul>
+                <li ng-repeat="media in playHistory">
+                    {{media.label}}
+                    <p><a href="{{media.media}}">{{media.source}}</a> on {{media.date}}</p>
+                    <span class="duration">{{media.formattedDuration}}</span>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
