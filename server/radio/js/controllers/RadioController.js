@@ -1,6 +1,6 @@
 app.controller('RadioController', function($scope, $http) {
     $scope.refreshPlayHistory = function() {
-        $http.get("../../stream/nowplaying.json").
+        $http.get("../stream/nowplaying.json").
             success(function(data) {
                 $scope.playHistory = data;
             }).

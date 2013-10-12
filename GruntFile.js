@@ -5,6 +5,10 @@ module.exports = function(grunt) {
     var showname = grunt.option( "showname") ? grunt.option( "showname") : "show";
     var dev = grunt.option( "dev") ? grunt.option( "dev") : false;
 
+    if (!grunt.file.exists(workspace + "config.json")) {
+        grunt.file.copy("backups/config.json", workspace + "config.json");
+    }
+
     // Project configuration.
     grunt.initConfig({
         workspace: workspace,
@@ -44,6 +48,14 @@ module.exports = function(grunt) {
                         "<%= config.locations.libraryLocation %>/data/temp/pls.m3u8"],
                         dest: '<%= config.locations.showLocation %>', filter: 'isFile'}
                 ]
+            },
+            "initial-setup": {
+                files: [
+                    {expand: true, flatten: true,
+                        src: [
+                            "backups/feed-library.json",
+                            "backups/playlist-script.json",],
+                        dest: '<%= config.locations.libraryLocation %>/data/'}]
             }
         },
 
@@ -369,6 +381,12 @@ module.exports = function(grunt) {
         "sa:zip",
         "sa-buildshow:record-show",
         "sa:end"
+    ]);
+
+    grunt.registerTask('setup', [
+        "sa:init:BuildAssetLibrary",
+        "copy:initial-setup"
+
     ]);
 
     grunt.registerTask('custom', grunt.config.get("config").custom );

@@ -52,9 +52,15 @@ cd sharkattack
 ```
 
   - Copy the config.json from /backups to project root and fill in missing info and passwords
-  - Start the server
+  - Run setup to initialize first run of SharkAttack and start the server
 ```sh
+grunt setup
 node Main.js
+```
+  - Visit localhost:3000/admin
+  - Wait for cron jobs to fire to accumulate music or kickoff the task manually:
+```sh
+grunt buildAssetLibrary
 ```
 
 Tech
