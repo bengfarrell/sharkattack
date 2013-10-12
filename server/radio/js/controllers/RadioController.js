@@ -11,7 +11,7 @@ app.controller('RadioController', function($scope, $http) {
     $scope.refreshPlayHistory();
     setInterval($scope.refreshPlayHistory, 5000);
 
-    $http.get("../../about.json").
+    $http.get("../about.json").
         success(function(data) { $scope.about = data; }).
         error(function(data) { console.log("err: " + data) });
 });
