@@ -53,15 +53,16 @@ cd sharkattack
 
   - Copy the config.json from /backups to project root and fill in missing info and passwords
   - Run setup to initialize first run of SharkAttack and start the server
-```sh
+```
 grunt setup
 node Main.js
 ```
   - Visit localhost:3000/admin
   - Wait for cron jobs to fire to accumulate music or kickoff the task manually:
-```sh
+```
 grunt buildAssetLibrary
 ```
+  - Note that in my setup, I don't startup the process with Node, I use Supervisor (https://github.com/isaacs/node-supervisor)
 
 Tech
 -----
