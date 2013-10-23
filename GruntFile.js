@@ -372,7 +372,6 @@ module.exports = function(grunt) {
     grunt.registerTask('buildShow', [
         "clean:show",
         "sa:init:BuildShow",
-        "curl:show-script",
         "sa-buildshow:download-interstitials",
         "sa-buildshow:build-playlist",
         "sa-buildshow:copy-show-assets",
