@@ -58,7 +58,7 @@ function ReconcileController() {
             }
             return;
         } else if (self.config.useDatabase) {
-            self.collection.findOne({media: item.media}, function(err, dbItem) {
+            self.collection.findOne({filename: item.filename}, function(err, dbItem) {
                 if (dbItem) {
                     for (var field in dbItem) {
                         item[field] = dbItem[field];
