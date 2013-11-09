@@ -58,7 +58,15 @@ function ReconcileController() {
             }
             return;
         } else if (self.config.useDatabase) {
-            self.collection.findOne({filename: item.filename}, function(err, dbItem) {
+            // adding MP3 extension for now, not ideal if other file format extensions are introduced
+            // the problem is that at this stage, the filename isn't an MP3 yet, as it hasn't been converted
+            // however when it gets the database at the end, the worflow has already been done and it IS
+            // and MP3
+            var lookupname = item.filename;
+            if (lookupname && lookupname.indexOf(".mp3") < 0) {
+                lookupname += ".mp3";
+            }
+            self.collection.findOne({filename: lookupname}, function(err, dbItem) {
                 if (dbItem) {
                     for (var field in dbItem) {
                         item[field] = dbItem[field];
