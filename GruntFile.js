@@ -337,7 +337,7 @@ module.exports = function(grunt) {
         "sa-library:spotify-resolve",
         "sa-publish:record-new-assets",
         "sa-publish:library-output",
-        "sa-publish:dailycounts",
+        /*"sa-publish:dailycounts", broken for some reason */
         "sa-email:newassets",
         "sa-publish:build-source-list",
         "ftp-deploy:bnova-trunk",
