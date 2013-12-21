@@ -16,7 +16,7 @@ function WebpageParser (config) {
         this._url = url;
         request.get({url:url}, this.onPageLoaded).on('error', function(e){
             Log.prototype.error("Webpage Parser", "Webpage timeout on " + this._url);
-            self.emit(WebpageParser.prototype.WEBPAGE_PARSING_COMPLETE, []);
+            //self.emit(WebpageParser.prototype.WEBPAGE_PARSING_COMPLETE, []);
         }).end()
     }
 
