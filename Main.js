@@ -135,7 +135,6 @@ app.get('/stream', function(req, res) {
     streamingConnections.push(res);
 });
 
-
 var server = app.listen(3000);
 
 process.on('exit', function() {
