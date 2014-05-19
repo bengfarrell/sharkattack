@@ -78,6 +78,9 @@ File.prototype.convertLinkToFilename = function(link, type) {
             f = link.substr(link.indexOf("embed/") +6, link.length);
         }
         return f;
+    } else if (type == "soundcloud") {
+        var file = link.substr(link.lastIndexOf("/tracks/")+8, 8);
+        return file + ".mp3";
     } else {
         var f = File.prototype.removeExtension(link);
         var file = f.substr(f.lastIndexOf("/")+1, f.length);
