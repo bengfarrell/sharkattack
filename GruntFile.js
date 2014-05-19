@@ -220,8 +220,12 @@ module.exports = function(grunt) {
                 sourceslistFile: "<%= config.locations.libraryLocation %>/data/feed-library.json",
                 outputfilters: [ {filters: [
                                     {name: "includeMP3Only"},
-                                    {name: "excludeSources", params:"sareq"}],
+                                    {name: "excludeSources", params:"sareq wolfpack"}],
                                     file:"<%= config.locations.libraryLocation %>/data/webassets.json"},
+                                {filters: [
+                                    {name: "includeMP3Only"},
+                                    {name: "includeSources", params:"wolfpack"}],
+                                    file:"<%= config.locations.libraryLocation %>/data/wolfpack-test.json"},
                                 { filters: [
                                     {name: "includeMP3Only"},
                                     {name: "includeSpotifyOnly", params:"sareq"}],

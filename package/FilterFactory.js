@@ -26,6 +26,10 @@ FilterFactory.prototype.createFilter = function(type) {
             return FilterFactory.prototype.filterOutSourceIDs;
             break;
 
+        case "includeSources":
+            return FilterFactory.prototype.filterIncludeSourceIDs;
+            break;
+
         case "includeSpotifyOnly":
             return FilterFactory.prototype.filterOutNonSpotify;
             break;
@@ -80,6 +84,20 @@ FilterFactory.prototype.filterOutSourceIDs = function(source, asset, sourceList)
         srcID = asset.sourceid;
     }
     if (sourceList.indexOf(srcID) != -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+FilterFactory.prototype.filterIncludeSourceIDs = function(source, asset, sourceList) {
+    var srcID = "";
+    if (source) {
+        srcID = source.id;
+    } else {
+        srcID = asset.sourceid;
+    }
+    if (sourceList.indexOf(srcID) == -1) {
         return true;
     } else {
         return false;
