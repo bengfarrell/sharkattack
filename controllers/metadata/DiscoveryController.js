@@ -1,6 +1,7 @@
 var FeedParser = require('feedparser'),
     ItemParser = require('./../../discovery/ItemParser.js'),
     WebpageParser = require('./../../discovery/WebpageParser.js'),
+    SoundCloudParser = require('./../../discovery/SoundCloudParser.js'),
     Log = require('./../../utils/Log.js'),
     FileUtils = require('../../utils/File.js'),
     sax = require('sax'),
@@ -52,6 +53,8 @@ function DiscoveryController() {
     this.process = function(data, callback) {
         self.config = data;
         self.ip = new ItemParser(self.config);
+        self.soundcloud = new SoundCloudParser(self.config);
+        self.soundcloud.on(SoundCloudParser.prototype.SOUNDCLOUD_PARSING_COMPLETE, self._onSoundCloudItemsFound);
         self.webparser = new WebpageParser(self.config);
         self.webparser.on(WebpageParser.prototype.WEBPAGE_PARSING_COMPLETE, self._onWebItemsFound);
         self.callback = callback;
@@ -97,6 +100,16 @@ function DiscoveryController() {
             return;
         }
         self._onItemsFound(self.items);
+    }
+
+    /**
+     * on SoundCloud Items Found
+     * @param items
+     * @private
+     */
+    this._onSoundCloudItemsFound = function(items) {
+        console.log(items)
+        self._onItemsFound(items);
     }
 
     /**
@@ -207,6 +220,8 @@ function DiscoveryController() {
             parser.on('end', self._onRSSParseComplete);
             parser.on('error', self._onRSSParseFailure);
             parser.parseFile(self.feedData[self.indx].url);
+        } else if (self.feedData[self.indx].type == "soundcloud" && self.config.allowSoundcloud) {
+            self.soundcloud.load(self.feedData[self.indx].url);
         } else {
             self.webparser.loadPage(self.feedData[self.indx].url);
         }
