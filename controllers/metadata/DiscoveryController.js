@@ -108,8 +108,9 @@ function DiscoveryController() {
      * @private
      */
     this._onSoundCloudItemsFound = function(items) {
-        console.log(items)
         self._onItemsFound(items);
+        Log.prototype.log("Discovery", "      found: " + self.feedData[self.indx].assets.length + " songs in " + self.feedData[self.indx].label);
+        self._parseNext();
     }
 
     /**
