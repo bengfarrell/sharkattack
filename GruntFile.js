@@ -125,7 +125,7 @@ module.exports = function(grunt) {
         "sa-library": {
             // Download assets from asset list
             download: {
-                soundcloud: "<%= config.soundcloud.cliendId %>",
+                soundcloud: "<%= config.soundcloud %>",
                 assetslistFile: "<%= config.locations.libraryLocation %>/data/temp/temp-library.json",
                 mediaDirectory: "<%= config.locations.mediaLocation %>",
                 removalListFile: "<%= config.locations.libraryLocation %>/data/removal-list.json",

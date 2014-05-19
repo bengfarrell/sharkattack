@@ -100,8 +100,8 @@ function SoundCloudParser(config) {
             if ( self._checkUniqueness(newitm, itms) == true) {
                 itms.push(newitm);
             }
-            self.emit(SoundCloudParser.prototype.SOUNDCLOUD_PARSING_COMPLETE, itms);
         }
+        self.emit(SoundCloudParser.prototype.SOUNDCLOUD_PARSING_COMPLETE, itms);
     }
 
     /**

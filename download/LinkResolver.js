@@ -37,7 +37,13 @@ function LinkResolver(config) {
 
             case "soundcloud":
                 self._currentlyResolving = url;
+
+                var scReq = "";
                 var trackID = url.split("%2Ftracks%2F")[1];
+                if (!trackID) {
+                    trackID = url.split("/tracks/")[1];
+                }
+                trackID = trackID.replace("/download", "");
                 var scReq = "http://api.soundcloud.com/tracks/" + trackID + ".json?client_id=" + config.soundcloud.clientID;
                 request(scReq, this._onSoundCloudResponse);
                 break;
@@ -61,15 +67,21 @@ function LinkResolver(config) {
             return;
         }
 
-        if (response.statusCode != 200) {
+       /* if (response.statusCode != 200) {
             self._currentlyResolving = "";
             self.emit(LinkResolver.prototype.LINK_RESOLVED, "Error: Unsuccesful web response - Status " + response.statusCode);
             return;
-        }
+        }*/
 
-        var jresp = JSON.parse(body);
-        if (jresp.sharing != "public" || jresp.downloadable == false) {
-            self._currentlyResolving = "";
+        try {
+            var jresp = JSON.parse(body);
+            if (jresp.sharing != "public" || jresp.downloadable == false) {
+                console.log(jresp)
+                self._currentlyResolving = "";
+                self.emit(LinkResolver.prototype.LINK_RESOLVED, "ERROR Parse Error " + body);
+                return;
+            }
+        } catch (e) {
             self.emit(LinkResolver.prototype.LINK_RESOLVED, "Error: Soundcloud licensing does not permit usage of this song - Sharing: " + jresp.sharing + " Downloadable: " + jresp.downloadable);
             return;
         }
@@ -83,7 +95,14 @@ function LinkResolver(config) {
         resolved.assetType = "audio";
         resolved.duration = jresp.duration;
         resolved.media = jresp.permalink_url + "/download";
-        resolved.filename = jresp.title.split(" - ")[1] + ".mp3";
+
+        if (jresp.title.indexOf(" - ") != -1) {
+            resolved.filename = jresp.title.split(" - ")[1] + ".mp3";
+        } else {
+            resolved.filename = jresp.title + ".mp3";
+        }
+
+        resolved.filename = resolved.filename.replace(/\//g, "");
 
         Log("Link Resolved", "SoundCloud: file - " + resolved.filename + ", title - " + resolved.title);
         self.emit(LinkResolver.prototype.LINK_RESOLVED, null, resolved);
