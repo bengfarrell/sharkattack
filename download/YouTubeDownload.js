@@ -2,6 +2,7 @@ var fs = require("fs"),
     util = require('util'),
     spawn = require('child_process').spawn,
     events = require("events"),
+    path = require('path'),
     Log = require('../utils/Log.js'),
     split = require('event-stream').split,
     FileUtils = require('../utils/File.js');
@@ -75,7 +76,7 @@ function YouTubeDownload(cfg) {
      * @private
      */
     this._onComplete = function(data) {
-        Log.prototype.log("Youtube Download", "Complete");
+        Log.prototype.log("Youtube Download", "Complete " + self._filename);
         self.emit(YouTubeDownload.prototype.FINISH, null, {filename: self._filename});
     }
 
@@ -87,10 +88,10 @@ function YouTubeDownload(cfg) {
      * @private
      */
     this._doesExist = function(outputdir, filename) {
-        if (FileUtils.prototype.doesExist(outputdir + "/" + filename + ".mp4")
-            || FileUtils.prototype.doesExist(outputdir + "/" + filename + ".flv")
-            || FileUtils.prototype.doesExist(outputdir + "/" + filename + ".webm")
-            || FileUtils.prototype.doesExist(outputdir + "/" + filename + ".mp3") ) {
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp4")
+            || FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".flv")
+            || FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".webm")
+            || FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp3") ) {
             return true;
         } else {
             return false;

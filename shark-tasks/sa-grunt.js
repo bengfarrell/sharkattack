@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
     var Log = require('../utils/Log.js');
     var fs = require('fs');
+    var path = require('path');
 
     // ==========================================================================
     // TASKS
@@ -34,13 +35,13 @@ module.exports = function(grunt) {
                 // delete files older than x days
                 var logFiles = fs.readdirSync(this.data.logDir);
                 logFiles.forEach( function(file) {
-                    var info = fs.statSync(self.data.logDir + "/" + file);
+                    var info = fs.statSync(self.data.logDir + path.sep + file);
                     var ctime = new Date(info.ctime);
                     var now = new Date();
                     var diff = (now.getTime() - ctime.getTime())/1000 /60 /60;
                     if (diff/24  > self.data.logAge) {
                         Log.prototype.log("Grunt", "Delete " + file);
-                        fs.unlinkSync(self.data.logDir + "/" + file);
+                        fs.unlinkSync(self.data.logDir + path.sep + file);
                     }
                 });
 

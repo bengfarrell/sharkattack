@@ -19,7 +19,7 @@
         "youtube-dl": "1.2.x",
         "ffmpeg-node": "0.0.x",
         "mediainfo": "0.0.x",
-        "mongodb": "1.0.x",
+        "mongodb": "1.3.x",
         "oauth": "0.9.8",
         "apac": "0.0.11",
         "express": "~3.0.0",
@@ -28,5 +28,6 @@
         "git-rev": "~0.2.1",
         "speaker": "0.0.10"
     },
+    "notes": "Note that APAC is for Amazon product lookup - if needed, it will need to be put in place manually on Windows",
     "engine": "node >= 0.10.x"
 }

@@ -207,12 +207,12 @@ function DiscoveryController() {
         }
 
         if (self.feedData[self.indx].disabled == true) {
-            Log.prototype.log("Discovery", "      Disabled Item: " + (self.indx+1) + "/" + self.feedData.length + " - " + self.feedData[self.indx].label + " (" + self.feedData[self.indx].type + ")");
+            Log.prototype.log("Discovery", "      Disabled Item: " + (self.indx+1) + path.sep + self.feedData.length + " - " + self.feedData[self.indx].label + " (" + self.feedData[self.indx].type + ")");
             self._parseNext();
         }
 
         self.currentwebscrapelink = "";
-        Log.prototype.log("Discovery", "      Parsing: " + (self.indx+1) + "/" + self.feedData.length + " - " + self.feedData[self.indx].label + " (" + self.feedData[self.indx].type + ")");
+        Log.prototype.log("Discovery", "      Parsing: " + (self.indx+1) + path.sep + self.feedData.length + " - " + self.feedData[self.indx].label + " (" + self.feedData[self.indx].type + ")");
         self.feedData[self.indx].assets = [];
 
         if (self.feedData[self.indx].type == "rss") {

@@ -1,5 +1,6 @@
 var fs = require('fs');
 var grunt = require('grunt');
+var path = require('path');
 
 function TaskRunner(config) {
 
@@ -9,7 +10,9 @@ function TaskRunner(config) {
      * @param output object
      */
     this.run = function (t, o) {
-        var log = fs.createWriteStream(config.locations.libraryLocation + "/data/logs/" + t.name + "-" + new Date().toISOString() + ".log");
+        var fname = t.name + "-" + new Date().toISOString() + ".log";
+        fname = fname.replace(":", "-");
+        var log = fs.createWriteStream(config.locations.libraryLocation + "/data/logs/" + fname);
         var arguments = [t.name];
 
         if (t.name == "buildShow") {

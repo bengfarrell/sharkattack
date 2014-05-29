@@ -40,7 +40,7 @@ module.exports = function(grunt) {
                 files: [
                     {expand: true, flatten: true,
                         rename: function(dest, src) {
-                            return dest + "/" + showname + path.extname(src);
+                            return dest + path.sep + showname + path.extname(src);
                         },
                         src: [
                         "<%= config.locations.libraryLocation %>/data/temp/pls.json",
@@ -324,7 +324,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask('buildAssetLibrary', [
         "sa:init:BuildAssetLibrary",
-        "curl:whats-my-ip",
         "sa:refresh-wan-ip",
         "sa-discover:discover",
         "sa-discover:discover-favorites",
@@ -341,7 +340,7 @@ module.exports = function(grunt) {
         "sa-library:spotify-resolve",
         "sa-publish:record-new-assets",
         "sa-publish:library-output",
-        /*"sa-publish:dailycounts", broken for some reason */
+        "sa-publish:dailycounts",
         "sa-email:newassets",
         "sa-publish:build-source-list",
         "ftp-deploy:bnova-trunk",

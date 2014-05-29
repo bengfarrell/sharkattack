@@ -1,6 +1,7 @@
 var fs = require("fs"),
     util = require('util'),
     ffmpeg = require('ffmpeg-node'),
+    path = require('path'),
     FileUtils = require('../../utils/File.js'),
     Log = require('../../utils/Log.js'),
     QueueProcessor = require('../QueueProcessor.js');
@@ -47,8 +48,8 @@ function TranscodeController() {
         switch ( item.publisher) {
             case "vimeo":
             case "youtube":
-                var infile = self.config.mediaDirectory + "/" + item.filename;
-                var outfile = self.config.mediaDirectory + "/" + FileUtils.prototype.removeExtension(item.filename)+".mp3";
+                var infile = self.config.mediaDirectory + path.sep + item.filename;
+                var outfile = self.config.mediaDirectory + path.sep + FileUtils.prototype.removeExtension(item.filename)+".mp3";
                 // check if file exists
                 if (FileUtils.prototype.doesExist(outfile)) {
                     Log.prototype.log(TranscodeController.prototype.classDescription, "Video already transcoded: " + infile + " -- " + outfile);
@@ -76,7 +77,7 @@ function TranscodeController() {
      */
     this.onTranscodeAssetComplete = function(error, response) {
         //error is too chatty and seems to mark files as completely errored out
-        if (!FileUtils.prototype.doesExist(self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename))  {
+        if (!FileUtils.prototype.doesExist(self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename))  {
             Log.prototype.error(TranscodeController.prototype.classDescription, "Video Transcode Error:" + self.queueProcessor.currentItem.filename);
             self.config.removalList.push({ media: item.media, reason: "video transcode error"});
             self.queueProcessor.currentItem.transcodeError = true;
@@ -85,10 +86,10 @@ function TranscodeController() {
             self.assets.push(self.queueProcessor.currentItem);
             if (self.config.removeVideosAfterTranscode &&
                 self.queueProcessor.currentItem.filename != "" &&
-                FileUtils.prototype.doesExist(self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename) ) {
+                FileUtils.prototype.doesExist(self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename) ) {
                 try {
                     Log.prototype.log(TranscodeController.prototype.classDescription, "Removing Source Video File: " + self.queueProcessor.currentItem.filename);
-                    fs.unlinkSync(self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename);
+                    fs.unlinkSync(self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename);
                 } catch(e) {
                     Log.prototype.log(TranscodeController.prototype.classDescription, "Unable to remove Video Source File");
                 }

@@ -67,7 +67,7 @@ app.get('/logfiles.json', function(req, res) {
         if (fs.lstatSync(config.locations.libraryLocation + "/data/" + files[c]).isDirectory()) {
             subfiles = fs.readdirSync(config.locations.libraryLocation + "/data/" + files[c]);
             subfiles.forEach( function(sub) {
-                lgfiles.push({type: files[c], file: files[c] + "/" + sub});
+                lgfiles.push({type: files[c], file: files[c] + path.sep + sub});
             });
         } else {
             lgfiles.push({type: "data", file: files[c] });

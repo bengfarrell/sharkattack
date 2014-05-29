@@ -1,5 +1,6 @@
 var fs = require("fs"),
     util = require('util'),
+    path = require('path'),
     FileInfo = require('../../download/FileInfo.js'),
     FileUtils = require('../../utils/File.js'),
     QueueProcessor = require('../QueueProcessor.js'),
@@ -39,8 +40,8 @@ function MetadataInjectController() {
      * @private
      */
     this.onProcessItem = function(item) {
-        if (FileUtils.prototype.doesExist(self.config.mediaDirectory + "/" + item.filename) ){
-            self._info.resolve(item.publisher, self.config.mediaDirectory + "/" + item.filename);
+        if (FileUtils.prototype.doesExist(self.config.mediaDirectory + path.sep + item.filename) ){
+            self._info.resolve(item.publisher, self.config.mediaDirectory + path.sep + item.filename);
         } else {
             self.queueProcessor.next(self.queueProcessor);
         }
@@ -54,8 +55,8 @@ function MetadataInjectController() {
     this._onMetadata = function(info) {
         if (info.title == undefined) {
             Log.prototype.log(self.classDescription, "Injecting Metadata into: " + self.queueProcessor.currentItem.filename);
-            fs.renameSync(self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename, self.config.mediaDirectory + "/temp" + self.queueProcessor.currentItem.filename)
-            ffmpeg.exec(["-i", self.config.mediaDirectory + "/temp" + self.queueProcessor.currentItem.filename, "-y", "-acodec", "copy", "-metadata", "title=" + self.queueProcessor.currentItem.label, self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename], self._onProcessAssetComplete);
+            fs.renameSync(self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename, self.config.mediaDirectory + "/temp" + self.queueProcessor.currentItem.filename)
+            ffmpeg.exec(["-i", self.config.mediaDirectory + "/temp" + self.queueProcessor.currentItem.filename, "-y", "-acodec", "copy", "-metadata", "title=" + self.queueProcessor.currentItem.label, self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename], self._onProcessAssetComplete);
         }  else {
             self._onProcessAssetComplete();
         }

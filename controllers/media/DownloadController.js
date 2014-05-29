@@ -121,18 +121,18 @@ function DownloadController() {
      * @param stats
      */
     this._checkUnique = function() {
-        if (FileUtils.prototype.getMediaFileRef(self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename)) {
-            self.queueProcessor.currentItem.filename = FileUtils.prototype.convertPathToFilename( FileUtils.prototype.getMediaFileRef(self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename));
+        if (FileUtils.prototype.getMediaFileRef(self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename)) {
+            self.queueProcessor.currentItem.filename = FileUtils.prototype.convertPathToFilename( FileUtils.prototype.getMediaFileRef(self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename));
             Log.prototype.log(DownloadController.prototype.classDescription, "File exists - " + self.queueProcessor.currentItem.filename);
             self.media.push(self.queueProcessor.currentItem);
-            self._dlresolve.resolve(self.queueProcessor.currentItem.publisher, self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename);
+            self._dlresolve.resolve(self.queueProcessor.currentItem.publisher, self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename);
         } else {
             Log.prototype.log(DownloadController.prototype.classDescription, "Now Downloading " + self.queueProcessor.currentItem.media);
             if (self.queueProcessor.currentItem.publisher == "youtube" ||
                 self.queueProcessor.currentItem.publisher == "vimeo") {
                 self._ytdl.download(self.queueProcessor.currentItem.media, self.queueProcessor.currentItem.filename, self.config.mediaDirectory);
             } else {
-                http.get({url:self.queueProcessor.currentItem.media}, self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename, self._onFileDownloaded);
+                http.get({url:self.queueProcessor.currentItem.media}, self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename, self._onFileDownloaded);
             }
         }
     }
@@ -156,8 +156,7 @@ function DownloadController() {
             Log.prototype.log(DownloadController.prototype.classDescription, "Finished - " + self.queueProcessor.currentItem.filename);
             self.media.push(self.queueProcessor.currentItem);
         }
-
-        self._dlresolve.resolve(self.queueProcessor.currentItem.publisher, self.config.mediaDirectory + "/" + self.queueProcessor.currentItem.filename);
+        self._dlresolve.resolve(self.queueProcessor.currentItem.publisher, self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename);
     }
 }
 

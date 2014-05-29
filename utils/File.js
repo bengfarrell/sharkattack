@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 
 function File() {}
 
@@ -22,8 +23,8 @@ File.prototype.ensureDirectoriesExist = function(dirs) {
  */
 File.prototype.deleteFiles = function(files, dir) {
     for (var c in files) {
-        if (File.prototype.doesExist(dir + "/" + files[c])) {
-            fs.unlinkSync(dir + "/" + file)
+        if (File.prototype.doesExist(dir + path.sep + files[c])) {
+            fs.unlinkSync(dir + path.sep + file)
         }
     }
 }
@@ -36,20 +37,20 @@ File.prototype.deleteFiles = function(files, dir) {
 File.prototype.deleteAllAssociatedFiles = function(files, dir) {
     for (var c in files) {
         var file = File.prototype.removeExtension(files[c]);
-        if (File.prototype.doesExist(dir + "/" + files[c])) {
-            fs.unlinkSync(dir + "/" + files[c])
+        if (File.prototype.doesExist(dir + path.sep + files[c])) {
+            fs.unlinkSync(dir + path.sep + files[c])
         }
-        if (File.prototype.doesExist(dir + "/" + file)) {
-            fs.unlinkSync(dir + "/" + file)
+        if (File.prototype.doesExist(dir + path.sep + file)) {
+            fs.unlinkSync(dir + path.sep + file)
         }
-        if (File.prototype.doesExist(dir + "/" + file + ".mp3")) {
-            fs.unlinkSync(dir + "/" + file + ".mp3")
+        if (File.prototype.doesExist(dir + path.sep + file + ".mp3")) {
+            fs.unlinkSync(dir + path.sep + file + ".mp3")
         }
-        if (File.prototype.doesExist(dir + "/" + file + ".mp4")) {
-            fs.unlinkSync(dir + "/" + file + ".mp4")
+        if (File.prototype.doesExist(dir + path.sep + file + ".mp4")) {
+            fs.unlinkSync(dir + path.sep + file + ".mp4")
         }
-        if (File.prototype.doesExist(dir + "/" + file + ".flv")) {
-            fs.unlinkSync(dir + "/" + file + ".flv")
+        if (File.prototype.doesExist(dir + path.sep + file + ".flv")) {
+            fs.unlinkSync(dir + path.sep + file + ".flv")
         }
     }
 }
@@ -59,8 +60,8 @@ File.prototype.deleteAllAssociatedFiles = function(files, dir) {
  * @param path
  * @return filename without extension
  */
-File.prototype.convertPathToFilename = function(path) {
-    return path.substr(path.lastIndexOf("/")+1, path.length);
+File.prototype.convertPathToFilename = function(pth) {
+    return pth.substr(pth.lastIndexOf(path.sep)+1, pth.length);
 }
 
 /**
@@ -111,21 +112,21 @@ File.prototype.removeExtension = function(filename) {
  * does media exist in any format?
  * @param path
  */
-File.prototype.getMediaFileRef = function(path) {
-    if (File.prototype.doesExist(path)) {
-        return path;
+File.prototype.getMediaFileRef = function(pth) {
+    if (File.prototype.doesExist(pth)) {
+        return pth;
     }
-    if (File.prototype.doesExist(File.prototype.removeExtension(path) + ".mp3")) {
-        return File.prototype.removeExtension(path) + ".mp3";
+    if (File.prototype.doesExist(File.prototype.removeExtension(pth) + ".mp3")) {
+        return File.prototype.removeExtension(pth) + ".mp3";
     }
-    if (File.prototype.doesExist(File.prototype.removeExtension(path) + ".mp4")) {
-        return File.prototype.removeExtension(path) + ".mp4";
+    if (File.prototype.doesExist(File.prototype.removeExtension(pth) + ".mp4")) {
+        return File.prototype.removeExtension(pth) + ".mp4";
     }
-    if (File.prototype.doesExist(File.prototype.removeExtension(path) + ".flv")) {
-        return File.prototype.removeExtension(path) + ".flv";
+    if (File.prototype.doesExist(File.prototype.removeExtension(pth) + ".flv")) {
+        return File.prototype.removeExtension(pth) + ".flv";
     }
-    if (File.prototype.doesExist(File.prototype.removeExtension(path) + ".webm")) {
-        return File.prototype.removeExtension(path) + ".webm";
+    if (File.prototype.doesExist(File.prototype.removeExtension(pth) + ".webm")) {
+        return File.prototype.removeExtension(pth) + ".webm";
     }
     return null;
 }
@@ -134,9 +135,9 @@ File.prototype.getMediaFileRef = function(path) {
  * does file exist?
  * @param path
  */
-File.prototype.doesExist = function(path) {
+File.prototype.doesExist = function(pth) {
     try {
-        stats = fs.lstatSync(path);
+        stats = fs.lstatSync(pth);
         return true;
     }
     catch (e) {
@@ -149,9 +150,9 @@ File.prototype.doesExist = function(path) {
  * @param path
  * @return {Boolean}
  */
-File.prototype.isDirectory = function(path) {
+File.prototype.isDirectory = function(pth) {
     try {
-        stats = fs.lstatSync(path);
+        stats = fs.lstatSync(pth);
         if (stats.isDirectory() ) {
             return true;
         } else {
@@ -186,11 +187,11 @@ File.prototype.copyFiles = function(files, source, dest, appendExtensions) {
 
         for (var d in appendExtensions)  {
             try {
-                buffer = fs.readFileSync(source + "/" + file + appendExtensions[d]);
-                fs.writeFileSync(dest + "/" + file + appendExtensions[d], buffer);
+                buffer = fs.readFileSync(source + path.sep + file + appendExtensions[d]);
+                fs.writeFileSync(dest + path.sep + file + appendExtensions[d], buffer);
             } catch (e) {
                 console.log(e)
-                uncopied.push(source + "/" + file);
+                uncopied.push(source + path.sep + file);
             }
         }
     }
@@ -249,13 +250,13 @@ File.prototype.removeDir = function(dirPath) {
     catch(e) { return; }
     if (files.length > 0)
         for (var i = 0; i < files.length; i++) {
-            var filePath = dirPath + '/' + files[i];
+            var filePath = dirPath + path.sep + files[i];
          rmDir = function(dirPath) {
       try { var files = fs.readdirSync(dirPath); }
       catch(e) { return; }
       if (files.length > 0)
         for (var i = 0; i < files.length; i++) {
-          var filePath = dirPath + '/' + files[i];
+          var filePath = dirPath + path.sep + files[i];
           if (fs.statSync(filePath).isFile())
             fs.unlinkSync(filePath);
           else

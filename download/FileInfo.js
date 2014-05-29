@@ -31,8 +31,8 @@ function FileResolver() {
      */
     this.resolve = function(type, fileref) {
         self._currentlyResolving = fileref;
-
         var ref = FileUtils.prototype.getMediaFileRef(fileref);
+        console.log(ref + " vs " + fileref)
         if (ref == null) {
             var resolved = {}
             Log.prototype.log("Resolve File Download Error, File does not exist: " + fileref);

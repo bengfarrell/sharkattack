@@ -1,5 +1,6 @@
 var http = require('http'),
     fs = require('fs'),
+    path = require('path'),
     Time = require('../utils/Time.js');
 
 var AssetLibrary = require('../utils/AssetsLibrary.js');
@@ -71,9 +72,9 @@ function StreamBuffer(config) {
     this.loadNextAsset = function() {
         if (self.media.length > 0) {
             self.current = self.media.pop();
-            console.log("Opening: " + self.config.locations.mediaLocation + "/" + self.current.filename);
+            console.log("Opening: " + self.config.locations.mediaLocation + path.sep + self.current.filename);
             console.log(self.current.label + " - " + self.current.duration)
-            self.current.data = fs.readFileSync(config.locations.mediaLocation + "/" + self.current.filename);
+            self.current.data = fs.readFileSync(config.locations.mediaLocation + path.sep + self.current.filename);
             self.bufferPosition = 0;
             self.history.push(self.current);
         }
