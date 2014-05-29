@@ -12,6 +12,14 @@ Sharkattack
 *http://www.benfarrell.com*
 
 
+v1.11
+-----------
+  - MS Windows Support
+
+v1.10
+-----------
+  - Reintroduce SoundCloud Support
+
 v1.9
 -----------
   - Maintain local library of new music from around the internet
