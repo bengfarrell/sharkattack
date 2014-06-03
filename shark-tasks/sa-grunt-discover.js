@@ -39,6 +39,7 @@ module.exports = function(grunt) {
                 if (self.data.dev == true) {
                     self.data.feedlist = self.data.feedlist.splice(0,2);
                 }
+
                 new DiscoveryController().process(this.data, onComplete);
                 break;
 

@@ -1,5 +1,5 @@
 var FeedParser = require('feedparser'),
-    ItemParser = require('./../../discovery/ItemParser.js'),
+    ItemParser = require('./../../discovery/parsers/ItemParser.js'),
     WebpageParser = require('./../../discovery/WebpageParser.js'),
     SoundCloudParser = require('./../../discovery/SoundCloudParser.js'),
     Log = require('./../../utils/Log.js'),

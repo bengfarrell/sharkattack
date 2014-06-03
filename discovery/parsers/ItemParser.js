@@ -1,5 +1,5 @@
-var MediaFinder = require('./MediaFinder.js');
-var FileUtils = require('../utils/File.js');
+var MediaFinder = require('./../MediaFinder.js');
+var FileUtils = require('../../utils/File.js');
 
 function ItemParser (config) {
 
