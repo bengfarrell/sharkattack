@@ -22,13 +22,13 @@ function Discover() {
     }
 
     this.onSourceLoaded = function(src) {
-
+        self.emit(SoundCloudParser.prototype.SOUNDCLOUD_PARSING_COMPLETE, src);
     }
 
     this.onSourcesLoaded = function() {
-
+        self.emit(Discover.prototype.COMPLETE, q);
     }
 }
 
-
+Discover.prototype.COMPLETE = "DiscoverComplete";
 exports = module.exports = Discover;

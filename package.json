@@ -27,8 +27,12 @@
     "cron": "~1.0.1",
     "git-rev": "~0.2.1",
     "speaker": "0.0.10",
-     "redis": "~0.10.3"
+    "redis": "~0.10.3"
   },
   "notes": "Note that APAC is for Amazon product lookup - if needed, it will need to be put in place manually on Windows",
-  "engine": "node >= 0.10.x"
+  "engine": "node >= 0.10.x",
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.20.1"
+  }
 }
