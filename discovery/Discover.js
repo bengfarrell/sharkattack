@@ -1,5 +1,6 @@
 var Queue = require( '../utils/Queue');
-var Parser = require('./parsers/Parser')
+var Parser = require('./parsers/Parser');
+var http = require('http');
 
 function Discover() {
     var self = this;
@@ -10,9 +11,9 @@ function Discover() {
      * run through and discover media from our sources
      * @param sources
      */
-    this.run = function(config, sources) {
-        sources.forEach( function (src) {
-            q.add(src, loadSource, onSourcesLoaded, true);
+    this.run = function(config, data) {
+        data.sources.forEach( function (src) {
+            q.add(src, self.loadSource, self.onSourcesLoaded, true);
         });
     }
 

@@ -22,6 +22,24 @@ describe("Queue", function() {
         q = new Queue( {logging: log} );
     });
 
+    describe("can work configuration-less", function () {
+        before(function(){
+            q = new Queue();
+        });
+        it("should instantiate", function () {
+            expect(q).to.not.be.undefined;
+        });
+    });
+
+    describe("can work with config", function () {
+        before(function(){
+            q = new Queue( {logging: log} );
+        });
+        it("should instantiate", function () {
+            expect(q).to.not.be.undefined;
+        });
+    });
+
     describe("create a queue", function () {
         it("should instantiate", function () {
             expect(q).to.not.be.undefined;

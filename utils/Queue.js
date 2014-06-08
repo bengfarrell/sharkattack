@@ -11,7 +11,7 @@ function Queue(config) {
     this.config = config;
 
     /** logging */
-    if ( config.logging ) {
+    if ( config && config.logging ) {
         this.logging = config.logging;
     } else {
         this.logging = function(){};
