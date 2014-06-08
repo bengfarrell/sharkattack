@@ -1,9 +1,10 @@
 var RSS = require('./RSSFeedParser')
 
 function Parser(source, cb) {
+    console.log(source)
     switch(source.type) {
         case "rss":
-            new RSS(source, cb);
+            var rss = new RSS(source, cb);
             break;
 
         default:

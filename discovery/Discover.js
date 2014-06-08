@@ -15,6 +15,7 @@ function Discover() {
         data.sources.forEach( function (src) {
             q.add(src, self.loadSource, self.onSourcesLoaded, true);
         });
+        q.run();
     }
 
 

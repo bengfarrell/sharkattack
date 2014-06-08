@@ -2,6 +2,8 @@ var FeedParser = require('feedparser');
 var ItemParser = require('./ItemParser');
 
 function RSSFeedParser(source, cb) {
+    var self = this;
+
     var parser = new FeedParser();
     parser.on('article', self._onRSSItemFound);
     parser.on('end', self._onRSSParseComplete);
@@ -25,6 +27,7 @@ function RSSFeedParser(source, cb) {
      * @private
      */
     this._onRSSItemFound = function(item) {
+        console.log(item)
         item.page = self.feedData[self.indx].page;
         self.items = self.ip.parseItem(item);
         // if no links found, visit the blog to scrape
