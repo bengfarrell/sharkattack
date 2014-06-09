@@ -10,6 +10,9 @@ function Queue(config) {
     /** config */
     this.config = config;
 
+    /** is queue in running state */
+    this.running = false;
+
     /** logging */
     if ( config && config.logging ) {
         this.logging = config.logging;
@@ -24,8 +27,18 @@ function Queue(config) {
      * @param callback
      */
     this.run = function(cb) {
+        self.running = true;
         self.logging(Queue.prototype.name, "Run", { date: new Date(), level: "verbose" } );
         self.onComplete = cb;
+        self.next();
+    }
+
+    /**
+     * continue running queue
+     * safe to call over and over again
+     * used to continue a queue even if it ran out of items
+     */
+    this.continue = function() {
         self.next();
     }
 
@@ -85,6 +98,10 @@ function Queue(config) {
 
         self.logging(Queue.prototype.name, "Add Item", { date: new Date(), level: "verbose" } );
         self.queue.push(item);
+
+        if (self.running) {
+            self.continue();
+        }
     }
 
     /**

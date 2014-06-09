@@ -230,7 +230,7 @@ describe("Queue", function() {
         var result;
 
         before(function(done){
-
+            q = new Queue( {logging: log} );
             var task = function(item, cb) {
                 cb();
             }
@@ -246,6 +246,38 @@ describe("Queue", function() {
 
         it("should have run 3 tasks", function () {
             expect(result.length).to.equal(3);
+        });
+
+        after(function() {
+            q.clear();
+        });
+    });
+
+    describe("run queue and when done add more to run", function () {
+        var result = [];
+
+        before(function(done){
+
+            q = new Queue( {logging: log} );
+            var task = function(item, cb) {
+                cb();
+            }
+
+            q.add(mockdata[0], task, null, true);
+
+            q.run( function(items) {
+                result = result.concat(items);
+
+                if (result.length < 10) {
+                    q.add(mockdata[0], task, null, true);
+                } else {
+                    done();
+                }
+            });
+        });
+
+        it("should have run 10 tasks", function () {
+            expect(result.length).to.equal(10);
         });
 
         after(function() {
