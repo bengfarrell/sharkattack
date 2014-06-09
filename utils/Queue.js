@@ -166,8 +166,10 @@ function Queue(config) {
         self.logging(Queue.prototype.name, "Item callback", { date: new Date(), level: "verbose" } );
         item._$q.done = true;
         item._$q.running = false;
-        item._$q.callback.apply(self, [item]);
 
+        if (item._$q.callback) {
+            item._$q.callback.apply(self, [item]);
+        }
         var done = true;
         self.queue.forEach( function(i) {
             if (i._$q.done == false) {

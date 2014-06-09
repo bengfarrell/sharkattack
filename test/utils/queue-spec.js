@@ -194,4 +194,35 @@ describe("Queue", function() {
             q.clear();
         });
     });
+
+    describe("run a series of tasks with null callbacks", function () {
+        var lastmessage = "";
+        var result;
+
+        before(function(done){
+
+            var task = function(item, cb) {
+                setTimeout( function() {
+                    lastmessage = item.name;
+                    cb();
+                }, Math.random()*500);
+            }
+
+            q.add(mockdata[0], task, null, true);
+            q.add(mockdata[1], task, null, true);
+            q.add(mockdata[2], task, null, false);
+            q.run( function(items) {
+                result = items;
+                done();
+            });
+        });
+
+        it("should have run 3 tasks", function () {
+            expect(result.length).to.equal(3);
+        });
+
+        after(function() {
+            q.clear();
+        });
+    });
 });
