@@ -1,6 +1,6 @@
 var Log = require('./../../utils/Log.js');
 var util = require('util');
-var QueueProcessor = require('./../QueueProcessor');
+var QueueProcessor = require('./../../deprecated/QueueProcessor');
 var OAuth= require('oauth').OAuth;
 var https = require('https');
 var request = require('request');

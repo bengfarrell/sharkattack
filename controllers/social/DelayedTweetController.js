@@ -1,5 +1,5 @@
 var BaseFlowController = require('./../BaseFlowController.js');
-var QueueProcessor= require('./../QueueProcessor.js');
+var QueueProcessor= require('./../../deprecated/QueueProcessor.js');
 
 var Log = require('./../../utils/Log.js'),
     events = require('events'),

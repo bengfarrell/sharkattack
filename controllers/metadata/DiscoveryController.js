@@ -1,7 +1,7 @@
 var FeedParser = require('feedparser'),
-    ItemParser = require('./../../discovery/parsers/ItemParser.js'),
-    WebpageParser = require('./../../discovery/WebpageParser.js'),
-    SoundCloudParser = require('./../../discovery/SoundCloudParser.js'),
+    ItemParser = require('./../../discovery/parsers/RSSItemParser.js'),
+    WebpageParser = require('./../../discovery/parsers/WebpageParser.js'),
+    SoundCloudParser = require('./../../discovery/parsers/SoundCloudParser.js'),
     Log = require('./../../utils/Log.js'),
     FileUtils = require('../../utils/File.js'),
     sax = require('sax'),
@@ -26,7 +26,7 @@ function DiscoveryController() {
 
     var self = this;
 
-    var AssetMetadataCustomRules = require('./../../discovery/AssetMetadataCustomRules.js');
+    var AssetMetadataCustomRules = require('./../../deprecated/AssetMetadataCustomRules.js');
 
     /** current index of queue */
     this.indx = -1;

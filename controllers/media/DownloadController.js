@@ -9,12 +9,12 @@ var FileUtils = require('../../utils/File.js');
 var YouTubeDownload = require('../../download/YouTubeDownload.js');
 var LinkResolver = require('../../download/LinkResolver.js');
 var FileInfo = require('../../download/FileInfo.js');
-var QueueProcessor = require('../QueueProcessor.js');
+var QueueProcessor = require('../../deprecated/QueueProcessor.js');
 
 function DownloadController() {
 
     var self = this;
-    var AssetMetadataCustomRules = require('../../discovery/AssetMetadataCustomRules.js');
+    var AssetMetadataCustomRules = require('../../deprecated/AssetMetadataCustomRules.js');
 
     /** configuration for task */
     this.config = {};

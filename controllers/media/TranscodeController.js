@@ -4,7 +4,7 @@ var fs = require("fs"),
     path = require('path'),
     FileUtils = require('../../utils/File.js'),
     Log = require('../../utils/Log.js'),
-    QueueProcessor = require('../QueueProcessor.js');
+    QueueProcessor = require('../../deprecated/QueueProcessor.js');
 
 function TranscodeController() {
 

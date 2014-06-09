@@ -1,13 +1,31 @@
-var RSS = require('./RSSFeedParser')
+var RSS = require('./RSSFeedParser');
+var WebPage = require('./WebpageParser');
+var SoundCloud = require('./SoundCloudParser');
 
-function Parser(source, cb) {
-    console.log(source)
+function Parser(source, cb, config) {
+    if ( config && config.logging ) {
+        this.logging = config.logging;
+    } else {
+        this.logging = function(){};
+    }
+
     switch(source.type) {
         case "rss":
-            var rss = new RSS(source, cb);
+            var rss = new RSS(source, cb, config);
+            break;
+
+        case "webpage":
+            var page = new WebPage(source, cb, config);
+            break;
+
+        case "soundcloud":
+            var sc = new SoundCloud(source, cb, config);
             break;
 
         default:
+            this.logging(this, "Parser", "No parser found for this source", { date: new Date(), level: "error", source: source });
+            cb();
+            break;
     }
 }
 

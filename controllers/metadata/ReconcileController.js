@@ -1,4 +1,4 @@
-var QueueProcessor= require('./../QueueProcessor.js'),
+var QueueProcessor= require('./../../deprecated/QueueProcessor.js'),
     Log = require('./../../utils/Log.js');
 
 var mongo = require('mongodb');

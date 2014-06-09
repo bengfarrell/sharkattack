@@ -1,5 +1,5 @@
 var Log = require('./../../utils/Log.js'),
-    QueueProcessor= require('./../QueueProcessor.js');
+    QueueProcessor= require('./../../deprecated/QueueProcessor.js');
     mongo = require('mongodb');
 
 function RecordNewAssetsController() {

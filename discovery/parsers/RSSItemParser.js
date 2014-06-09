@@ -1,7 +1,7 @@
-var MediaFinder = require('./../MediaFinder.js');
+var MediaFinder = require('./MediaFinder.js');
 var FileUtils = require('../../utils/File.js');
 
-function ItemParser (config) {
+function RSSItemParser (config) {
 
     var self = this;
 
@@ -96,4 +96,4 @@ function ItemParser (config) {
         return links;
     }
 }
-exports = module.exports = ItemParser;
+exports = module.exports = RSSItemParser;

@@ -3,7 +3,7 @@ var fs = require("fs"),
     path = require('path'),
     FileInfo = require('../../download/FileInfo.js'),
     FileUtils = require('../../utils/File.js'),
-    QueueProcessor = require('../QueueProcessor.js'),
+    QueueProcessor = require('../../deprecated/QueueProcessor.js'),
     Log = require('../../utils/Log.js'),
     ffmpeg = require('ffmpeg-node');
 

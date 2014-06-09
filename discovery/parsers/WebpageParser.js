@@ -1,11 +1,14 @@
 var request = require('request');
-var events = require('events');
-var util = require('util');
 var MediaFinder = require('./MediaFinder.js');
-var FileUtils = require('../utils/File.js');
-var Log = require('../utils/Log.js');
+var FileUtils = require('../../utils/File.js');
 
-function WebpageParser (config) {
+function WebpageParser (source, cb, config) {
+    if ( config && config.logging ) {
+        this.logging = config.logging;
+    } else {
+        this.logging = function(){};
+    }
+
     var self = this;
 
     this._label = "";
@@ -15,8 +18,8 @@ function WebpageParser (config) {
         this._label = label;
         this._url = url;
         request.get({url:url}, this.onPageLoaded).on('error', function(e){
-            Log.prototype.error("Webpage Parser", "Webpage timeout on " + this._url);
-            //self.emit(WebpageParser.prototype.WEBPAGE_PARSING_COMPLETE, []);
+            self.logging("Webpage Parser", "Webpage timeout on " + this._url, { date: new Date(), level: "error", source: source });
+            cb();
         }).end()
     }
 
@@ -58,8 +61,10 @@ function WebpageParser (config) {
                     itms.push(newitm);
                 }
             }
+        } else {
+            self.logging("Webpage Parser", "Webpage 404 on " + this._url, { date: new Date(), level: "error", source: source });
         }
-        self.emit(WebpageParser.prototype.WEBPAGE_PARSING_COMPLETE, itms);
+        cb.apply(self,  [itms]);
     }
 
 
@@ -71,10 +76,8 @@ function WebpageParser (config) {
         }
         return true;
     }
+
+    this.loadPage(source.url, source.label);
 }
 
-util.inherits(WebpageParser, events.EventEmitter);
-
-
-WebpageParser.prototype.WEBPAGE_PARSING_COMPLETE = "webpageParsingComplete";
 exports = module.exports = WebpageParser;

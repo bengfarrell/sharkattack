@@ -2,7 +2,7 @@ var Log = require('./../../utils/Log.js');
 var util = require('util');
 var request = require('request');
 var AmazonHelper = require('apac').OperationHelper;
-var QueueProcessor = require('./../QueueProcessor');
+var QueueProcessor = require('./../../deprecated/QueueProcessor');
 
 /**
  * Apply Purchase Links

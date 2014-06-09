@@ -1,5 +1,5 @@
 var Log = require('./../../utils/Log.js');
-var QueueProcessor = require('./../QueueProcessor');
+var QueueProcessor = require('./../../deprecated/QueueProcessor');
 
 /**
  * OverDurationRemovalController
