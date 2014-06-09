@@ -180,7 +180,7 @@ function Queue(config) {
             }
         });
 
-        if (done) {
+        if (done && self.onComplete) {
             self.onComplete.apply(self, [self.queue]);
         } else {
             self.next();
