@@ -62,24 +62,26 @@ function Queue(config) {
      * @param concurrent
      */
     this.add = function(item, task, cb, concurrent) {
+        item._$q = {};
+
         // assign an internal callback
-        item._$queueCallback = self._itemCallback;
+        item._$q.queueCallback = self._itemCallback;
 
         // assign the external callback we want from the arg
-        item._$callback = cb;
+        item._$q.callback = cb;
 
         // assign the work task to be done
-        item._$task = task;
+        item._$q.task = task;
 
         // the task is neither done nor running right now
-        item._$done = false;
-        item._$running = false;
+        item._$q.done = false;
+        item._$q.running = false;
 
         // placeholder to set later
-        item._$timestarted = null;
+        item._$q.timestarted = null;
 
         // mark it as concurrent or not
-        item._$concurrent = concurrent;
+        item._$q.concurrent = concurrent;
 
         self.logging(Queue.prototype.name, "Add Item", { date: new Date(), level: "verbose" } );
         self.queue.push(item);
@@ -92,22 +94,22 @@ function Queue(config) {
      */
     this._startItem = function(item) {
         if (self._canItemStartNow(item)) {
-            if (item._$task) {
-                item._$running = true;
-                item._$timestarted = new Date();
+            if (item._$q.task) {
+                item._$q.running = true;
+                item._$q.timestarted = new Date();
                 self.logging(Queue.prototype.name, "Start Task of new item", { date: new Date(), level: "verbose" } );
-                item._$task.apply(self, [item, function() {
-                    if (!item._$done) {
-                        item._$queueCallback.apply(self, [item]);
+                item._$q.task.apply(self, [item, function() {
+                    if (!item._$q.done) {
+                        item._$q.queueCallback.apply(self, [item]);
                     }}]
                 );
                 return true;
             } else {
                 // prematurely finished, no task to do
-                item._$done = true;
-                item._$running = false;
+                item._$q.done = true;
+                item._$q.running = false;
                 self.logging(Queue.prototype.name, "Finish item, there is no associated task", { date: new Date(), level: "verbose" } );
-                item._$callback.apply(self, [item]);
+                item._$q.callback.apply(self, [item]);
                 return true;
             }
         } else {
@@ -123,22 +125,21 @@ function Queue(config) {
      */
     this._canItemStartNow = function(item) {
         // if item is already done, move on
-        if (item._$done == true) {
+        if (item._$q.done == true) {
             return false;
         }
 
         // if item is running, move on
-        if (item._$running == true) {
+        if (item._$q.running == true) {
             return false;
         }
 
         // is another sync item is running, we can't start
         var runningCount = 0;
         self.queue.forEach(function(i) {
-            if (i._$running == true) {
+            if (item._$q.running == true) {
                 runningCount ++;
-                if (i._$concurrent == false) {
-                    console.log(item.name + " blocked")
+                if (item._$q.concurrent == false) {
                     self.logging(Queue.prototype.name, "Item blocked from running because other tasks are running", { date: new Date(), level: "verbose" } );
                     return false;
                 }
@@ -146,7 +147,7 @@ function Queue(config) {
         });
 
         // if item is sync and there are other items running, we can't start
-        if (item._$concurrent && runningCount > 0) {
+        if (item._$q.concurrent && runningCount > 0) {
             self.logging(Queue.prototype.name, "Item blocked from running because other tasks are running", { date: new Date(), level: "verbose" } );
             return false;
         }
@@ -163,16 +164,16 @@ function Queue(config) {
      */
     this._itemCallback = function(item) {
         self.logging(Queue.prototype.name, "Item callback", { date: new Date(), level: "verbose" } );
-        item._$done = true;
-        item._$running = false;
-        item._$callback.apply(self, [item]);
+        item._$q.done = true;
+        item._$q.running = false;
+        item._$q.callback.apply(self, [item]);
 
         var done = true;
         self.queue.forEach( function(i) {
-            if (i._$done == false) {
+            if (i._$q.done == false) {
                 done = false;
             }
-            if (i._$running == true) {
+            if (i._$q.running == true) {
                 done = false;
             }
         });
