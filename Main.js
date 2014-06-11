@@ -2,6 +2,7 @@ var express = require('express');
 var grunt = require('grunt');
 var app = express();
 var fs = require('fs');
+var path = require('path');
 var git = require('git-rev');
 var TaskRunner = require('./TaskRunner.js');
 

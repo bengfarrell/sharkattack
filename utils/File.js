@@ -61,7 +61,11 @@ File.prototype.deleteAllAssociatedFiles = function(files, dir) {
  * @return filename without extension
  */
 File.prototype.convertPathToFilename = function(pth) {
-    return pth.substr(pth.lastIndexOf(path.sep)+1, pth.length);
+    var sep = path.sep;
+    if (pth.indexOf("http") != -1) {
+        sep = "/";
+    }
+    return pth.substr(pth.lastIndexOf(sep)+1, pth.length);
 }
 
 /**

@@ -2,6 +2,7 @@ module.exports = function(grunt) {
     var Log = require('../utils/Log.js');
     var fs = require('fs');
     var path = require('path');
+    var os = require('os');
 
     // ==========================================================================
     // TASKS
@@ -57,7 +58,14 @@ module.exports = function(grunt) {
 
             case "zip":
                 Log.prototype.log("Grunt", "SA - Zip Files: " + self.data.src + " to " + self.data.dest);
-                var arguments = [self.data.dest, self.data.src, "-r", "-j" ];
+                var arguments;
+
+                if (os.platform() == "win32") { // unsure the string for Win64
+                    //hack on windows to pretend that 7-zip (installed separataely and renamed) is the zip CLI tool
+                    arguments = ["a", self.data.dest, self.data.src ];
+                } else {
+                   arguments = [self.data.dest, self.data.src, "-r", "-j" ];
+                }
                 var child = grunt.util.spawn({ cmd: "zip", args: arguments }, function(err) { console.log(err)});
                 child.stdout.pipe(process.stdout);
                 child.stderr.pipe(process.stderr);
