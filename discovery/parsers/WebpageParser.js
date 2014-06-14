@@ -46,10 +46,10 @@ function WebpageParser (source, cb, config) {
 
                 // assign media
                 newitm.media = links[c].link;
-                newitm.filename = FileUtils.prototype.convertLinkToFilename(links[c].link);
-                newitm.label = FileUtils.prototype.convertLinkToFilename(links[c].link);
+                newitm.filename = FileUtils.prototype.convertLinkToFilename(links[c].link, links[c].type);
+                newitm.label = FileUtils.prototype.convertLinkToFilename(links[c].link, links[c].type);
                 newitm.assetType = links[c].assetType;
-                newitm.mediatype = links[c].type;
+                newitm.mediaType = links[c].type;
 
                 if (links[c].publisher) {
                     newitm.publisher = links[c].publisher;
@@ -57,8 +57,11 @@ function WebpageParser (source, cb, config) {
                     newitm.publisher = "webpage";
                 }
 
-                if ( self._checkUniqueness(newitm, itms) == true) {
+                // if it doesn't have a filename, it's probably invalid
+                if (newitm.filename && self._checkUniqueness(newitm, itms) == true) {
                     itms.push(newitm);
+                } else if (!newitm.filename) {
+                    self.logging("Webpage Parser", "No filename found for " + newitm.media, { date: new Date(), level: "verbose", source: source });
                 }
             }
         } else {

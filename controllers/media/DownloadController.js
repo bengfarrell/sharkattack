@@ -6,9 +6,9 @@ var http = require("http-get"),
 
 var Log = require('../../utils/Log.js');
 var FileUtils = require('../../utils/File.js');
-var YouTubeDownload = require('../../download/YouTubeDownload.js');
-var LinkResolver = require('../../download/LinkResolver.js');
-var FileInfo = require('../../download/FileInfo.js');
+var YouTubeDownload = require('../../discovery/downloader/YouTubeDownloader.js');
+var LinkResolver = require('.././LinkResolver.js');
+var FileInfo = require('.././FileInfo.js');
 var QueueProcessor = require('../../deprecated/QueueProcessor.js');
 
 function DownloadController() {

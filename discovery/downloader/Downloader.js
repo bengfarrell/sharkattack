@@ -1,4 +1,5 @@
-var LinkDownloader = require('./LinkDownloader')
+var LinkDownloader = require('./LinkDownloader');
+var YouTubeDownloader = require('./YouTubeDownloader')
 
 function Downloader(asset, cb, config) {
     if ( config && config.logging ) {
@@ -12,12 +13,19 @@ function Downloader(asset, cb, config) {
         return;
     }
 
-    switch(asset.mediatype) {
+    switch(asset.mediaType) {
         case "mp3":
             var lnk = new LinkDownloader(asset, cb, config);
             break;
 
+        case "youtube":
+        case "vimeo":
+            var dl = new YouTubeDownloader(asset, cb, config);
+            break;
+
         default:
+            this.logging(this, "Downloader", "No media handler found", { date: new Date(), level: "error", asset: asset });
+            cb();
     }
 }
 

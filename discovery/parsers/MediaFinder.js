@@ -21,16 +21,17 @@ function MediaFinder (config) {
         if (links.length > 0 ) {
             itm.link = url;
             itm.media = links[0].link;
-            itm.filename = FileUtils.prototype.convertLinkToFilename(links[0].link);
-            itm.label = FileUtils.prototype.convertLinkToFilename(links[0].link);
+            itm.filename = FileUtils.prototype.convertLinkToFilename(links[0].link, links[0].type);
+            itm.label = FileUtils.prototype.convertLinkToFilename(links[0].link, links[0].type);
             itm.assetType = links[0].assetType;
-            itm.mediatype = links[0].type;
+            itm.mediaType = links[0].type;
             itm.source = source;
             if (links[0].publisher) {
                 itm.publisher = links[0].publisher;
             } else {
                 itm.publisher = "web";
             }
+
             return itm;
         }
         return null;

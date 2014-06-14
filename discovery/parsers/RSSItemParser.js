@@ -63,7 +63,7 @@ function RSSItemParser (config) {
             // assign media
             newitm.media = mediaLinks[c].link;
             newitm.filename = FileUtils.prototype.convertLinkToFilename(mediaLinks[c].link, mediaLinks[c].publisher);
-            newitm.mediatype = mediaLinks[c].type;
+            newitm.mediaType = mediaLinks[c].type;
             newitm.label = item.title;
             newitm.page = item.page;
             newitm.assetType = mediaLinks[c].assetType;

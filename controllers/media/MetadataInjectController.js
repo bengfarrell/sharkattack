@@ -1,7 +1,7 @@
 var fs = require("fs"),
     util = require('util'),
     path = require('path'),
-    FileInfo = require('../../download/FileInfo.js'),
+    FileInfo = require('.././FileInfo.js'),
     FileUtils = require('../../utils/File.js'),
     QueueProcessor = require('../../deprecated/QueueProcessor.js'),
     Log = require('../../utils/Log.js'),

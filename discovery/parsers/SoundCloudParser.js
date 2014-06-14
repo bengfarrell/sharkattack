@@ -89,7 +89,7 @@ function SoundCloudParser(config) {
             newitm.filename = FileUtils.prototype.convertLinkToFilename(links[c].link, "soundcloud");
             newitm.label = FileUtils.prototype.convertLinkToFilename(links[c].link, "soundcloud");
             newitm.assetType = links[c].assetType;
-            newitm.mediatype = links[c].type;
+            newitm.mediaType = links[c].type;
 
             if (links[c].publisher) {
                 newitm.publisher = links[c].publisher;
