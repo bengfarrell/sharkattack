@@ -22,7 +22,7 @@ function LinkDownloader(asset, cb, cfg) {
         this.logging("LinkDownloader", "No media found to download", { date: new Date(), level: "error", asset: asset });
     }
 
-    this.logging("LinkDownloader", "Downloading Asset", { date: new Date(), level: "verbose", asset: asset });
+    this.logging("LinkDownloader", "Downloading Asset " + asset.media, { date: new Date(), level: "verbose", asset: asset });
 
     asset._$dl = {};
     asset._$dl.totalBytes = 0;
@@ -42,6 +42,12 @@ function LinkDownloader(asset, cb, cfg) {
 
     var opts = {};
     opts.url = asset.media;
+
+    // if SoundCloud, then add the client ID
+    if (asset.publisher == "soundcloud") {
+        opts.url += "?client_id=" + cfg.soundcloud.clientID;
+    }
+
     opts.proxy = process.env.HTTPS_PROXY ||
         process.env.https_proxy ||
         process.env.HTTP_PROXY ||

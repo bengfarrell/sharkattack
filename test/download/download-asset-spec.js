@@ -8,6 +8,8 @@ var log = function(type, message) {
     console.log("\n" + type + " , " + message);
 }
 
+var soundcloudkey = fs.readFileSync('private/soundcloud_key.txt', 'utf-8'); // private!
+
 var asset = {
     'description': 'test',
     'date': 'Wed Oct 15 2008 00:00:00 GMT-0700 (PDT)',
@@ -32,10 +34,23 @@ var videoasset = {
     'publisher': 'youtube'
 };
 
+var souncloudasset = {
+    'description': 'test',
+    'date': 'Wed Oct 15 2008 00:00:00 GMT-0700 (PDT)',
+    'media': 'https://api.soundcloud.com/tracks/93179304/download',
+    'filename': 'soundcloud.mp3',
+    'label': 'test',
+    'mediaType': 'mp3',
+    'assetType': 'audio',
+    'publisher': 'soundcloud'
+};
 
 var cfg = {
     mediaDirectory: "_temp",
-    logging: log
+    logging: log,
+    "soundcloud": {
+        "clientID": soundcloudkey
+    }
 }
 
 describe("When Downloading an asset", function() {
@@ -55,6 +70,17 @@ describe("When Downloading an asset", function() {
         this.timeout(120000)
         before(function(done){
             new Downloader(videoasset, function(err) { done(); }, cfg);
+        });
+
+        it("should download a song", function () {
+            expect(fs.existsSync(cfg.mediaDirectory + path.sep + asset.filename)).to.be.true;
+        });
+    });
+
+    describe("Loading a SoundCloud asset", function () {
+        this.timeout(120000)
+        before(function(done){
+            new Downloader(souncloudasset, function(err) { done(); }, cfg);
         });
 
         it("should download a song", function () {

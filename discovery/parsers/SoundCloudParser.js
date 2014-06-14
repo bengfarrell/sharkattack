@@ -6,23 +6,30 @@ var Log = require('../../utils/Log.js');
 var sax = require("sax");
 var parser = sax.parser(true);
 
-function SoundCloudParser(config) {
+function SoundCloudParser(source, cb, config) {
     var self = this;
 
-    this._label = "";
-    this._url = "";
+    /** found items */
     this._found = [];
 
-    this.load = function(url, label) {
-        this._label = label;
-        this._url = url;
-        request.get({url:url + "?client_id=" + config.soundcloud.clientID}, this.onLoaded).on('error', function(e){
-            Log.prototype.error("SoundCloud Parser", "timeout on " + this._url);
-            Log.prototype.error(e);
-        }).end()
+    if ( config && config.logging ) {
+        this.logging = config.logging;
+    } else {
+        this.logging = function(){};
     }
 
+    /**
+     * on loaded
+     * @param error
+     * @param response
+     * @param body
+     */
     this.onLoaded = function(error, response, body) {
+        if (error) {
+            self.logging("SoundCloud Parser", error.toString(), { date: new Date(), level: "error", asset: source, error: error });
+            cb.apply(self,  []);
+        }
+        self.logging("SoundCloud Parser", "Loaded " + source.url, { date: new Date(), level: "verbose", asset: source });
         if (!error && response.statusCode == 200) {
             parser.onopentag = function(tag) { self._onOpenTag(tag); }
             parser.onclosetag = function (tag) { self._onCloseTag(tag); }
@@ -70,8 +77,8 @@ function SoundCloudParser(config) {
         var itms = [];
         itm.label = self._label;
         itm.description = "SoundCloud Playlist Item";
-        itm.link = self._url;
-        itm.page = self._url;
+        itm.link = source.url;
+        itm.page = source.url;
 
 
         var links = self._found;
@@ -101,7 +108,8 @@ function SoundCloudParser(config) {
                 itms.push(newitm);
             }
         }
-        self.emit(SoundCloudParser.prototype.SOUNDCLOUD_PARSING_COMPLETE, itms);
+
+        cb.apply(self,  [itms]);
     }
 
     /**
@@ -119,10 +127,14 @@ function SoundCloudParser(config) {
         }
         return true;
     }
+
+    self.logging("SoundCloud Parser", "Loading " + source.url, { date: new Date(), level: "verbose", asset: source });
+    request.get({url: source.url + "?client_id=" + config.soundcloud.clientID}, this.onLoaded).on('error', function(e){
+        self.logging("SoundCloud Parser", "timeout on " + source.url, { date: new Date(), level: "error", asset: source, error: e });
+        cb.apply(self,  []);
+    }).end();
+
+
 }
 
-util.inherits(SoundCloudParser, events.EventEmitter);
-
-
-SoundCloudParser.prototype.SOUNDCLOUD_PARSING_COMPLETE = "soundcloudParsingComplete";
 exports = module.exports = SoundCloudParser;

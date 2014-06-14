@@ -24,7 +24,7 @@ function Discover(config) {
             src.assets = [];
             q.add(src, self.loadFeedSource, self.onSourcesLoaded, true);
         });
-        q.run();
+        q.run(self.onComplete);
     }
 
 
@@ -62,6 +62,12 @@ function Discover(config) {
      * sources complete
      */
     this.onSourcesLoaded = function() {
+    }
+
+    /**
+     * on complete
+     */
+    this.onComplete = function() {
         self.emit(Discover.prototype.COMPLETE, q);
     }
 }

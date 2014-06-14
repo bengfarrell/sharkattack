@@ -11,8 +11,10 @@ var log = function(type, message) {
     console.log("\n" + type + " , " + message);
 }
 
+var soundcloudkey = fs.readFileSync('private/soundcloud_key.txt', 'utf-8'); // private!
+
 describe("When using Discovery to parse an RSS feed", function() {
-    this.timeout(30000);
+    this.timeout(480000);
     var result = [];
 
     before(function(done){
@@ -53,7 +55,7 @@ describe("When using Discovery to parse an RSS feed", function() {
 });
 
 describe("When using Discovery to parse a normal webpage", function() {
-    this.timeout(30000);
+    this.timeout(240000);
     var result = [];
     before(function(done){
 
@@ -94,3 +96,47 @@ describe("When using Discovery to parse a normal webpage", function() {
     });
 });
 
+
+describe("When using Discovery to parse a SoundCloud playlist", function() {
+    this.timeout(120000);
+    var result = [];
+    before(function(done){
+
+        var d = new Discover( {
+            mediaDirectory: "_temp",
+            allowYouTube: true,
+            allowVimeo: true,
+            "soundcloud": {
+                "clientID": soundcloudkey
+            },
+            logging: log } );
+
+        d.on(Discover.prototype.COMPLETE, function (data) {
+            result = data;
+            done();
+        });
+        d.run( {
+            "sources": [
+                {
+                    url: "https://api.soundcloud.com/playlists/33749975",
+                    type: "soundcloud",
+                    label: "Wolfpack",
+                    id: "wolfpack",
+                    maxItems: 5,
+                    description: "Wolfpack Playlist",
+                    page: "https://soundcloud.com/derek-wragge/sets/wolfpack"
+                }
+            ]
+        } );
+    });
+
+    it("should return at least one asset", function () {
+        var soundcloudcount = 0;
+        result.queue.forEach( function(i) {
+            if (i.publisher == "soundcloud") {
+                soundcloudcount ++;
+            }
+        });
+        expect(soundcloudcount).to.be.greaterThan(0);
+    });
+});
