@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 
-var Downloader = require('../../discovery/downloader/Downloader.js');
+var Downloader = require('.././Downloader.js');
 
 var log = function(type, message) {
     console.log("\n" + type + " , " + message);

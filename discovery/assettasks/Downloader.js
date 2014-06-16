@@ -1,5 +1,5 @@
-var LinkDownloader = require('./LinkDownloader');
-var YouTubeDownloader = require('./YouTubeDownloader')
+var LinkDownloader = require('./downloaders/LinkDownloader');
+var YouTubeDownloader = require('./downloaders/YouTubeDownloader')
 
 function Downloader(asset, cb, config) {
     if ( config && config.logging ) {

@@ -3,12 +3,11 @@ var fs = require("fs"),
     spawn = require('child_process').spawn,
     events = require("events"),
     path = require('path'),
-    Log = require('../../utils/Log.js'),
     split = require('event-stream').split,
-    FileUtils = require('../../utils/File.js');
+    FileUtils = require('../../../utils/File.js');
 
 /**
- * youtube downloader - in the configuration, there are several formats to try to find
+ * youtube downloaders - in the configuration, there are several formats to try to find
  * we try to get the first one we can based on our priorities
  * @constructor
  */
@@ -25,7 +24,7 @@ function YouTubeDownloader(asset, cb, cfg) {
     /** filename */
     this._filename = "";
 
-    /** youtube downloader task */
+    /** youtube downloaders task */
     this._downloader = null;
 
 
