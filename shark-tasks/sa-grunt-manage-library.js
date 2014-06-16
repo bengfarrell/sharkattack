@@ -1,16 +1,16 @@
 module.exports = function(grunt) {
-    var DownloadController = require('../controllers/media/DownloadController.js');
-    var ReconcileController = require('../controllers/metadata/ReconcileController.js');
-    var DuplicateArtistRemovalController = require('../controllers/metadata/DuplicateArtistRemovalController.js');
-    var InsufficientMetadataRemovalController = require('../controllers/metadata/InsufficientMetadataRemovalController.js');
-    var OldAssetRemovalController = require('../controllers/metadata/OldAssetRemovalController.js');
-    var OverDurationRemovalController = require('../controllers/metadata/OverDurationRemovalController.js');
-    var TranscodeController = require('../controllers/media/TranscodeController.js');
-    var MetadataInjectController = require('../controllers/media/MetadataInjectController.js');
-    var SyncLibraryDataController = require('../controllers/media/SyncLibraryDataController.js');
-    var LibraryOutputController = require('../controllers/output/LibraryOutputController.js');
-    var ApplyPurchaseLinksController = require('../controllers/social/ApplyPurchaseLinksController.js');
-    var SpotifyResolveController = require('../controllers/social/SpotifyResolveController.js');
+    var DownloadController = require('./media/DownloadController.js');
+    var ReconcileController = require('./metadata/ReconcileController.js');
+    var DuplicateArtistRemovalController = require('./metadata/DuplicateArtistRemovalController.js');
+    var InsufficientMetadataRemovalController = require('./metadata/InsufficientMetadataRemovalController.js');
+    var OldAssetRemovalController = require('./metadata/OldAssetRemovalController.js');
+    var OverDurationRemovalController = require('./metadata/OverDurationRemovalController.js');
+    var TranscodeController = require('./media/TranscodeController.js');
+    var MetadataInjectController = require('./media/MetadataInjectController.js');
+    var SyncLibraryDataController = require('./media/SyncLibraryDataController.js');
+    var LibraryOutputController = require('./output/LibraryOutputController.js');
+    var ApplyPurchaseLinksController = require('./social/ApplyPurchaseLinksController.js');
+    var SpotifyResolveController = require('./social/SpotifyResolveController.js');
     var Log = require('../utils/Log.js');
 
     // ==========================================================================

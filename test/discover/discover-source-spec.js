@@ -12,6 +12,9 @@ var log = function(type, message) {
 }
 
 var soundcloudkey = fs.readFileSync('private/soundcloud_key.txt', 'utf-8'); // private!
+var googleanalytics_account = fs.readFileSync('private/google_analytics_account.txt', 'utf-8'); // private!
+var googleanalytics_password = fs.readFileSync('private/google_analytics_password.txt', 'utf-8'); // private!
+
 
 describe("When using Discovery to parse an RSS feed", function() {
     this.timeout(480000);
@@ -140,3 +143,46 @@ describe("When using Discovery to parse a SoundCloud playlist", function() {
         expect(soundcloudcount).to.be.greaterThan(0);
     });
 });
+
+
+
+// TEST DOESN'T WORK BECAUSE ASSETS DONT HAVE INFO ENOUGH TO DOWNLOAD THE ITEM
+/*describe("When using Discovery to parse a GoogleAnalytics favorite set", function() {
+    this.timeout(120000);
+    var result = [];
+    before(function(done){
+
+        var d = new Discover( {
+            mediaDirectory: "_temp",
+            logging: log } );
+
+        d.on(Discover.prototype.COMPLETE, function (data) {
+            result = data;
+            done();
+        });
+        d.run( {
+            "sources": [
+                {
+                    type: "googleanalytics",
+                    label: "Blastanova Favorites",
+                    id: "bnovafavs",
+                    maxItems: 5,
+                    description: "Blastanova Favorites",
+                    "startDate": new Date(Date.now() - 1000 * 60 * 60 * 24 * 60),
+                    "endDate": new Date(Date.now()),
+                    "account": googleanalytics_account,
+                    "username": "bengfarrell@gmail.com",
+                    "password": googleanalytics_password,
+                    "filters": "eventAction==favorite",
+                    "sort": "visitors",
+                    "metrics": "visitors",
+                    "dimensions": "eventLabel"
+                }
+            ]
+        } );
+    });
+
+    it("should return at least one asset", function () {
+        expect(result.length).to.be.greaterThan(0);
+    });
+}); */

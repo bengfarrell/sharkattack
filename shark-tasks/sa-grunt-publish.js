@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
-    var RecordNewAssetsController = require('../controllers/metadata/RecordNewAssetsController');
-    var LibraryOutputController = require('../controllers/output/LibraryOutputController.js');
-    var DailyCountsController = require('../controllers/output/DailyCountsController.js');
+    var RecordNewAssetsController = require('./metadata/RecordNewAssetsController');
+    var LibraryOutputController = require('./output/LibraryOutputController.js');
+    var DailyCountsController = require('./output/DailyCountsController.js');
     var Log = require('../utils/Log.js');
 
     // ==========================================================================

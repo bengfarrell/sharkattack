@@ -28,6 +28,13 @@ function GoogleAnalyticsCollection() {
     /** final favorites list */
     this._favoritesList = [];
 
+
+    if ( config && config.logging ) {
+        this.logging = config.logging;
+    } else {
+        this.logging = function(){};
+    }
+
     /**
      * make collection of assets
      * @param duration

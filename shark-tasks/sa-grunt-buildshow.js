@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
-    var DownloadController = require('../controllers/media/DownloadController.js');
-    var BuildPlaylistController = require('../controllers/showbuilder/BuildPlaylistController.js');
+    var DownloadController = require('./media/DownloadController.js');
+    var BuildPlaylistController = require('./showbuilder/BuildPlaylistController.js');
     var FileUtils = require('../utils/File.js');
     var Log = require('../utils/Log.js');
     var fs = require("fs");

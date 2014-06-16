@@ -1,7 +1,7 @@
 var File = require('../utils/File.js');
 
-var DiscoveryController = require('../controllers/metadata/DiscoveryController.js');
-var DownloadController = require('../controllers/media/DownloadController.js');
+var DiscoveryController = require('controllers/metadata/DiscoveryController.js');
+var DownloadController = require('controllers/media/DownloadController.js');
 
 function AssetMetadataCustomRules() {}
 

@@ -1,6 +1,7 @@
 var RSS = require('./RSSFeedParser');
 var WebPage = require('./WebpageParser');
 var SoundCloud = require('./SoundCloudParser');
+var GoogleAnalytics = require('./GoogleAnalyticsParser');
 
 function Parser(source, cb, config) {
     if ( config && config.logging ) {
@@ -22,8 +23,12 @@ function Parser(source, cb, config) {
             var sc = new SoundCloud(source, cb, config);
             break;
 
+        case "googleanalytics":
+            var sc = new GoogleAnalytics(source, cb, config);
+            break;
+
         default:
-            this.logging(this, "Parser", "No parser found for this source", { date: new Date(), level: "error", source: source });
+            this.logging("Parser", "No parser found for this source", { date: new Date(), level: "error", source: source });
             cb();
             break;
     }

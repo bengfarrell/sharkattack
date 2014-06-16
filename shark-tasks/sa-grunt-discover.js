@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
-    var DiscoveryController = require('../controllers/metadata/DiscoveryController.js');
-    var ReconcileController = require('../controllers/metadata/ReconcileController.js');
-    var DiscoverFavoritesController = require('../controllers/social/DiscoverFavoritesController.js');
+    var DiscoveryController = require('./metadata/DiscoveryController.js');
+    var ReconcileController = require('./metadata/ReconcileController.js');
+    var DiscoverFavoritesController = require('./social/DiscoverFavoritesController.js');
     var Log = require('../utils/Log.js');
 
     // ==========================================================================
