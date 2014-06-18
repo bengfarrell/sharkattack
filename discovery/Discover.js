@@ -47,9 +47,8 @@ function Discover(config) {
     /**
      * handle asset flow
      * @param asset
-     * @param cb
      */
-    this.handleAssetFlow = function(asset, cb) {
+    this.handleAssetFlow = function(asset) {
         asset._$flow.steps[asset._$flow.currentStep].success = true;
         asset._$flow.currentStep ++;
 
@@ -57,28 +56,41 @@ function Discover(config) {
         switch (asset._$flow.steps[asset._$flow.currentStep].name) {
             case "download":
                 q.add(asset, function(asset, cb) {
-                    new Downloader(asset, cb, self.cfg);
+                    new Downloader(asset, function(err) { self.updateFlowResult(err, asset); cb(); }, self.cfg);
                 }, self.handleAssetFlow, true);
                 break;
 
             case "transcode":
                 q.add(asset, function(asset, cb) {
-                    new Transcoder(asset, cb, self.cfg);
+                    new Transcoder(asset, function(err) { self.updateFlowResult(err, asset); cb(); }, self.cfg);
                 }, self.handleAssetFlow, true);
                 break;
 
             case "mediainfo":
                 q.add(asset, function(asset, cb) {
-                    new GetMediaInfo(asset, cb, self.cfg);
+                    new GetMediaInfo(asset, function(err) { self.updateFlowResult(err, asset); cb(); }, self.cfg);
                 }, self.handleAssetFlow, true);
                 break;
 
             case "complete":
                 break;
         }
-
     }
 
+    /**
+     * update flow and record results
+     * @param err
+     * @param asset
+     */
+    this.updateFlowResult = function(err, asset) {
+        if (err) {
+            asset._$flow.steps[asset._$flow.currentStep].success = false;
+            asset._$flow.steps[asset._$flow.currentStep].error = err;
+            asset._$flow.failure = true;
+        } else {
+            asset._$flow.steps[asset._$flow.currentStep].success = true;
+        }
+    }
 
     /**
      * load feed source
@@ -91,6 +103,7 @@ function Discover(config) {
                 i._$flow = {};
                 i._$flow.steps = assetFlow;
                 i._$flow.currentStep = 0;
+                i._$flow.failure = false;
                 i.source = src;
 
                 if (i.media && src.numItems < src.maxItems) {
