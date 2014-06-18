@@ -55,7 +55,7 @@ var cfg = {
 
 describe("When Downloading an asset", function() {
 
-    describe("Loading an MP3 type asset", function () {
+    /*describe("Loading an MP3 type asset", function () {
         this.timeout(120000)
         before(function(done){
             new Downloader(asset, function() { done(); }, cfg);
@@ -64,7 +64,7 @@ describe("When Downloading an asset", function() {
         it("should download a song", function () {
             expect(fs.existsSync(cfg.mediaDirectory + path.sep + asset.filename)).to.be.true;
         });
-    });
+    });*/
 
     describe("Loading a YouTube asset", function () {
         this.timeout(120000)
@@ -77,7 +77,7 @@ describe("When Downloading an asset", function() {
         });
     });
 
-    describe("Loading a SoundCloud asset", function () {
+    /*describe("Loading a SoundCloud asset", function () {
         this.timeout(120000)
         before(function(done){
             new Downloader(souncloudasset, function(err) { done(); }, cfg);
@@ -86,5 +86,5 @@ describe("When Downloading an asset", function() {
         it("should download a song", function () {
             expect(fs.existsSync(cfg.mediaDirectory + path.sep + asset.filename)).to.be.true;
         });
-    });
+    });*/
 });

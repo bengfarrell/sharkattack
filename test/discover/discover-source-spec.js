@@ -19,6 +19,7 @@ var googleanalytics_password = fs.readFileSync('private/google_analytics_passwor
 describe("When using Discovery to parse an RSS feed", function() {
     this.timeout(480000);
     var result = [];
+    var rssassets = [];
 
     before(function(done){
 
@@ -28,6 +29,12 @@ describe("When using Discovery to parse an RSS feed", function() {
 
         d.on(Discover.prototype.COMPLETE, function (data) {
             result = data;
+            result.queue.forEach( function(i) {
+                if (i.type == "rss") {
+                    rssassets = i.assets;
+                }
+            });
+
             done();
         });
         d.run( {
@@ -47,13 +54,11 @@ describe("When using Discovery to parse an RSS feed", function() {
     });
 
     it("should return at least one asset", function () {
-        var rssassets = [];
-        result.queue.forEach( function(i) {
-            if (i.type == "rss") {
-                rssassets = i.assets;
-            }
-        });
         expect(rssassets.length).to.be.greaterThan(0);
+    });
+
+    it("should have durations for assets", function () {
+        expect(rssassets[0].duration).to.be.greaterThan(0);
     });
 });
 

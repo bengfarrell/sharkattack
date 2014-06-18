@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 
-var Transcoder = require('../../discovery/assettasks/Transcoder.js');
+var GetMediaInfo = require('../../discovery/assettasks/GetMediaInfo.js');
 
 var log = function(type, message) {
     console.log("\n" + type + " , " + message);
@@ -16,7 +16,7 @@ var asset = {
     'link': 'http://www.youtube.com/embed/OJlKutKKWMU',
     'media': 'http://www.youtube.com/embed/OJlKutKKWMU',
     'label': 'test',
-    'filename': "eoaAP11p3sI.mp4",
+    'filename': "11076632.mp3",
     'mediaType': 'youtube',
     'assetType': 'video',
     'publisher': 'youtube'
@@ -27,13 +27,13 @@ var cfg = {
     logging: log
 }
 
-describe("When transcoding a video asset", function () {
+describe("When getting media info for an asset", function () {
     this.timeout(20000)
     before(function(done){
-        new Transcoder(asset, function() { done(); }, cfg);
+        new GetMediaInfo(asset, function() { done(); }, cfg);
     });
 
-    it("should exist as mp3 afterwards", function () {
-        expect(fs.existsSync(cfg.mediaDirectory + path.sep + "eoaAP11p3sI.mp3")).to.be.true;
+    it("should have a duration", function () {
+        expect(asset.duration).is.greaterThan(0);
     });
 });

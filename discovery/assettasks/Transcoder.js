@@ -21,7 +21,6 @@ function Transcoder(asset, cb, config) {
     this.onTranscodeAssetComplete = function(error, response) {
         //error is too chatty and seems to mark files as completely errored out
         if (!FileUtils.prototype.doesExist(config.mediaDirectory + path.sep + FileUtils.prototype.removeExtension(asset.filename)+".mp3"))  {
-            console.log( "HIHIHIH: " + config.mediaDirectory + path.sep + FileUtils.prototype.removeExtension(asset.filename)+".mp3" );
             self.logging("Transcoder", "Video Transcode Error: " + asset.filename, { date: new Date(), level: "error", asset: asset });
             cb(new Error("Video transcode error, output file not found " + asset.filename));
         } else {

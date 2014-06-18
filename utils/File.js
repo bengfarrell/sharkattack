@@ -97,6 +97,18 @@ File.prototype.convertLinkToFilename = function(link, type) {
 }
 
 /**
+ * get file extension
+ * @param filename
+ * @return file extension
+ */
+File.prototype.getExtension = function(filename) {
+    if (filename.lastIndexOf(".") > -1) {
+        filename = filename.substr(filename.lastIndexOf(".")+1, filename.length);
+    }
+    return filename;
+}
+
+/**
  * remove file extension
  * @param filename
  * @return filename without extension

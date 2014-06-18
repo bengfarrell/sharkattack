@@ -15,14 +15,14 @@ function YouTubeDownloader(asset, cb, cfg) {
 
     var self = this;
 
+    /** filename that youtube-dl uses */
+    self.downloadfilename = "";
+
     if ( cfg && cfg.logging ) {
         this.logging = cfg.logging;
     } else {
         this.logging = function(){};
     }
-
-    /** filename */
-    this._filename = "";
 
     /** youtube downloaders task */
     this._downloader = null;
@@ -36,8 +36,8 @@ function YouTubeDownloader(asset, cb, cfg) {
     this._onLineOutput = function(data) {
         if (data.indexOf("[download] Destination: ") != -1) {
             // found destination file
-            self._filename = data.substr("[download] Destination: ".length, data.length);
-            self.logging("Youtube Download", "Destination file found: " + self._filename, { date: new Date(), level: "verbose", asset: asset });
+            self.downloadfilename = data.substr("[download] Destination: ".length, data.length);
+            self.logging("Youtube Download", "Destination file found: " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
 
         }
         self.logging("Youtube Download", data.toString(), { date: new Date(), level: "verbose", asset: asset });
@@ -69,7 +69,11 @@ function YouTubeDownloader(asset, cb, cfg) {
      * @private
      */
     this._onComplete = function(data) {
-        self.logging("Youtube Download", "Complete " + self._filename, { date: new Date(), level: "verbose", asset: asset });
+        // rename file to something thats expected by the original input (we can't get filenames all the time if we skip downloads when file exists)
+        var ext = FileUtils.prototype.getExtension(self.downloadfilename);
+        fs.renameSync(cfg.mediaDirectory + path.sep + self.downloadfilename, cfg.mediaDirectory + path.sep + asset.filename + "." + ext);
+        asset.filename = asset.filename + "." + ext;
+        self.logging("Youtube Download", "Complete " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
         cb();
     }
 
@@ -102,7 +106,7 @@ function YouTubeDownloader(asset, cb, cfg) {
 
         this.logging("Youtube Download", "Now Downloading " + asset.media, { date: new Date(), level: "verbose", asset: asset });
     } else {
-        asset.filename =
+        asset.filename = existsAs;
         this.logging("Youtube Download", "File exists - " + asset.media, { date: new Date(), level: "verbose", asset: asset });
         cb();
     }

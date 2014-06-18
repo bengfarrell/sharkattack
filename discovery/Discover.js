@@ -2,6 +2,7 @@ var Queue = require( '../utils/Queue');
 var Parser = require('./parsers/Parser');
 var Downloader = require('./assettasks/Downloader');
 var Transcoder = require('./assettasks/Transcoder');
+var GetMediaInfo = require('./assettasks/GetMediaInfo');
 var events = require("events");
 var util = require('util');
 
@@ -18,8 +19,8 @@ function Discover(config) {
         { name: "discover", success: true /* its here, how could it not be discovered? */},
         { name: "download", success: false },
         { name: "transcode", success: false },
-        { name: "complete", success: false },
-        // { name: "mediainfo", success: false }
+        { name: "mediainfo", success: false },
+        { name: "complete", success: false }
     ]
 
     /** queue of things to do */
@@ -67,6 +68,9 @@ function Discover(config) {
                 break;
 
             case "mediainfo":
+                q.add(asset, function(asset, cb) {
+                    new GetMediaInfo(asset, cb, self.cfg);
+                }, self.handleAssetFlow, true);
                 break;
 
             case "complete":
