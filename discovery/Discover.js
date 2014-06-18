@@ -1,6 +1,7 @@
 var Queue = require( '../utils/Queue');
 var Parser = require('./parsers/Parser');
 var Downloader = require('./assettasks/Downloader');
+var Transcoder = require('./assettasks/Transcoder');
 var events = require("events");
 var util = require('util');
 
@@ -16,8 +17,8 @@ function Discover(config) {
     var assetFlow = [
         { name: "discover", success: true /* its here, how could it not be discovered? */},
         { name: "download", success: false },
-        { name: "complete", success: false }
-       // { name: "transcode", success: false },
+        { name: "transcode", success: false },
+        { name: "complete", success: false },
         // { name: "mediainfo", success: false }
     ]
 
@@ -51,6 +52,7 @@ function Discover(config) {
         asset._$flow.steps[asset._$flow.currentStep].success = true;
         asset._$flow.currentStep ++;
 
+        self.logging("Discover", "Flow step " + asset._$flow.steps[asset._$flow.currentStep].name + " for "  + asset.label, { date: new Date(), level: "verbose", asset: asset });
         switch (asset._$flow.steps[asset._$flow.currentStep].name) {
             case "download":
                 q.add(asset, function(asset, cb) {
@@ -59,13 +61,15 @@ function Discover(config) {
                 break;
 
             case "transcode":
+                q.add(asset, function(asset, cb) {
+                    new Transcoder(asset, cb, self.cfg);
+                }, self.handleAssetFlow, true);
                 break;
 
             case "mediainfo":
                 break;
 
             case "complete":
-                self.logging("Discover", "Flow Complete for " + asset.label, { date: new Date(), level: "verbose", asset: asset });
                 break;
         }
 

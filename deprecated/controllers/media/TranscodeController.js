@@ -78,11 +78,11 @@ function TranscodeController() {
     this.onTranscodeAssetComplete = function(error, response) {
         //error is too chatty and seems to mark files as completely errored out
         if (!FileUtils.prototype.doesExist(self.config.mediaDirectory + path.sep + self.queueProcessor.currentItem.filename))  {
-            Log.prototype.error(TranscodeController.prototype.classDescription, "Video Transcode Error:" + self.queueProcessor.currentItem.filename);
+            Log.prototype.error(TranscodeController.prototype.classDescription, "Video Transcoder.js Error:" + self.queueProcessor.currentItem.filename);
             self.config.removalList.push({ media: item.media, reason: "video transcode error"});
             self.queueProcessor.currentItem.transcodeError = true;
         } else {
-            Log.prototype.log(TranscodeController.prototype.classDescription, "Video Transcode Complete");
+            Log.prototype.log(TranscodeController.prototype.classDescription, "Video Transcoder.js Complete");
             self.assets.push(self.queueProcessor.currentItem);
             if (self.config.removeVideosAfterTranscode &&
                 self.queueProcessor.currentItem.filename != "" &&
@@ -101,6 +101,6 @@ function TranscodeController() {
 }
 
 TranscodeController.prototype.className = "TranscodeController";
-TranscodeController.prototype.classDescription = "Transcode Media";
+TranscodeController.prototype.classDescription = "Transcoder.js Media";
 TranscodeController.prototype.stepName = "transcode";
 exports = module.exports = TranscodeController;

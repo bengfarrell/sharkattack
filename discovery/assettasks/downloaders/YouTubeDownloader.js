@@ -81,17 +81,16 @@ function YouTubeDownloader(asset, cb, cfg) {
      * @private
      */
     this._doesExist = function(outputdir, filename) {
-        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp4")
-            || FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".flv")
-            || FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".webm")
-            || FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp3") ) {
-            return true;
-        } else {
-            return false;
-        }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp4")) { return filename + ".mp4"; }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".flv")) { return filename + ".flv"; }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".webm")) { return filename + ".webm"; }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp3")) { return "mp3"; }
+        return "";
     }
 
-    if ( this._doesExist(cfg.mediaDirectory, asset.filename) === false) {
+
+    var existsAs = this._doesExist(cfg.mediaDirectory, asset.filename);
+    if ( existsAs === "") {
         this._downloader = null;
         this._downloader = spawn("youtube-dl",[asset.media], { cwd: cfg.mediaDirectory }).on('error', this._onError);
         this._downloader.stderr.on('data', this._onErrorData);
@@ -103,6 +102,7 @@ function YouTubeDownloader(asset, cb, cfg) {
 
         this.logging("Youtube Download", "Now Downloading " + asset.media, { date: new Date(), level: "verbose", asset: asset });
     } else {
+        asset.filename =
         this.logging("Youtube Download", "File exists - " + asset.media, { date: new Date(), level: "verbose", asset: asset });
         cb();
     }

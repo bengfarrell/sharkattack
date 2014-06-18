@@ -46,7 +46,7 @@ module.exports = function(grunt) {
                 break;
 
             case "transcode":
-                Log.prototype.log("Grunt", "SA - Transcode Task");
+                Log.prototype.log("Grunt", "SA - Transcoder.js Task");
                 Log.prototype.addLineBreak();
                 Log.prototype.log("Task", "Reading: " + self.data.assetslistFile);
                 Log.prototype.addLineBreak();

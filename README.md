@@ -56,6 +56,13 @@ Installation
 git clone https://github.com/bengfarrell/sharkattack.git
 npm install
 sudo apt-get install ffmpeg libavcodec-extra-53
+
+
+sudo apt-add-repository ppa:jon-severinsson/ffmpeg
+sudo apt-get update
+sudo apt-get install ffmpeg
+
+
 cd sharkattack
 ```
 

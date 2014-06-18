@@ -132,7 +132,7 @@ module.exports = function(grunt) {
                 output: "<%= config.locations.libraryLocation %>/data/temp/temp-library.json"
             },
 
-            // Transcode any video assets to audio
+            // Transcoder.js any video assets to audio
             transcode: {
                 assetslistFile: "<%= config.locations.libraryLocation %>/data/temp/temp-library.json",
                 mediaDirectory: "<%= config.locations.mediaLocation %>",
