@@ -32,7 +32,6 @@ function Output(data, config) {
                 if (isFailure) {
                     failedAssets.push(asset);
                     self.db.connectSync('assets/blacklisted/' + asset.sourceid);
-                    console.log(asset)
                     self.db.insert(asset.media, asset);
                 } else {
                     assets.push(asset);

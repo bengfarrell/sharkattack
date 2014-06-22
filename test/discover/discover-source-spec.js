@@ -8,7 +8,7 @@ process.setMaxListeners(0);
 var Discover = require('../../discovery/Discover.js');
 
 var log = function(type, message) {
-   // console.log("\n" + type + " , " + message);
+    console.log("\n" + type + " , " + message);
 }
 
 var soundcloudkey = fs.readFileSync('private/soundcloud_key.txt', 'utf-8'); // private!

@@ -3,6 +3,8 @@ var Parser = require('./parsers/Parser');
 var Downloader = require('./assettasks/Downloader');
 var Transcoder = require('./assettasks/Transcoder');
 var GetMediaInfo = require('./assettasks/GetMediaInfo');
+var CriteriaCheck = require('./assettasks/CriteriaCheck');
+var Database = require('../utils/Database');
 var Output = require('./output/Output');
 var events = require("events");
 var util = require('util');
@@ -15,6 +17,12 @@ function Discover(config) {
     } else {
         this.logging = function(){};
     }
+
+    /** database */
+    var db = new Database(config);
+
+    /** criteria */
+    var crit = new CriteriaCheck(config);
 
     /** asset library */
     var lib = {};
@@ -58,6 +66,15 @@ function Discover(config) {
      * @param asset
      */
     this.handleAssetFlow = function(asset) {
+        if (!crit.isPassing(asset)) {
+            asset._$flow.failure = false;
+        }
+
+        if (asset._$flow.failure == true) {
+            // asset has failed - do not continue
+            return;
+        }
+
         asset._$flow.steps[asset._$flow.currentStep].success = true;
         asset._$flow.currentStep ++;
 
@@ -83,6 +100,9 @@ function Discover(config) {
 
             case "complete":
                 break;
+
+            default:
+                break;
         }
     }
 
@@ -95,7 +115,7 @@ function Discover(config) {
         if (err) {
             asset._$flow.steps[asset._$flow.currentStep].success = false;
             asset._$flow.steps[asset._$flow.currentStep].error = err;
-            asset._$flow.failure = true;
+            asset._$flow.failure = true
         } else {
             asset._$flow.steps[asset._$flow.currentStep].success = true;
         }
@@ -117,6 +137,21 @@ function Discover(config) {
 
                 if (i.media && src.numItems < src.maxItems) {
                     src.numItems ++;
+
+                    // apply date if doesn't exist
+                    if (!i.date) {
+                        db.connectSync('assets/discovered/' + src.id);
+                        var result = db.find(i.media);
+
+                        if (result.date) {
+                           i.date = result.date;
+                        } else {
+                            i.date = new Date(Date.now()).toUTCString();
+                        }
+                    } else {
+                        i.date = new Date(i.date).toUTCString();
+                    }
+
                     self.handleAssetFlow(i, cb);
                     src.assets.push(i);
                 } else {

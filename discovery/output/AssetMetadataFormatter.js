@@ -22,13 +22,6 @@ AssetMetadataFormatter.prototype.apply = function(asset, source) {
     // record source id
     formatted.sourceid = source.id;
 
-    // apply date
-    if (!formatted.date) {
-        formatted.date = new Date(Date.now()).toUTCString();
-    } else {
-        formatted.date = new Date(formatted.date).toUTCString();
-    }
-
     // apply custom rules by source
     switch (formatted.sourceid) {
         case "mpr":
