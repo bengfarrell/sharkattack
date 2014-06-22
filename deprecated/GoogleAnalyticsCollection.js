@@ -1,6 +1,6 @@
-var GoogleAnalytics = require('./../utils/GoogleAnalytics.js'),
+var GoogleAnalytics = require('./GoogleAnalytics.js'),
     SourcesParser = require('./../discovery/SourcesParser.js'),
-    Log = require('./../utils/Log.js'),
+    Log = require('./Log.js'),
     config = require('./../models/ConfigurationModel.js'),
     events = require("events"),
     util = require('util');

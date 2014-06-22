@@ -1,4 +1,4 @@
-var Log = require('./../utils/Log.js');
+var Log = require('./../deprecated/Log.js');
 var Time = require('../utils/Time.js');
 
 function Playlist(assets) {

@@ -1,4 +1,4 @@
-var Log = require('./../utils/Log.js'),
+var Log = require('./../deprecated/Log.js'),
     events = require('events'),
     FileUtils = require('../utils/File.js'),
     FilterFactory = require('./../package/FilterFactory');

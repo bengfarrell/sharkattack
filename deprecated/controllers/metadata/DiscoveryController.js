@@ -26,7 +26,7 @@ function DiscoveryController() {
 
     var self = this;
 
-    var AssetMetadataCustomRules = require('./../../deprecated/AssetMetadataCustomRules.js');
+    var AssetMetadataCustomRules = require('./../../deprecated/AssetMetadataFormatter.js');
 
     /** current index of queue */
     this.indx = -1;

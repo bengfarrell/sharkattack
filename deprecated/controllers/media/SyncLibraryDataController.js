@@ -9,7 +9,7 @@ var FileUtils = require('../../utils/File.js');
 function SyncLibraryDataController() {
 
     var self = this;
-    var AssetMetadataCustomRules = require('../../deprecated/AssetMetadataCustomRules.js');
+    var AssetMetadataCustomRules = require('../../deprecated/AssetMetadataFormatter.js');
 
     /** configuration for task */
     this.config = {};

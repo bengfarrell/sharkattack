@@ -8,7 +8,7 @@ process.setMaxListeners(0);
 var Discover = require('../../discovery/Discover.js');
 
 var log = function(type, message) {
-    console.log("\n" + type + " , " + message);
+   // console.log("\n" + type + " , " + message);
 }
 
 var soundcloudkey = fs.readFileSync('private/soundcloud_key.txt', 'utf-8'); // private!
@@ -25,6 +25,7 @@ describe("When using Discovery to parse an RSS feed", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
+            dbLocation: './database',
             logging: log } );
 
         d.on(Discover.prototype.COMPLETE, function (data) {
@@ -69,6 +70,7 @@ describe("When using Discovery to parse a normal webpage", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
+            dbLocation: './database',
             allowYouTube: true,
             allowVimeo: true,
             logging: log } );
@@ -112,6 +114,7 @@ describe("When using Discovery to parse a SoundCloud playlist", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
+            dbLocation: './database',
             allowYouTube: true,
             allowVimeo: true,
             "soundcloud": {

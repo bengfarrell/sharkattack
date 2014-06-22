@@ -2,7 +2,7 @@ var request = require('request');
 var events = require('events');
 var util = require('util');
 var FileUtils = require('../../utils/File.js');
-var Log = require('../../utils/Log.js');
+var Log = require('../../deprecated/Log.js');
 var sax = require("sax");
 var parser = sax.parser(true);
 

@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    var Log = require('../utils/Log.js');
+    var Log = require('../deprecated/Log.js');
     var fs = require('fs');
     var path = require('path');
 

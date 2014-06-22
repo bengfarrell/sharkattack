@@ -3,7 +3,7 @@ var http = require('http'),
     path = require('path'),
     Time = require('../utils/Time.js');
 
-var AssetLibrary = require('../utils/AssetsLibrary.js');
+var AssetLibrary = require('../deprecated/AssetsLibrary.js');
 
 function StreamBuffer(config) {
     var self = this;

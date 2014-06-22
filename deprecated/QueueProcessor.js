@@ -1,7 +1,7 @@
 var fs = require("fs"),
     util = require('util'),
     events = require("events"),
-    Log = require('../utils/Log.js'),
+    Log = require('Log.js'),
     FileUtils = require('../utils/File.js');
 
 function QueueProcessor(cb, itemProc) {

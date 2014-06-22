@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     var RecordNewAssetsController = require('./metadata/RecordNewAssetsController');
     var LibraryOutputController = require('./output/LibraryOutputController.js');
     var DailyCountsController = require('./output/DailyCountsController.js');
-    var Log = require('../utils/Log.js');
+    var Log = require('../deprecated/Log.js');
 
     // ==========================================================================
     // TASKS

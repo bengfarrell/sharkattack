@@ -14,7 +14,7 @@ var QueueProcessor = require('../../deprecated/QueueProcessor.js');
 function DownloadController() {
 
     var self = this;
-    var AssetMetadataCustomRules = require('../../deprecated/AssetMetadataCustomRules.js');
+    var AssetMetadataCustomRules = require('../../deprecated/AssetMetadataFormatter.js');
 
     /** configuration for task */
     this.config = {};

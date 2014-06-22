@@ -3,6 +3,7 @@ var Parser = require('./parsers/Parser');
 var Downloader = require('./assettasks/Downloader');
 var Transcoder = require('./assettasks/Transcoder');
 var GetMediaInfo = require('./assettasks/GetMediaInfo');
+var Output = require('./output/Output');
 var events = require("events");
 var util = require('util');
 
@@ -15,6 +16,13 @@ function Discover(config) {
         this.logging = function(){};
     }
 
+    /** asset library */
+    var lib = {};
+
+    /** asset failures */
+    var failedItems = [];
+
+    /** asset flow/steps for completing discovery */
     var assetFlow = [
         { name: "discover", success: true /* its here, how could it not be discovered? */},
         { name: "download", success: false },
@@ -39,8 +47,9 @@ function Discover(config) {
             src.numItems = 0;
             src.overflowAssets = [];
             src.assets = [];
-            q.add(src, self.loadFeedSource, self.onSourcesLoaded, true);
+            q.add(src, self.loadFeedSource, self.onSourceLoaded, true);
         });
+        lib = data;
         q.run(self.onComplete);
     }
 
@@ -121,13 +130,15 @@ function Discover(config) {
     /**
      * sources complete
      */
-    this.onSourcesLoaded = function() {
+    this.onSourceLoaded = function() {
     }
 
     /**
      * on complete
      */
     this.onComplete = function() {
+        var out = new Output(lib, config);
+        //console.log(out)
         self.emit(Discover.prototype.COMPLETE, q);
     }
 }

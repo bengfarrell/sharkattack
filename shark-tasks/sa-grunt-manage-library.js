@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     var LibraryOutputController = require('./output/LibraryOutputController.js');
     var ApplyPurchaseLinksController = require('./social/ApplyPurchaseLinksController.js');
     var SpotifyResolveController = require('./social/SpotifyResolveController.js');
-    var Log = require('../utils/Log.js');
+    var Log = require('../deprecated/Log.js');
 
     // ==========================================================================
     // TASKS
