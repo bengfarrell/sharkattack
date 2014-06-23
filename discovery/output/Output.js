@@ -1,6 +1,7 @@
 var AssetMetadata = require('./AssetMetadataFormatter');
 var SourceMetadata = require('./SourceMetadataFormatter');
 var Database = require('../../utils/Database');
+var fs = require('fs');
 
 function Output(data, config) {
     var self = this;
@@ -45,6 +46,11 @@ function Output(data, config) {
             self.lib.sources.push( SourceMetadata.prototype.apply(src, assets) );
         }
     });
+
+    // write library file
+    if (config.libLocation) {
+        fs.writeFileSync(config.libLocation, JSON.stringify(self.lib, undefined, 2));
+    }
 
     return self.lib;
 

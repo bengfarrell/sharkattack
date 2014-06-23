@@ -143,8 +143,8 @@ function Discover(config) {
                         db.connectSync('assets/discovered/' + src.id);
                         var result = db.find(i.media);
 
-                        if (result.date) {
-                           i.date = result.date;
+                        if (result && result.date) {
+                            i.date = result.date;
                         } else {
                             i.date = new Date(Date.now()).toUTCString();
                         }
@@ -173,8 +173,7 @@ function Discover(config) {
      */
     this.onComplete = function() {
         var out = new Output(lib, config);
-        //console.log(out)
-        self.emit(Discover.prototype.COMPLETE, q);
+        self.emit(Discover.prototype.COMPLETE, out);
     }
 }
 

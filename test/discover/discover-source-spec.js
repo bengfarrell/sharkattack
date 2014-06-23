@@ -25,12 +25,12 @@ describe("When using Discovery to parse an RSS feed", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
-            dbLocation: './database',
+            dbLocation: './local/database',
             logging: log } );
 
         d.on(Discover.prototype.COMPLETE, function (data) {
-            result = data;
-            result.queue.forEach( function(i) {
+            result = data.sources;
+            result.forEach( function(i) {
                 if (i.type == "rss") {
                     rssassets = i.assets;
                 }
@@ -70,7 +70,7 @@ describe("When using Discovery to parse a normal webpage", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
-            dbLocation: './database',
+            dbLocation: './local/database',
             allowYouTube: true,
             allowVimeo: true,
             logging: log } );
@@ -97,7 +97,7 @@ describe("When using Discovery to parse a normal webpage", function() {
 
     it("should return at least one asset", function () {
         var webassets = [];
-        result.queue.forEach( function(i) {
+        result.sources.forEach( function(i) {
             if (i.type == "webpage") {
                 webassets = i.assets;
             }
@@ -114,7 +114,8 @@ describe("When using Discovery to parse a SoundCloud playlist", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
-            dbLocation: './database',
+            dbLocation: './local/database',
+            libLocation: './local/library.json',
             allowYouTube: true,
             allowVimeo: true,
             "soundcloud": {
@@ -143,9 +144,9 @@ describe("When using Discovery to parse a SoundCloud playlist", function() {
 
     it("should return at least one asset", function () {
         var soundcloudcount = 0;
-        result.queue.forEach( function(i) {
-            if (i.publisher == "soundcloud") {
-                soundcloudcount ++;
+        result.sources.forEach( function(i) {
+            if (i.type == "soundcloud") {
+                soundcloudcount = i.assets.length;
             }
         });
         expect(soundcloudcount).to.be.greaterThan(0);
