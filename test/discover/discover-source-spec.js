@@ -25,7 +25,7 @@ describe("When using Discovery to parse an RSS feed", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
-            dbLocation: './local/database',
+            dbLocation: './localstore/database',
             logging: log } );
 
         d.on(Discover.prototype.COMPLETE, function (data) {
@@ -70,7 +70,7 @@ describe("When using Discovery to parse a normal webpage", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
-            dbLocation: './local/database',
+            dbLocation: './localstore/database',
             allowYouTube: true,
             allowVimeo: true,
             logging: log } );
@@ -114,8 +114,8 @@ describe("When using Discovery to parse a SoundCloud playlist", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
-            dbLocation: './local/database',
-            libLocation: './local/library.json',
+            dbLocation: './localstore/database',
+            libLocation: './localstore/library.json',
             allowYouTube: true,
             allowVimeo: true,
             "soundcloud": {
