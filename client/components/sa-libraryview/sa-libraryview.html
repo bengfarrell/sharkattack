@@ -1,0 +1,96 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer-ui-accordion/polymer-ui-accordion.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <sa-libraryview></sa-libraryview>
+
+@element sa-libraryview
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://bengfarrell.github.io/sa-libraryview
+-->
+<polymer-element name="sa-libraryview" attributes="notitle">
+
+  <template>
+
+      <link rel="stylesheet" href="sa-libraryview.css" />
+
+      <content>
+        <polymer-ui-accordion selected="0">
+            <template id="lib" repeat="{{ source in sources }}">
+                <polymer-ui-collapsible>
+                    <div class="polymer-ui-collapsible-header">{{source.label}}</div>
+                    <div class="content">
+                        <ul>
+                            <template id="lib" repeat="{{ source.assets }}">
+                                <li>{{media}}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </polymer-ui-collapsible>
+            </template>
+        </polymer-ui-accordion>
+    </content>
+
+  </template>
+
+  <script>
+
+    //var fs = require('fs');
+
+    Polymer('sa-libraryview', {
+        /**
+        * The `noevent` event is not actually fired from here,
+        * we document it as an example of documenting events.
+        *
+        * @event noevent
+        */
+
+        /**
+        * The `notitle` attribute does not yet have a purpose.
+        *
+        * @attribute notitle
+        * @type string
+        */
+        notitle: '',
+
+        /**
+        * The `aProp` is a property that does something cool.
+        *
+        * @property aProp
+        * @type bool
+        */
+        aProp: false,
+
+        ready: function() {
+            try {
+                var fs = require('fs');
+                var libfiledata = fs.readFileSync('localstore/library.json');
+                this.sources = JSON.parse(libfiledata).sources;
+            } catch(e) {
+                // dummy data when we arent using node
+                this.sources =  [
+                    { label: "KEXP" }, { label: "WKNC" }, { label: "KEXP" }, { label: "WKNC" }, { label: "KEXP" }, { label: "WKNC" }
+                ];
+            }
+        },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      task: function(dummy) {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

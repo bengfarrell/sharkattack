@@ -34,6 +34,9 @@
   "engine": "node >= 0.10.x",
   "devDependencies": {
     "chai": "^1.9.1",
+    "gulp": "^3.8.5",
+    "gulp-download-atom-shell": "0.0.4",
+    "gulp-shell": "^0.2.7",
     "mocha": "^1.20.1",
     "sinon": "^1.10.2"
   }

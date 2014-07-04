@@ -1,0 +1,104 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-scroll-header-panel/core-scroll-header-panel.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../sa-libraryview/sa-libraryview.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <sa-mainmenu></sa-mainmenu>
+
+@element sa-mainmenu
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://bengfarrell.github.io/sa-mainmenu
+-->
+<polymer-element name="sa-mainmenu" attributes="notitle">
+
+  <template>
+
+    <link rel="stylesheet" href="sa-mainmenu.css" />
+
+    <content>
+        <core-toolbar class="medium-tall">
+
+            <paper-icon-button icon="menu"></paper-icon-button>
+            <div flex>SharkAttack</div>
+            <paper-icon-button icon="search"></paper-icon-button>
+            <paper-icon-button icon="more-vert"></paper-icon-button>
+
+            <div class="bottom fit" horizontal center-justified end layout>
+
+                <paper-tabs selected="0" flex style="max-width: 600px;" bottom indent noink>
+
+                    <paper-tab id="play_tab" on-click="{{onTabClick}}">Play</paper-tab>
+                    <paper-tab id="library_tab" on-click="{{onTabClick}}">Library</paper-tab>
+                    <paper-tab id="sources_tab" on-click="{{onTabClick}}">Sources</paper-tab>
+                    <paper-tab id="tasks_tab" on-click="{{onTabClick}}">Tasks</paper-tab>
+
+                </paper-tabs>
+
+                <div class="bottom" flex></div>
+
+                <paper-icon-button class="bottom" icon="search"></paper-icon-button>
+
+
+            </div>
+
+        </core-toolbar>
+    </content>
+
+  </template>
+
+  <script>
+
+    Polymer('sa-mainmenu', {
+        /**
+        * The `noevent` event is not actually fired from here,
+        * we document it as an example of documenting events.
+        *
+        * @event noevent
+        */
+
+        /**
+        * The `notitle` attribute does not yet have a purpose.
+        *
+        * @attribute notitle
+        * @type string
+        */
+        notitle: '',
+
+        /**
+        * The `aProp` is a property that does something cool.
+        *
+        * @property aProp
+        * @type bool
+        */
+        aProp: false,
+
+        onTabClick: function(event) {
+            this.fire('tabclick', {id: event.toElement.id});
+        },
+
+        ready: function() {
+        },
+
+        /**
+        * The `task` method does no work at this time.
+        *n
+        * @method task
+        * @return {Object} Returns undefined.
+        * @param {String} dummy Serves no purpose today.
+        */
+        task: function(dummy) {
+        }
+
+    });
+
+  </script>
+
+</polymer-element>

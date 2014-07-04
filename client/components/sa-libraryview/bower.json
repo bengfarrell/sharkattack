@@ -1,0 +1,10 @@
+{
+  "name": "sa-libraryview",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "sa-libraryview.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.1",
+    "polymer-ui-accordion": "Polymer/polymer-ui-accordion#~0.3.0"
+  }
+}

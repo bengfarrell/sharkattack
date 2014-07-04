@@ -1,3 +1,13 @@
 config.json
 private
 localstore
+
+client/components/core-*
+client/components/paper-*
+client/components/polymer-*
+client/components/platform
+
+.idea
+_temp
+binaries
+node_modules

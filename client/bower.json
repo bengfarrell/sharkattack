@@ -1,0 +1,31 @@
+{
+  "name": "SharkAttack",
+  "version": "2.0.0",
+  "homepage": "https://github.com/bengfarrell/sharkattack",
+  "authors": [
+    "ben <ben@benfarrell.com>"
+  ],
+  "description": "a thing",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "~0.3.3",
+    "platform": "~1.2.0",
+    "font-roboto": "https://github.com/Polymer/font-roboto.git",
+    "core-scroll-header-panel": "https://github.com/Polymer/core-scroll-header-panel.git",
+    "paper-tabs": "Polymer/paper-tabs#~0.3.3",
+    "polymer-ui-accordion": "Polymer/polymer-ui-accordion#~0.3.0",
+    "core-animated-pages": "polymer/core-animated-pages#~0.3.3",
+    "core-style": "polymer/core-style#~0.3.3"
+  },
+  "resolutions": {
+    "platform": "^0.3.3"
+  }
+}
