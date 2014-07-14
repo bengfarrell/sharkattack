@@ -81,7 +81,7 @@ Element providing solution to no problem in particular.
         aProp: false,
 
         onTabClick: function(event) {
-            this.fire('tabclick', {id: event.toElement.id});
+            this.fire('tabclick', {id: event.currentTarget.id});
         },
 
         ready: function() {

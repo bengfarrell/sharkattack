@@ -23,7 +23,14 @@
     "paper-tabs": "Polymer/paper-tabs#~0.3.3",
     "polymer-ui-accordion": "Polymer/polymer-ui-accordion#~0.3.0",
     "core-animated-pages": "polymer/core-animated-pages#~0.3.3",
-    "core-style": "polymer/core-style#~0.3.3"
+    "core-style": "polymer/core-style#~0.3.3",
+    "core-list": "polymer/core-list#~0.3.3",
+    "paper-item": "polymer/paper-item#~0.3.3",
+    "paper-dialog": "polymer/paper-dialog#~0.3.3",
+    "paper-slider": "polymer/paper-slider#~0.3.4",
+    "paper-input": "polymer/paper-input#~0.3.4",
+    "paper-radio-button": "polymer/paper-radio-button#~0.3.4",
+    "paper-radio-group": "polymer/paper-radio-group#~0.3.4"
   },
   "resolutions": {
     "platform": "^0.3.3"

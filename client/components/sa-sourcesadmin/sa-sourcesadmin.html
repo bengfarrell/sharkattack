@@ -1,0 +1,143 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-list/core-list.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-slider/paper-slider.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
+
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <sa-sourcesadmin></sa-sourcesadmin>
+
+@element sa-sourcesadmin
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://bengfarrell.github.io/sa-sourcesadmin
+-->
+<polymer-element name="sa-sourcesadmin" attributes="notitle">
+
+  <template>
+
+    <link rel="stylesheet" href="sa-sourcesadmin.css" />
+
+      <content>
+        <core-list data="{{data}}">
+            <template>
+                <paper-item label="{{label}}" on-click="{{onItemClick}}" id="{{id}}"></paper-item>
+            </template>
+        </core-list>
+
+        <paper-dialog id="dialog" heading="Edit Source" transition="paper-dialog-transition-bottom">
+
+            <paper-input label="label" floatingLabel value="{{currentSource.label}}"></paper-input>
+
+            <paper-input label="id" floatingLabel value="{{currentSource.id}}"></paper-input>
+
+            <paper-input label="feed url" floatingLabel value="{{currentSource.url}}"></paper-input>
+
+            <paper-input label="homepage url" floatingLabel value="{{currentSource.page}}"></paper-input>
+
+            <core-input id="description" label="description" floatingLabel multiline rows="4" value="{{currentSource.description}}"></core-input>
+
+            <div>Maximum age of media (in days)</div>
+            <paper-slider min="0" max="365" value="{{currentSource.maxAge}}" editable></paper-slider>
+
+            <div>Maximum duration of media (in seconds)</div>
+            <paper-slider min="0" max="3600" value="{{currentSource.maxDuration}}" editable></paper-slider>
+
+            <div>Type of source</div>
+            <paper-radio-group selected="{{currentSource.type}}">
+                <paper-radio-button name="rss" label="RSS Feed"></paper-radio-button>
+                <paper-radio-button name="webpage" label="Web Page"></paper-radio-button>
+                <paper-radio-button name="soundcloud" label="SoundCloud Playlist"></paper-radio-button>
+            </paper-radio-group>
+
+          <paper-button label="Cancel" affirmative></paper-button>
+          <paper-button label="Save" affirmative default on-click="{{saveSource}}"></paper-button>
+
+        </paper-dialog>
+    </content>
+
+  </template>
+
+  <script>
+
+    Polymer('sa-sourcesadmin', {
+        /**
+        * The `noevent` event is not actually fired from here,
+        * we document it as an example of documenting events.
+        *
+        * @event noevent
+        */
+
+        /**
+        * The `notitle` attribute does not yet have a purpose.
+        *
+        * @attribute notitle
+        * @type string
+        */
+        notitle: '',
+
+        /**
+        * The `aProp` is a property that does something cool.
+        *
+        * @property aProp
+        * @type bool
+        */
+        aProp: false,
+
+        ready: function() {
+            var fs = require('fs');
+            var srcsdata = fs.readFileSync('localstore/feed-library.json');
+            this.data = JSON.parse(srcsdata).sources;
+            for (var c = 0; c < this.data.length; c++ ) {
+                this.data[c].index = c;
+            }
+        },
+
+        /**
+        * The `task` method does no work at this time.
+        *
+        * @method task
+        * @return {Object} Returns undefined.
+        * @param {String} dummy Serves no purpose today.
+        */
+        task: function(dummy) {
+        },
+
+        /**
+         * click item/source and launch dialog
+         * @param event
+         */
+        onItemClick: function(event) {
+          var self = this;
+          this.data.forEach( function(src) {
+              if (src.id == event.currentTarget.id) {
+                  self.currentSource = JSON.parse( JSON.stringify(src) );
+              }
+          });
+
+          var dialog = this.$.dialog;
+          dialog.toggle();
+        },
+
+        /**
+         * save source after confirming save from dialog
+         */
+        saveSource: function() {
+            this.data[this.currentSource.index] = this.currentSource;
+            var fs = require('fs');
+            fs.writeFileSync('localstore/feed-library.json', JSON.stringify( { sources: this.data } ));
+        }
+    });
+
+  </script>
+
+</polymer-element>

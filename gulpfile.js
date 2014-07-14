@@ -9,8 +9,12 @@ gulp.task('downloadatomshell', function(cb){
     }, cb);
 });
 
-gulp.task('dev', shell.task([
-    'binaries/atom client'
-]))
+gulp.task('demo', shell.task([
+    'binaries/atom client true'
+]));
+
+gulp.task('democ', shell.task([
+    'binaries/atom client true components/' + gulp.env.comp + '/demo.html'
+]));
 
 gulp.task('default', ['downloadatomshell']);

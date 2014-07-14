@@ -1,0 +1,31 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,900,300,500);
+
+.item {
+    box-sizing: border-box;
+    height: 80px;
+    border-bottom: 1px solid #ddd;
+    padding: 4px;
+    cursor: default;
+    background-color: #5df8ff;
+    overflow: hidden;
+
+    padding-left: 15px;
+    padding-top: 20px;
+}
+
+.item .label {
+    color: white;
+    font-family: 'Roboto';
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 2px 2px #005178;
+
+}
+
+.item:hover {
+    background-color: #71fdff;
+}
+
+#description {
+    width: 100%;
+}

@@ -21,7 +21,24 @@ app.on('ready', function() {
     mainWindow = new BrowserWindow({width: 800, height: 800});
 
     // and load the index.html of the app.
-    mainWindow.loadUrl('file://' + __dirname + '/index.html');
+
+    var startpage = 'index.html';
+    var devmode = false;
+
+    if (process.argv.length >= 4) {
+        console.log(process.argv[3]);
+        startpage = process.argv[3];
+    }
+
+    if (process.argv.length >= 3 ) {
+        devmode = Boolean(process.argv[2]);
+    }
+
+    mainWindow.loadUrl('file://' + __dirname + '/' + startpage );
+
+    if (devmode) {
+        mainWindow.openDevTools();
+    }
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {

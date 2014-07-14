@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../sa-mainmenu/sa-mainmenu.html">
 <link rel="import" href="../sa-libraryview/sa-libraryview.html">
+<link rel="import" href="../sa-sourcesadmin/sa-sourcesadmin.html">
 <link rel="import" href="../core-style/core-style.html">
 <link rel="import" href="../core-animated-pages/core-animated-pages.html">
 
@@ -28,26 +29,36 @@ Element providing solution to no problem in particular.
         <div class="content">
 
             <core-animated-pages transitions="cross-fade-all" selected="{{selected}}">
+
+                <!-- Play Tab -->
                 <section>
                     <div layout vertical center center-justified style="background:red;">
                         <sa-libraryview></sa-libraryview>
                     </div>
                 </section>
+
+                <!-- Library Tab -->
                 <section>
                     <div layout vertical center center-justified style="background:blue;">
                         <div>2</div>
                     </div>
                 </section>
+
+                <!-- Sources Tab -->
                 <section>
                     <div layout vertical center center-justified style="background:purple;">
-                        <div>3</div>
+                        <sa-sourcesadmin></sa-sourcesadmin>
                     </div>
                 </section>
+
+                <!-- Tasks Tab -->
                 <section>
                     <div layout vertical center center-justified style="background:orange;">
                         <div>4</div>
                     </div>
                 </section>
+
+                <!-- ?? Tab -->
                 <section>
                     <div layout vertical center center-justified style="background:green;">
                         <div>5</div>
