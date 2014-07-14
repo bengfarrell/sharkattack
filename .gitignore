@@ -2,9 +2,10 @@ config.json
 private
 localstore
 
+client/components/polymer
+client/components/font-roboto
 client/components/core-*
 client/components/paper-*
-client/components/polymer-*
 client/components/platform
 
 .idea
