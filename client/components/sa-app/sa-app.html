@@ -1,9 +1,11 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-style/core-style.html">
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+
 <link rel="import" href="../sa-mainmenu/sa-mainmenu.html">
 <link rel="import" href="../sa-libraryview/sa-libraryview.html">
 <link rel="import" href="../sa-sourcesadmin/sa-sourcesadmin.html">
-<link rel="import" href="../core-style/core-style.html">
-<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../sa-playmedia/sa-playmedia.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -33,14 +35,14 @@ Element providing solution to no problem in particular.
                 <!-- Play Tab -->
                 <section>
                     <div layout vertical center center-justified style="background:red;">
-                        <sa-libraryview></sa-libraryview>
+                        <sa-playmedia></sa-playmedia>
                     </div>
                 </section>
 
                 <!-- Library Tab -->
                 <section>
                     <div layout vertical center center-justified style="background:blue;">
-                        <div>2</div>
+                        <sa-libraryview></sa-libraryview>
                     </div>
                 </section>
 
