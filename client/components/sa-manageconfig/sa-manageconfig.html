@@ -1,0 +1,132 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-slider/paper-slider.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <sa-manageconfig></sa-manageconfig>
+
+@element sa-manageconfig
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://bengfarrell.github.io/sa-manageconfig
+-->
+<polymer-element name="sa-manageconfig" attributes="notitle">
+
+  <template>
+
+    <link rel="stylesheet" href="sa-manageconfig.css" />
+
+    <content>
+
+        <paper-button label="revert" raisedButton on-click="{{load}}"></paper-button>
+        <paper-button label="save" raisedButton on-click="{{save}}"></paper-button>
+
+        <h3>File/Media Locations</h3>
+        <template bind="{{config.locations}}">
+            <paper-input label="library" floatingLabel value="{{libraryLocation}}"></paper-input>
+            <paper-input label="media" floatingLabel value="{{mediaLocation}}"></paper-input>
+            <paper-input label="interstitialsl" floatingLabel value="{{interstitialLocation}}"></paper-input>
+            <paper-input label="shows" floatingLabel value="{{showLocation}}"></paper-input>
+            <paper-input label="zip output" floatingLabel value="{{zipOutputLocation}}"></paper-input>
+        </template>
+
+        <h3>Email Settings</h3>
+        <template bind="{{config.email}}">
+            <!-- Only Gmail for now <paper-input label="service" floatingLabel value="{{service}}"></paper-input> -->
+            <paper-input label="user" floatingLabel value="{{auth.user}}"></paper-input>
+            <paper-input label="password" floatingLabel value="{{auth.pass}}"></paper-input>
+        </template>
+
+        <h3>FTP Settings</h3>
+        <template bind="{{config.ftpauth}}">
+            <paper-input label="host" floatingLabel value="{{host}}"></paper-input>
+            <paper-input label="username" floatingLabel value="{{username}}"></paper-input>
+            <paper-input label="password" floatingLabel value="{{password}}"></paper-input>
+            <paper-input label="port" floatingLabel value="{{port}}"></paper-input>
+        </template>
+
+        <h3>Google Analytics</h3>
+        <template bind="{{config.googleAnalytics}}">
+            <paper-input label="account" floatingLabel value="{{account}}"></paper-input>
+            <paper-input label="username" floatingLabel value="{{username}}"></paper-input>
+            <paper-input label="password" floatingLabel value="{{password}}"></paper-input>
+
+            <div>Days to look back</div>
+            <paper-slider min="0" max="365" value="{{daysToLookBack}}" editable></paper-slider>
+        </template>
+
+        <h3>SoundCloud</h3>
+        <template bind="{{config.soundcloud}}">
+            <paper-input label="client ID" floatingLabel value="{{clientID}}"></paper-input>
+        </template>
+
+    </content>
+
+  </template>
+
+  <script>
+
+    Polymer('sa-manageconfig', {
+      /**
+       * The `noevent` event is not actually fired from here,
+       * we document it as an example of documenting events.
+       *
+       * @event noevent
+       */
+
+      /**
+       * The `notitle` attribute does not yet have a purpose.
+       *
+       * @attribute notitle
+       * @type string
+       */
+      notitle: '',
+
+      /**
+       * The `aProp` is a property that does something cool.
+       *
+       * @property aProp
+       * @type bool
+       */
+      aProp: false,
+
+      ready: function() {
+         this.load();
+      },
+
+      /**
+       * save our config
+       */
+      save: function() {
+          var fs = require('fs');
+          fs.writeFileSync('localstore/config.json', JSON.stringify(this.config, undefined, 2 ));
+      },
+
+      /**
+       * load the config
+       */
+      load: function() {
+          var fs = require('fs');
+          this.config = JSON.parse(fs.readFileSync('localstore/config.json'));
+      },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      task: function(dummy) {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>
