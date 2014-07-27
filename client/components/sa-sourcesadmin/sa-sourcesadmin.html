@@ -134,7 +134,7 @@ Element providing solution to no problem in particular.
         saveSource: function() {
             this.data[this.currentSource.index] = this.currentSource;
             var fs = require('fs');
-            fs.writeFileSync('localstore/feed-library.json', JSON.stringify( { sources: this.data } ));
+            fs.writeFileSync('localstore/feed-library.json', JSON.stringify( { sources: this.data }, undefined, 2 ));
         }
     });
 
