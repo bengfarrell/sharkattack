@@ -38,7 +38,7 @@ Element providing solution to no problem in particular.
 
             <paper-input label="label" floatingLabel value="{{currentSource.label}}"></paper-input>
 
-            <paper-input label="id" floatingLabel value="{{currentSource.id}}"></paper-input>
+            <paper-input label="id" floatingLabel value="{{currentSource.id }}"></paper-input>
 
             <paper-input label="feed url" floatingLabel value="{{currentSource.url}}"></paper-input>
 
@@ -47,10 +47,13 @@ Element providing solution to no problem in particular.
             <core-input id="description" label="description" floatingLabel multiline rows="4" value="{{currentSource.description}}"></core-input>
 
             <div>Maximum age of media (in days)</div>
-            <paper-slider min="0" max="365" value="{{currentSource.maxAge}}" editable></paper-slider>
+            <paper-slider min="0" max="365" value="{{currentSource.maxAge | toInteger }}" editable></paper-slider>
 
             <div>Maximum duration of media (in seconds)</div>
-            <paper-slider min="0" max="3600" value="{{currentSource.maxDuration}}" editable></paper-slider>
+            <paper-slider min="0" max="3600" value="{{currentSource.maxDuration | toInteger }}" editable></paper-slider>
+
+            <div>Maximum number of items to keep in library</div>
+            <paper-slider min="1" max="100" value="{{ currentSource.maxItems | toInteger }}" editable></paper-slider>
 
             <div>Type of source</div>
             <paper-radio-group selected="{{currentSource.type}}">
@@ -71,28 +74,10 @@ Element providing solution to no problem in particular.
 
     Polymer('sa-sourcesadmin', {
         /**
-        * The `noevent` event is not actually fired from here,
-        * we document it as an example of documenting events.
-        *
-        * @event noevent
-        */
-
-        /**
-        * The `notitle` attribute does not yet have a purpose.
-        *
-        * @attribute notitle
-        * @type string
-        */
-        notitle: '',
-
-        /**
-        * The `aProp` is a property that does something cool.
-        *
-        * @property aProp
-        * @type bool
-        */
-        aProp: false,
-
+         * on ready
+         *
+         * @method ready
+         */
         ready: function() {
             var fs = require('fs');
             var srcsdata = fs.readFileSync('localstore/feed-library.json');
@@ -103,18 +88,29 @@ Element providing solution to no problem in particular.
         },
 
         /**
-        * The `task` method does no work at this time.
-        *
-        * @method task
-        * @return {Object} Returns undefined.
-        * @param {String} dummy Serves no purpose today.
-        */
-        task: function(dummy) {
+         * filter to bind as integer
+         *
+         * @property to integer
+         * @type object
+         */
+        toInteger: {
+            toDOM: function(value) {
+                if (value) {
+                    return value.toString();
+                } else { return ""; }
+            },
+            toModel: function(value) {
+                if (value) {
+                    return parseInt(value);
+                } else { return 0 }
+            }
         },
 
         /**
-         * click item/source and launch dialog
-         * @param event
+         * on item click
+         *
+         * @method on item click
+         * @param {Object} event
          */
         onItemClick: function(event) {
           var self = this;
@@ -130,6 +126,8 @@ Element providing solution to no problem in particular.
 
         /**
          * save source after confirming save from dialog
+         *
+         * @method save source
          */
         saveSource: function() {
             this.data[this.currentSource.index] = this.currentSource;
