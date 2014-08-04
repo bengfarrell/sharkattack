@@ -1,4 +1,5 @@
-var mediainfo = require('mediainfo');
+var child_process = require("child_process");
+var xml2js = require('xml2js');
 var path = require('path');
 var FileUtils = require('../../utils/File.js');
 
@@ -28,20 +29,40 @@ function GetMediaInfo(asset, cb, config) {
             return;
         }
 
-        if (info && info[0]) {
-            self.logging("GetMediaInfo", "Resolved " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
-            if (info[0].album) { asset.album = info[0].album; }
-            if (info[0].track_name) { asset.title = info[0].track_name; }
-            if (info[0].performer) { asset.artist = info[0].performer; }
-            if (info[0].track_name && info[0].performer) {
-                asset.label = info[0].track_name + " - " + info[0].performer;
-            }
-            if (info[0].recorded_date) { asset.recordingDate = info[0].recorded_date; }
-            if (info[0].duration) { asset.duration = self._parseDuration(info[0].duration); }
+        if (info && info.File && info.File.track && info.File.track.length) {
+            info.File.track.forEach(function (track) {
+                self.logging("GetMediaInfo", "Resolved " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
+                if (track.Album) {
+                    asset.album = track.Album;
+                }
+                if (track.Track_name) {
+                    asset.title = track.Track_name;
+                }
+                if (track.Performer) {
+                    asset.artist = track.Performer;
+                }
+                if (track.Track_name && track.Performer) {
+                    asset.label = track.Track_name + " - " + track.Performer;
+                }
+                if (track.Recorded_date) {
+                    asset.recordingDate = track.Recorded_date;
+                }
+                if (track.Duration) {
+                    asset.duration = self._parseDuration(track.Duration);
+                }
 
-            // todo: proper audio bitrate for videos
-            if (info[0].overall_bit_rate) { asset.bitrate = info[0].overall_bit_rate; }
+                // todo: proper audio bitrate for videos
+                if (track.Overall_bit_rate) {
+                    asset.bitrate = track.Overall_bit_rate;
+                }
+            });
+        } else {
+            var e = new Error("Could not get Media Info for " + asset.filename);
+            self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
+            cb(e);
+            return;
         }
+
         cb();
     }
 
@@ -79,7 +100,7 @@ function GetMediaInfo(asset, cb, config) {
         return ttl;
     }
 
-    var ref = FileUtils.prototype.getMediaFileRef(config.mediaDirectory + path.sep + asset.filename);
+    var ref = FileUtils.prototype.getMediaFileRef(config.locations.mediaLocation + path.sep + asset.filename);
 
     if (ref == null) {
         var e = new Error("Resolve File Download Error, File does not exist: " + asset.filename);
@@ -87,7 +108,13 @@ function GetMediaInfo(asset, cb, config) {
         cb(e);
         return;
     } else {
-        mediainfo(ref, self._onMediaInfo);
+        child_process.execFile("mediainfo", ["--Output=XML"].concat(ref), function(err, stdout, stderr) {
+            var parser = new xml2js.Parser();
+            parser.addListener('end', function(result) {
+                self._onMediaInfo(null, result);
+            });
+            var info = parser.parseString(stdout);
+        });
     }
 }
 
