@@ -1,0 +1,7 @@
+{
+  "name": "sharkattack",
+  "version": "2.0.0",
+  "dependencies": {
+    "posh-starter": "https://github.com/theposhery/posh-starter.git#v0.1"
+  }
+}

@@ -1,0 +1,67 @@
+[
+	{
+		"label": "www.youtube.mp3",
+		"description": "Scraped from Page",
+		"link": "http://theneedledrop.com/category/mp3/",
+		"page": "http://theneedledrop.com/category/mp3/",
+		"media": "https://www.youtube.com/watch?v=L9wLrAtcd6Y",
+		"filename": "L9wLrAtcd6Y",
+		"assetType": "video",
+		"mediatype": "youtube",
+		"publisher": "youtube",
+		"source": "Reddit New Music",
+		"sourceid": "kxpsotd"
+	},
+	{
+		"label": "www.youtube.mp3",
+		"description": "Scraped from Page",
+		"link": "http://theneedledrop.com/category/mp3/",
+		"page": "http://theneedledrop.com/category/mp3/",
+		"media": "https://www.youtube.com/watch?v=aUClt-ivlH0",
+		"filename": "aUClt-ivlH0",
+		"assetType": "video",
+		"mediatype": "youtube",
+		"publisher": "youtube",
+		"source": "Reddit New Music",
+		"sourceid": "kxpsotd"
+	},
+	{
+		"label": "www.youtube.mp3",
+		"description": "Scraped from Page",
+		"link": "http://theneedledrop.com/category/mp3/",
+		"page": "http://theneedledrop.com/category/mp3/",
+		"media": "uf",
+		"filename": "t-Y2y7WcfGQ",
+		"assetType": "video",
+		"mediatype": "youtube",
+		"publisher": "youtube",
+		"source": "Reddit New Music",
+		"sourceid": "kxpsotd"
+	},
+	{
+		"label": "www.youtube.mp3",
+		"description": "Scraped from Page",
+		"link": "http://theneedledrop.com/category/mp3/",
+		"page": "http://theneedledrop.com/category/mp3/",
+		"media": "https://www.youtube.com/watch?v=BkehXdTfF38",
+		"filename": "BkehXdTfF38",
+		"assetType": "video",
+		"mediatype": "youtube",
+		"publisher": "youtube",
+		"source": "Reddit New Music",
+		"sourceid": "kxpsotd"
+	},
+	{
+		"label": "www.youtube.mp3",
+		"description": "Scraped from Page",
+		"link": "http://theneedledrop.com/category/mp3/",
+		"page": "http://theneedledrop.com/category/mp3/",
+		"media": "https://www.youtube.com/watch?v=aspbCJ68zqY",
+		"filename": "aspbCJ68zqY",
+		"assetType": "video",
+		"mediatype": "youtube",
+		"publisher": "youtube",
+		"source": "Reddit New Music",
+		"sourceid": "kxpsotd"
+	}
+]

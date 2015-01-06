@@ -1,0 +1,13 @@
+{
+    "sources": [
+            {
+                "label": "Reddit New Music",
+                "type": "webpage",
+                "url": "http://theneedledrop.com/category/mp3/",
+                "page": "http://theneedledrop.com/category/mp3/",
+                "description": "KEXP is more than a radio station. KEXP is a dynamic arts organization that provides rich music experiences on the air, online, and on the streets. KEXPs unique services benefit three distinct groups: Music Lovers, Artists, and the Arts Community. KEXPs curatorial staff of 40 DJs, who are widely recognized as experts in their field, present the newest emerging popular artists alongside established bands. KEXPs programming features both variety and specialty shows that brings you the emerging sounds and long-time favorites from the Pacific Northwest, the country, and throughout the world.",
+                "id": "kxpsotd",
+                "thumb": "http://www.blastanova.com/images/kxpsotd.jpg"
+            }
+      ]
+}

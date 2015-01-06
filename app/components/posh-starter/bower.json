@@ -1,0 +1,19 @@
+{
+  "name": "posh-sample",
+  "version": "0.1.0",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "posh-sample.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.4.0",
+    "polymer": "~0.4.2",
+    "paper-input": "polymer/paper-input#~0.4.2",
+    "paper-button": "polymer/paper-button#~0.4.2",
+    "paper-checkbox": "polymer/paper-checkbox#~0.4.2",
+    "core-list": "polymer/core-list#~0.4.2",
+    "core-ajax": "polymer/core-ajax#~0.4.2"
+  }
+}
