@@ -23,7 +23,7 @@ function GetMediaInfo(asset, cb, config) {
         var resolved = {};
 
         if (error) {
-            var e = new Error("Could not get Media Info for " + asset.filename);
+            var e = new Error("Could not get Media Info for " + asset.filename + " (" + error.toString() + ")");
             self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
             cb(e);
             return;
@@ -100,7 +100,11 @@ function GetMediaInfo(asset, cb, config) {
         return ttl;
     }
 
-    var ref = FileUtils.prototype.getMediaFileRef(config.locations.mediaLocation + path.sep + asset.filename);
+    var srcid;
+    if (asset.source && asset.source.id) { srcid = asset.source.id; }
+    if (asset.sourceid) { srcid = asset.sourceid; }
+
+    var ref = FileUtils.prototype.getMediaFileRef(config.mediaDirectory + path.sep + srcid + path.sep + asset.filename);
 
     if (ref == null) {
         var e = new Error("Resolve File Download Error, File does not exist: " + asset.filename);
@@ -108,7 +112,7 @@ function GetMediaInfo(asset, cb, config) {
         cb(e);
         return;
     } else {
-        child_process.execFile("mediainfo", ["--Output=XML"].concat(ref), function(err, stdout, stderr) {
+        child_process.execFile(config.mediaInfoExecutable, ["--Output=XML"].concat(ref), function(err, stdout, stderr) {
             var parser = new xml2js.Parser();
             parser.addListener('end', function(result) {
                 self._onMediaInfo(null, result);

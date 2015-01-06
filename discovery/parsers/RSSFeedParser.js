@@ -41,7 +41,7 @@ function RSSFeedParser(source, cb, cfg) {
         var items = self.ip.parseItem(item);
         // if no links found, visit the blog to scrape
         if (items.length == 0 && item.link) {
-            self.webscrapeQueue.push(item.link);
+            //self.webscrapeQueue.push(item.link);
             return;
         }
 

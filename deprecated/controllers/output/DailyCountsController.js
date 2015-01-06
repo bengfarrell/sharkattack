@@ -2,7 +2,7 @@ var fs = require("fs"),
     util = require('util'),
     mongo = require('mongodb'),
     FileUtils = require('../../utils/File.js')
-FilterLibrary = require('./../../package/FilterLibrary.js');
+FilterLibrary = require('./../.././FilterLibrary.js');
 
 function DailyCountsController() {
     var self = this;

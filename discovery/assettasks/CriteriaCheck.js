@@ -54,12 +54,12 @@ function CriteriaCheck(config) {
      * @returns {boolean}
      */
     this.overDuration = function(asset) {
-        if (!asset.duration) { return false; } // unknown duration - pass for now
-        if (!asset.source.maxDuration) { return false; } // no duration limit - pass
-        if (asset.source.maxDuration > asset.duration) { return false; } // duration check passes
+        if (!asset.duration) { return true; } // unknown duration - pass for now
+        if (!asset.source.maxDuration) { return true; } // no duration limit - pass
+        if (asset.source.maxDuration > asset.duration) { return true; } // duration check passes
 
        self.logging("Criteria Check", "Asset " + asset.media + " is over duration at " + asset.duration + " compared to " + asset.source.maxDuration , { date: new Date(), level: "verbose", asset: asset });
-        return true;
+        return false;
     }
 
 
@@ -69,7 +69,7 @@ function CriteriaCheck(config) {
      * @returns {boolean}
      */
     this.isBlacklisted = function(asset) {
-        db.connectSync('assets/blacklisted/' + asset.sourceid);
+        db.connectSync('assets/blacklisted/' + asset.source.id);
         var result = db.find(asset.media);
         if (!result) { return false; } // not blacklisted: pass
 

@@ -8,6 +8,14 @@ client/components/core-*
 client/components/paper-*
 client/components/platform
 
+app/components/polymer
+app/components/font-roboto
+app/components/core-*
+app/components/paper-*
+app/components/platform
+
+libs/*.exe
+
 .idea
 _temp
 binaries

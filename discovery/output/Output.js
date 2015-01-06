@@ -1,6 +1,7 @@
 var AssetMetadata = require('./AssetMetadataFormatter');
 var SourceMetadata = require('./SourceMetadataFormatter');
 var Database = require('../../utils/Database');
+var path = require('path');
 var fs = require('fs');
 
 function Output(data, config) {
@@ -31,7 +32,7 @@ function Output(data, config) {
                 var isFailure = a._$flow.failure;
                 var asset = AssetMetadata.prototype.apply(a,src);
                 if (isFailure) {
-                    failedAssets.push(asset);
+                    self.failedAssets.push(asset);
                     self.db.connectSync('assets/blacklisted/' + asset.sourceid);
                     self.db.insert(asset.media, asset);
                 } else {
@@ -49,6 +50,9 @@ function Output(data, config) {
 
     // write library file
     if (config.libLocation) {
+        if (!fs.existsSync(path.dirname(config.libLocation))){
+            fs.mkdirSync(path.dirname(config.libLocation));
+        }
         fs.writeFileSync(config.libLocation, JSON.stringify(self.lib, undefined, 2));
     }
 

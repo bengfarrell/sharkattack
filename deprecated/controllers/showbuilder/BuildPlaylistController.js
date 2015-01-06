@@ -2,8 +2,8 @@ var Log = require('../../utils/Log.js'),
     AssetUtils = require('../../utils/AssetsLibrary.js');
     Time = require('../../utils/Time.js'),
     File = require('../../utils/File.js'),
-    Playlist = require('../../package/Playlist.js'),
-    FilterLibrary = require('./../../package/FilterLibrary.js');
+    Playlist = require('../.././Playlist.js'),
+    FilterLibrary = require('./../.././FilterLibrary.js');
 
 function BuildPlaylistController() {
     var self = this;

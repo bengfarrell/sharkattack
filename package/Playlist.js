@@ -1,4 +1,3 @@
-var Log = require('./../deprecated/Log.js');
 var Time = require('../utils/Time.js');
 
 function Playlist(assets) {
@@ -34,7 +33,9 @@ function Playlist(assets) {
             }
 
             var localPath = this.assets[c].filename;
-
+            if (this.assets[c].audioTranscodeFilename) {
+                localPath = this.assets[c].audioTranscodeFilename;
+            }
             //var src = this._findSourceFromLibrary(this.assets[c].sourceid);
             output += "<br />\r\n";
 
@@ -49,7 +50,7 @@ function Playlist(assets) {
                 label = this.assets[c].label;
             }
             output += "<div class='tracklabel'><strong>" + label + "</strong> (" + Time.prototype.formatToString(dur) + ")</div>\r\n";
-            output += "<div class='tracksource'>" + this.assets[c].source + "</div>\r\n";
+            output += "<div class='tracksource'>" + this.assets[c].sourceid + "</div>\r\n";
             output += "</div>\r\n";
             output += "\r\n";
 
@@ -76,8 +77,11 @@ function Playlist(assets) {
             }
 
             var localPath = this.assets[c].filename;
+            if (this.assets[c].audioTranscodeFilename) {
+                localPath = this.assets[c].audioTranscodeFilename;
+            }
             output += "\r\n";
-            output += "#EXTINF:" + dur + "," + this.assets[c].source + " :: " + this.assets[c].label;
+            output += "#EXTINF:" + dur + "," + this.assets[c].sourceid + " :: " + this.assets[c].label;
             output += "\r\n";
             output += localPath;
         }

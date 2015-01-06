@@ -1,7 +1,7 @@
 var fs = require("fs"),
     util = require('util'),
     FileUtils = require('../../utils/File.js')
-    FilterLibrary = require('./../../package/FilterLibrary.js');
+    FilterLibrary = require('./../.././FilterLibrary.js');
 
 function LibraryOutputController() {
     var self = this;

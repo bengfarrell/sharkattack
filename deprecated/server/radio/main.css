@@ -1,0 +1,47 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700);
+
+body.sharkApp {
+    padding-top: 60px;
+    font-family: Roboto;
+}
+
+.content {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+audio {
+    margin-top: 15px;
+}
+
+.sharkheader {
+    padding-right: 15px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul li {
+    padding: 10px;
+    font-size: 14px;
+    color: #2a5a5a;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #aeaeae;
+    background-color: #eaeaea;
+}
+
+ul li:first-child {
+    font-size: 18px;
+    padding: 15px;
+    font-weight: bold;
+    background-color: #eae5c3;
+}
+
+ul li .duration {
+    float: right;
+    margin-top: -30px;
+}

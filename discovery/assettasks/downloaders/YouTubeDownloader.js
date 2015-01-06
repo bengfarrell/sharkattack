@@ -70,9 +70,11 @@ function YouTubeDownloader(asset, cb, cfg) {
      */
     this._onComplete = function(data) {
         // rename file to something thats expected by the original input (we can't get filenames all the time if we skip downloads when file exists)
-        var ext = FileUtils.prototype.getExtension(self.downloadfilename);
-        fs.renameSync(cfg.mediaDirectory + path.sep + self.downloadfilename, cfg.mediaDirectory + path.sep + asset.filename + "." + ext);
-        asset.filename = asset.filename + "." + ext;
+        if (self.downloadfilename) {
+            var ext = FileUtils.prototype.getExtension(self.downloadfilename);
+            fs.renameSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + self.downloadfilename, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename + "." + ext);
+            asset.filename = asset.filename + "." + ext;
+        }
         self.logging("Youtube Download", "Complete " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
         cb();
     }
@@ -93,10 +95,14 @@ function YouTubeDownloader(asset, cb, cfg) {
     }
 
 
-    var existsAs = this._doesExist(cfg.mediaDirectory, asset.filename);
+    var existsAs = this._doesExist(cfg.mediaDirectory + path.sep + asset.source.id, asset.filename);
     if ( existsAs === "") {
+        if (!fs.existsSync(cfg.mediaDirectory + path.sep + asset.source.id)) {
+            fs.mkdirSync(cfg.mediaDirectory + path.sep + asset.source.id);
+        }
+
         this._downloader = null;
-        this._downloader = spawn("youtube-dl",[asset.media], { cwd: cfg.mediaDirectory }).on('error', this._onError);
+        this._downloader = spawn(path.resolve(cfg.youtubedlExecutable),[asset.media], { cwd: path.resolve(cfg.mediaDirectory + path.sep + asset.source.id) }).on('error', this._onError);
         this._downloader.stderr.on('data', this._onErrorData);
         this._downloader.on('exit', this._onComplete);
         this._downloader.stdout.setEncoding('utf8');
@@ -104,7 +110,7 @@ function YouTubeDownloader(asset, cb, cfg) {
         this._downloader.stdout.pipe(line);
         line.on('data', this._onLineOutput);
 
-        this.logging("Youtube Download", "Now Downloading " + asset.media, { date: new Date(), level: "verbose", asset: asset });
+        this.logging("Youtube Download", "Now Downloading " + asset.media + " into " + path.resolve(cfg.mediaDirectory + path.sep + asset.source.id), { date: new Date(), level: "verbose", asset: asset });
     } else {
         asset.filename = existsAs;
         this.logging("Youtube Download", "File exists - " + asset.media, { date: new Date(), level: "verbose", asset: asset });

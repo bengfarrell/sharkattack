@@ -30,9 +30,9 @@ function LinkDownloader(asset, cb, cfg) {
     asset._$dl.percentDownloaded = 0;
 
     // check if the file already exists
-    if (fs.existsSync(cfg.mediaDirectory + path.sep + asset.filename)) {
+    if (fs.existsSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename)) {
         asset._$dl.percentDownloaded = 100;
-        asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.filename;
+        asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename;
         asset._$dl.totalBytes = fs.statSync(asset._$dl.localPath).size;
         self.logging("LinkDownloader", "File already exists " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
         cb();
@@ -65,23 +65,23 @@ function LinkDownloader(asset, cb, cfg) {
 
         if (resp.statusCode < 200 || resp.statusCode >= 300) {
             asset._$dl.percentDownloaded = 0;
-            asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.filename;
+            asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename;
             asset._$dl.totalBytes = 0;
-            self.logging("LinkDownloader", "Error status code of " + res.statusCode, { date: new Date(), level: "error", asset: asset, error: resp.statusCode });
+            self.logging("LinkDownloader", "Error status code of " + resp.statusCode, { date: new Date(), level: "error", asset: asset, error: resp.statusCode });
             cb();
             return;
         }
 
-        if (!fs.existsSync(cfg.mediaDirectory)) {
-            fs.mkdirSync(cfg.mediaDirectory);
+        if (!fs.existsSync(cfg.mediaDirectory + path.sep + asset.source.id)) {
+            fs.mkdirSync(cfg.mediaDirectory + path.sep + asset.source.id);
         }
 
-        end = fs.createWriteStream(cfg.mediaDirectory + path.sep + asset.filename);
+        end = fs.createWriteStream(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename);
         req.pipe(end);
 
         end.on('close', function () {
             asset._$dl.percentDownloaded = 100;
-            asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.filename;
+            asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename;
             asset._$dl.totalBytes = fs.statSync(asset._$dl.localPath).size;
             self.logging("LinkDownloader", "Downloaded file " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
             cb();
@@ -99,7 +99,7 @@ function LinkDownloader(asset, cb, cfg) {
 
     req.on('error', function (error) {
         asset._$dl.percentDownloaded = 0;
-        asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.filename;
+        asset._$dl.localPath = cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename;
         asset._$dl.totalBytes = 0;
         self.logging("LinkDownloader", "Error: " + error.toString(), { date: new Date(), level: "error", asset: asset, error: error });
         cb();

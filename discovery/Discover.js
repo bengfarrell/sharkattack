@@ -8,6 +8,7 @@ var Database = require('../utils/Database');
 var Output = require('./output/Output');
 var events = require("events");
 var util = require('util');
+var fs = require('fs');
 
 function Discover(config) {
     var self = this;
@@ -26,9 +27,6 @@ function Discover(config) {
 
     /** asset library */
     var lib = {};
-
-    /** asset failures */
-    var failedItems = [];
 
     /** asset flow/steps for completing discovery */
     var assetFlow = [
@@ -50,6 +48,9 @@ function Discover(config) {
      * @param sources
      */
     this.run = function(data) {
+        if (typeof data === "string") {
+            data = JSON.parse(fs.readFileSync(data));
+        }
         data.sources.forEach( function (src) {
             // track number of items vs desired max items, and put extra items in an overflow array
             src.numItems = 0;
@@ -58,6 +59,7 @@ function Discover(config) {
             q.add(src, self.loadFeedSource, self.onSourceLoaded, true);
         });
         lib = data;
+        self.logging("Discover", "Running Feed Queue", { date: new Date(), level: "verbose" });
         q.run(self.onComplete);
     }
 
@@ -67,7 +69,7 @@ function Discover(config) {
      */
     this.handleAssetFlow = function(asset) {
         if (!crit.isPassing(asset)) {
-            asset._$flow.failure = false;
+            asset._$flow.failure = true;
         }
 
         if (asset._$flow.failure == true) {
@@ -128,12 +130,17 @@ function Discover(config) {
      */
     this.loadFeedSource = function(src, cb) {
         new Parser(src, function(items) {
+            self.logging("Discover", items.length + " items found in " + src.label, { date: new Date(), level: "verbose", source: src });
             items.forEach(function(i) {
                 i._$flow = {};
                 i._$flow.steps = assetFlow;
                 i._$flow.currentStep = 0;
                 i._$flow.failure = false;
                 i.source = src;
+
+                if (!src.maxItems) {
+                    self.logging("Discover", "Max items is not defined, so no items will be added: " + src.label, { date: new Date(), level: "warning" });
+                }
 
                 if (i.media && src.numItems < src.maxItems) {
                     src.numItems ++;
@@ -165,8 +172,7 @@ function Discover(config) {
     /**
      * sources complete
      */
-    this.onSourceLoaded = function() {
-    }
+    this.onSourceLoaded = function() {}
 
     /**
      * on complete

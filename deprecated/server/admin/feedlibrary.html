@@ -1,0 +1,83 @@
+<html ng-app="app">
+    <head>
+        <title>SharkAttack Administration</title>
+        <script type="text/javascript" src="../jquery.min.js"></script>
+        <script src="../angular.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <link rel="stylesheet" type="text/css" media="all" href="../bootstrap/css/bootstrap.min.css">
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="js/app.js"></script>
+        <script src="js/controllers/SourcesController.js"></script>
+    </head>
+
+    <body class="sharkApp" ng-controller="SourcesController">
+        <ng-headernav name="Administration"></ng-headernav>
+        <div class="content" ng-controller="SourcesController">
+            <div class="list-group">
+                <div ng-repeat="src in sources" class="list-group-item hero-unit">
+                    <h1>{{src.label}}</h1>
+                    <label>
+                        Label
+                        <input type="text" class="form-control" ng-model="src.label" />
+                    </label>
+
+                    <label>
+                        ID
+                        <input type="text" class="form-control" ng-model="src.id" />
+                    </label>
+
+                    <label>
+                        Type
+                        <select ng-model="src.type" class="form-control">
+                            <option name="rss">rss</option>
+                            <option name="webpage">webpage</option>
+                            <option name="soundcloud">soundcloud</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Disabled
+                        <input type="checkbox" ng-model="src.disabled" />
+                    </label>
+
+                    <div class="well">
+                        <div class="img">
+                            <img src="{{src.thumb}}"/>
+                        </div>
+
+                        <div class="info">
+                            <p>
+                                Description
+                                <input type="text" class="form-control" ng-model="src.description" />
+                            </p>
+
+                            <p>
+                                Homepage
+                                <input type="text" class="form-control" ng-model="src.page" />
+                            </p>
+
+                            <p>
+                                Feed
+                                <input type="text" class="form-control" ng-model="src.url" />
+                            </p>
+
+                            <p>
+                                Thumb
+                                <input type="text" class="form-control" ng-model="src.thumb" />
+                            </p>
+                        </div>
+
+                    <a class="btn btn-danger itemtools" ng-click="app.deleteItem(sources, src)"><i class="icon-trash icon-white"></i> Delete</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="push"></div>
+        <nav class="navbar navbar-inverse sharkheader navbar-fixed-bottom">
+            <button type="button" ng-click="app.addItem(sources)" class="btn btn-primary navbar-btn">Add Source +</button>
+            <span class="navbar-text">{{sources.length}} total media sources</span>
+            <button type="button" ng-click="save()" class="btn btn-success navbar-btn">Save All</button>
+        </nav>
+    </body>
+</html>
