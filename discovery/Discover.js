@@ -19,6 +19,9 @@ function Discover(config) {
         this.logging = function(){};
     }
 
+    /** asset count */
+    var count = 0;
+
     /** database */
     var db = new Database(config);
 
@@ -80,7 +83,7 @@ function Discover(config) {
         asset._$flow.steps[asset._$flow.currentStep].success = true;
         asset._$flow.currentStep ++;
 
-        self.logging("Discover", "Flow step " + asset._$flow.steps[asset._$flow.currentStep].name + " for "  + asset.label, { date: new Date(), level: "verbose", asset: asset });
+        self.logging("Discover", "(" + asset._$flow.count + "/" + count + ") Flow step " + asset._$flow.steps[asset._$flow.currentStep].name + " for "  + asset.label, { date: new Date(), level: "verbose", asset: asset });
         switch (asset._$flow.steps[asset._$flow.currentStep].name) {
             case "download":
                 q.add(asset, function(asset, cb) {
@@ -159,6 +162,8 @@ function Discover(config) {
                         i.date = new Date(i.date).toUTCString();
                     }
 
+                    count ++;
+                    i._$flow.count = count;
                     self.handleAssetFlow(i, cb);
                     src.assets.push(i);
                 } else {
@@ -180,6 +185,7 @@ function Discover(config) {
     this.onComplete = function() {
         var out = new Output(lib, config);
         self.emit(Discover.prototype.COMPLETE, out);
+        self.logging("Discover", "Finished");
     }
 }
 

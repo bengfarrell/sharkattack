@@ -125,7 +125,7 @@ Element providing solution to no problem in particular.
     * @method refresh the song/asset library
     */
     refreshLibrary: function() {
-      this.discover.on(Discover.prototype.COMPLETE, function() { config.log("SharkAttack", "Discovery Finished"); });
+      this.discover.on(Discover.prototype.COMPLETE, function() { config.logging("SharkAttack", "Discovery Finished"); });
       this.discover.run('./localstore/feeds/feed-library.json');
     },
 
@@ -135,7 +135,7 @@ Element providing solution to no problem in particular.
       * @method create a show from the last library refresh run
       */
      createShow: function() {
-       var show = 'SA145';
+       var show = 'SA151';
        this.showbuilder.on(BuildShow.prototype.COMPLETE, function() { config.logging("SharkAttack", "Show " + show + " created" ); });
        this.showbuilder.run(show, 10800, './localstore/output.json');
      },
