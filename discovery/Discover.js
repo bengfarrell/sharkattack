@@ -133,7 +133,13 @@ function Discover(config) {
      */
     this.loadFeedSource = function(src, cb) {
         new Parser(src, function(items) {
-            self.logging("Discover", items.length + " items found in " + src.label, { date: new Date(), level: "verbose", source: src });
+            if (items) {
+                self.logging("Discover", items.length + " items found in " + src.label, { date: new Date(), level: "verbose", source: src });
+            } else {
+                self.logging("Discover", "Found no items in " + src.label, { date: new Date(), level: "verbose", source: src });
+                cb();
+                return;
+            }
             items.forEach(function(i) {
                 i._$flow = {};
                 i._$flow.steps = assetFlow;

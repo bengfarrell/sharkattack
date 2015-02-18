@@ -81,7 +81,7 @@ function RSSItemParser (config) {
                 }
             }
 
-            if (!duplicate) {
+            if (!duplicate && newitm.filename) {
                 itms.push(newitm);
             }
         }
