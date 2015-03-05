@@ -73,7 +73,7 @@ function YouTubeDownloader(asset, cb, cfg) {
         if (self.downloadfilename) {
             var ext = FileUtils.prototype.getExtension(self.downloadfilename);
             fs.renameSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + self.downloadfilename, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename + "." + ext);
-            asset.filename = asset.filename + "." + ext;
+            asset.filename = encodeURI(asset.filename) + "." + ext;
         }
         self.logging("Youtube Download", "Complete " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
         cb();
@@ -87,10 +87,10 @@ function YouTubeDownloader(asset, cb, cfg) {
      * @private
      */
     this._doesExist = function(outputdir, filename) {
-        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp4")) { return filename + ".mp4"; }
-        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".flv")) { return filename + ".flv"; }
-        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".webm")) { return filename + ".webm"; }
-        if (FileUtils.prototype.doesExist(outputdir + path.sep + filename + ".mp3")) { return "mp3"; }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + encodeURI(filename) + ".mp4")) { return encodeURI(filename) + ".mp4"; }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + encodeURI(filename) + ".flv")) { return encodeURI(filename) + ".flv"; }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + encodeURI(filename) + ".webm")) { return encodeURI(filename) + ".webm"; }
+        if (FileUtils.prototype.doesExist(outputdir + path.sep + encodeURI(filename) + ".mp3")) { return "mp3"; }
         return "";
     }
 
