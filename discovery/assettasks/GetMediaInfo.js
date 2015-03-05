@@ -80,7 +80,7 @@ function GetMediaInfo(asset, cb, config) {
         var hrs = 0;
 
         if (time.length < 2) {
-            Log.prototype.error("Resolve File Download", "Problem getting file duration");
+            self.logging("GetMediaInfo", "Problem getting file duration", { date: new Date(), level: "error", asset: asset, error: new Error("Problem getting file duration")});
             return 0;
         }
 

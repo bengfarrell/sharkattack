@@ -44,7 +44,7 @@ function Transcoder(asset, cb, config) {
             self.logging("Transcoder", "Transcoding Video: " + infile + " to " + outfile, { date: new Date(), level: "verbose", asset: asset });
             // todo: get original audio bitrate and use it for transcodes
 
-            ffmpeg.exec(["-i", infile, "-ab", "128k", outfile], config, self.onTranscodeAssetComplete);
+            ffmpeg.exec(["-i", infile, "-ab", "128k", "-map_metadata", "0", "-id3v2_version", "3", outfile], config, self.onTranscodeAssetComplete);
             break;
 
         // already in the format we need

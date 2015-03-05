@@ -4,6 +4,7 @@ var fs = require("fs"),
     events = require("events"),
     path = require('path'),
     split = require('event-stream').split,
+    ffmpeg = require('../ffmpeg-node.js'),
     FileUtils = require('../../../utils/File.js');
 
 /**
@@ -12,8 +13,7 @@ var fs = require("fs"),
  * @constructor
  */
 function YouTubeDownloader(asset, cb, cfg) {
-
-    var self = this;
+   var self = this;
 
     /** filename that youtube-dl uses */
     self.downloadfilename = "";
@@ -36,9 +36,16 @@ function YouTubeDownloader(asset, cb, cfg) {
     this._onLineOutput = function(data) {
         if (data.indexOf("[download] Destination: ") != -1) {
             // found destination file
-            self.downloadfilename = data.substr("[download] Destination: ".length, data.length);
-            self.logging("Youtube Download", "Destination file found: " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
+            var label = data.substr("[download] Destination: ".length, data.length);
+            self.downloadfilename = label;
 
+            var filenameIndex = label.indexOf('-' + asset.filename);
+            if (filenameIndex > 0) {
+                label = label.substr(0, filenameIndex);
+            }
+            asset.label = label;
+
+            self.logging("Youtube Download", "Destination file found: " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
         }
         self.logging("Youtube Download", data.toString(), { date: new Date(), level: "verbose", asset: asset });
     }
@@ -75,8 +82,24 @@ function YouTubeDownloader(asset, cb, cfg) {
             fs.renameSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + self.downloadfilename, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename + "." + ext);
             asset.filename = encodeURI(asset.filename) + "." + ext;
         }
-        self.logging("Youtube Download", "Complete " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
-        cb();
+
+        if (asset.label) {
+            self.logging("Youtube Download", "Applying title metadata of " + asset.label + " to " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
+            ffmpeg.exec(["-i", cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename, "-y", "-acodec", "copy", "-vcodec", "copy", "-metadata", "title=" + asset.label, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + "temp-" + asset.filename], cfg, function(err) {
+                /*if (err) {
+                    self.logging("Youtube Download", "Applying title metadata of " + asset.label + " to " + asset.filename, { date: new Date(), level: "error", asset: asset });
+                    cb();
+                    return;
+                }*/
+                fs.unlinkSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename);
+                fs.renameSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + "temp-" + asset.filename, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename);
+                self.logging("Youtube Download", "Complete " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
+                cb();
+            });
+        } else {
+            self.logging("Youtube Download", "Complete " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
+            cb();
+        }
     }
 
     /**
