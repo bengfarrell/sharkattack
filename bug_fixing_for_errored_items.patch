@@ -1,0 +1,56 @@
+Index: app/components/sa-app/sa-app.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/components/sa-app/sa-app.html	(revision 1c9bb3a9f10b9c79770afdcafc3cd5a71b154d1f)
++++ app/components/sa-app/sa-app.html	(revision )
+@@ -135,7 +135,7 @@
+       * @method create a show from the last library refresh run
+       */
+      createShow: function() {
+-       var show = 'SA151';
++       var show = 'SA152';
+        this.showbuilder.on(BuildShow.prototype.COMPLETE, function() { config.logging("SharkAttack", "Show " + show + " created" ); });
+        this.showbuilder.run(show, 10800, './localstore/output.json');
+      },
+Index: discovery/parsers/RSSItemParser.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- discovery/parsers/RSSItemParser.js	(revision 1c9bb3a9f10b9c79770afdcafc3cd5a71b154d1f)
++++ discovery/parsers/RSSItemParser.js	(revision )
+@@ -81,7 +81,7 @@
+                 }
+             }
+ 
+-            if (!duplicate) {
++            if (!duplicate && newitm.filename) {
+                 itms.push(newitm);
+             }
+         }
+\ No newline at end of file
+Index: discovery/Discover.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- discovery/Discover.js	(revision 1c9bb3a9f10b9c79770afdcafc3cd5a71b154d1f)
++++ discovery/Discover.js	(revision )
+@@ -133,7 +133,13 @@
+      */
+     this.loadFeedSource = function(src, cb) {
+         new Parser(src, function(items) {
++            if (items) {
+-            self.logging("Discover", items.length + " items found in " + src.label, { date: new Date(), level: "verbose", source: src });
++                self.logging("Discover", items.length + " items found in " + src.label, { date: new Date(), level: "verbose", source: src });
++            } else {
++                self.logging("Discover", "Found no items in " + src.label, { date: new Date(), level: "verbose", source: src });
++                cb();
++                return;
++            }
+             items.forEach(function(i) {
+                 i._$flow = {};
+                 i._$flow.steps = assetFlow;
+\ No newline at end of file

@@ -76,21 +76,23 @@ function YouTubeDownloader(asset, cb, cfg) {
      * @private
      */
     this._onComplete = function(data) {
+        asset.filename = encodeURI(asset.filename);
+
         // rename file to something thats expected by the original input (we can't get filenames all the time if we skip downloads when file exists)
         if (self.downloadfilename) {
             var ext = FileUtils.prototype.getExtension(self.downloadfilename);
             fs.renameSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + self.downloadfilename, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename + "." + ext);
-            asset.filename = encodeURI(asset.filename) + "." + ext;
+            asset.filename = asset.filename + "." + ext;
         }
 
         if (asset.label) {
             self.logging("Youtube Download", "Applying title metadata of " + asset.label + " to " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
             ffmpeg.exec(["-i", cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename, "-y", "-acodec", "copy", "-vcodec", "copy", "-metadata", "title=" + asset.label, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + "temp-" + asset.filename], cfg, function(err) {
-                /*if (err) {
-                    self.logging("Youtube Download", "Applying title metadata of " + asset.label + " to " + asset.filename, { date: new Date(), level: "error", asset: asset });
+                if (err) {
+                    self.logging("Youtube Download", "Error Applying title metadata of " + asset.label + " to " + asset.filename, { date: new Date(), level: "error", asset: asset });
                     cb();
                     return;
-                }*/
+                }
                 fs.unlinkSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename);
                 fs.renameSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + "temp-" + asset.filename, cfg.mediaDirectory + path.sep + asset.source.id + path.sep + asset.filename);
                 self.logging("Youtube Download", "Complete " + asset.filename, { date: new Date(), level: "verbose", asset: asset });

@@ -126,7 +126,7 @@ Element providing solution to no problem in particular.
     */
     refreshLibrary: function() {
       this.discover.on(Discover.prototype.COMPLETE, function() { config.logging("SharkAttack", "Discovery Finished"); });
-      this.discover.run('./localstore/feeds/dev-feed-library.json');
+      this.discover.run('./localstore/feeds/feed-library.json');
     },
 
      /**
@@ -135,7 +135,7 @@ Element providing solution to no problem in particular.
       * @method create a show from the last library refresh run
       */
      createShow: function() {
-       var show = 'SA154';
+       var show = 'SA155';
        this.showbuilder.on(BuildShow.prototype.COMPLETE, function() { config.logging("SharkAttack", "Show " + show + " created" ); });
        this.showbuilder.run(show, 10800, './localstore/output.json');
      },
