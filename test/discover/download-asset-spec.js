@@ -2,13 +2,13 @@ var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 
-var Downloader = require('.././Downloader.js');
+var Downloader = require('../../discovery/assettasks/Downloader.js');
 
 var log = function(type, message) {
     console.log("\n" + type + " , " + message);
 }
 
-var soundcloudkey = fs.readFileSync('private/soundcloud_key.txt', 'utf-8'); // private!
+//var soundcloudkey = fs.readFileSync('private/soundcloud_key.txt', 'utf-8'); // private!
 
 var asset = {
     'description': 'test',
@@ -26,12 +26,13 @@ var asset = {
 var videoasset = {
     'description': 'test',
     'date': 'Wed Oct 15 2008 00:00:00 GMT-0700 (PDT)',
-    'link': 'http://www.youtube.com/embed/OJlKutKKWMU',
-    'media': 'http://www.youtube.com/embed/OJlKutKKWMU',
-    'label': 'test',
+    'link': 'https://www.youtube.com/watch?v=sQZmfXzARDc',
+    'media': 'https://www.youtube.com/watch?v=sQZmfXzARDc',
+    'filename': 'sQZmfXzARDc',
     'mediaType': 'youtube',
     'assetType': 'video',
-    'publisher': 'youtube'
+    'publisher': 'youtube',
+    'source': { id: 'test' }
 };
 
 var souncloudasset = {
@@ -48,8 +49,10 @@ var souncloudasset = {
 var cfg = {
     mediaDirectory: "_temp",
     logging: log,
+    youtubedlExecutable: './libs/youtube-dl.exe',
+    ffmpegExecutable: './libs/ffmpeg.exe',
     "soundcloud": {
-        "clientID": soundcloudkey
+        //"clientID": soundcloudkey
     }
 }
 
@@ -73,7 +76,8 @@ describe("When Downloading an asset", function() {
         });
 
         it("should download a song", function () {
-            expect(fs.existsSync(cfg.mediaDirectory + path.sep + asset.filename)).to.be.true;
+            console.log(videoasset)
+            expect(fs.existsSync(cfg.mediaDirectory + path.sep + asset.source.id + path.sep + videoasset.filename)).to.be.true;
         });
     });
 

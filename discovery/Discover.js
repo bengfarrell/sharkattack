@@ -38,7 +38,7 @@ function Discover(config) {
         { name: "transcode", success: false },
         { name: "mediainfo", success: false },
         { name: "complete", success: false }
-    ]
+    ];
 
     /** queue of things to do */
     var q = new Queue();
@@ -64,7 +64,7 @@ function Discover(config) {
         lib = data;
         self.logging("Discover", "Running Feed Queue", { date: new Date(), level: "verbose" });
         q.run(self.onComplete);
-    }
+    };
 
     /**
      * handle asset flow
@@ -109,7 +109,7 @@ function Discover(config) {
             default:
                 break;
         }
-    }
+    };
 
     /**
      * update flow and record results
@@ -124,7 +124,7 @@ function Discover(config) {
         } else {
             asset._$flow.steps[asset._$flow.currentStep].success = true;
         }
-    }
+    };
 
     /**
      * load feed source
@@ -178,12 +178,12 @@ function Discover(config) {
             });
             cb();
         }, config);
-    }
+    };
 
     /**
      * sources complete
      */
-    this.onSourceLoaded = function() {}
+    this.onSourceLoaded = function() {};
 
     /**
      * on complete
@@ -192,7 +192,7 @@ function Discover(config) {
         var out = new Output(lib, config);
         self.emit(Discover.prototype.COMPLETE, out);
         self.logging("Discover", "Finished");
-    }
+    };
 }
 
 util.inherits(Discover, events.EventEmitter);
