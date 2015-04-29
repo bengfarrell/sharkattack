@@ -31,7 +31,7 @@ function Queue(config) {
         self.logging(Queue.prototype.name, "Run", { date: new Date(), level: "verbose" } );
         self.onComplete = cb;
         self.next();
-    }
+    };
 
     /**
      * continue running queue
@@ -40,14 +40,22 @@ function Queue(config) {
      */
     this.continue = function() {
         self.next();
-    }
+    };
 
     /**
      * clear the queue
      */
     this.clear = function() {
         self.queue = [];
-    }
+    };
+
+    /**
+     * stop the running
+     */
+    this.stop = function() {
+        self.running = false;
+        self.clear();
+    };
 
     /**
      * get queue length
@@ -55,7 +63,7 @@ function Queue(config) {
      */
     this.getLength = function() {
         return self.queue.length;
-    }
+    };
 
     /**
      * start next item(s)
@@ -65,7 +73,7 @@ function Queue(config) {
         self.queue.forEach( function(i) {
             self._startItem(i)
         });
-    }
+    };
 
     /**
      * add an item to our queue
@@ -94,7 +102,7 @@ function Queue(config) {
         item._$q.timestarted = null;
 
         // mark it as concurrent or not
-        item._$q.concurrent = concurrent;
+        item._$q.concurrent = false;
 
         self.logging(Queue.prototype.name, "Add Item", { date: new Date(), level: "verbose" } );
         self.queue.push(item);
@@ -102,7 +110,7 @@ function Queue(config) {
         if (self.running) {
             self.continue();
         }
-    }
+    };
 
     /**
      * start an item if we can
@@ -132,7 +140,7 @@ function Queue(config) {
         } else {
             return false;
         }
-    }
+    };
 
     /**
      * check if item can start now
@@ -154,9 +162,9 @@ function Queue(config) {
         // is another sync item is running, we can't start
         var runningCount = 0;
         self.queue.forEach(function(i) {
-            if (item._$q.running == true) {
+            if (i._$q.running == true) {
                 runningCount ++;
-                if (item._$q.concurrent == false) {
+                if (!i._$q.concurrent == false) {
                     self.logging(Queue.prototype.name, "Item blocked from running because other tasks are running", { date: new Date(), level: "verbose" } );
                     return false;
                 }
@@ -164,15 +172,14 @@ function Queue(config) {
         });
 
         // if item is sync and there are other items running, we can't start
-        if (item._$q.concurrent && runningCount > 0) {
+        if (!item._$q.concurrent && runningCount > 0) {
             self.logging(Queue.prototype.name, "Item blocked from running because other tasks are running", { date: new Date(), level: "verbose" } );
             return false;
         }
-
         // we can start the item
         return true;
 
-    }
+    };
 
     /**
      * item is complete, fire callback
