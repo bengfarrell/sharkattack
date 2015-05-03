@@ -4,7 +4,7 @@ var fs = require("fs"),
     events = require("events"),
     path = require('path'),
     split = require('event-stream').split,
-    ffmpeg = require('../ffmpeg-node.js'),
+    ffmpeg = require('../../../utils/ffmpeg-node.js'),
     FileUtils = require('../../../utils/File.js');
 
 /**

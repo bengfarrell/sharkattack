@@ -1,13 +1,14 @@
 var Queue = require( '../utils/Queue');
 var File = require( '../utils/File');
 var Playlist = require('../package/Playlist');
-var GetMediaInfo = require('../discovery/assettasks/GetMediaInfo');
+var GetMediaInfo = require('../utils/GetMediaInfo');
 var events = require('events');
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var rmdir = require('rimraf');
 var VOCreation = require('../package/VOCreation');
+var VOMixer = require('../package/VOMixer');
 
 /**
  * Build Show
@@ -130,6 +131,7 @@ function BuildShow(config) {
 
         if (!fs.existsSync(config.showLocation + path.sep + self.showname)) {
             fs.mkdirSync(config.showLocation + path.sep + self.showname);
+            fs.mkdirSync(config.showLocation + path.sep + self.showname + path.sep + 'tmp');
         }
 
         fs.writeFileSync(config.showLocation + path.sep + self.showname + path.sep + self.showname + '.html', pls.exportToHTML());
@@ -177,6 +179,7 @@ function BuildShow(config) {
         });
 
         q.run(function() {
+            rmdir.sync(config.showLocation + path.sep + self.showname + path.sep + 'tmp');
             self.emit(BuildShow.prototype.COMPLETE, pls);
         });
     };
@@ -212,8 +215,20 @@ function BuildShow(config) {
         var vo = new VOCreation(config);
         vo.create('en', txt, function(result) {
             if(result.success) {
-                fs.writeFileSync( config.showLocation + path.sep + self.showname + path.sep + 'vo-block-' + id + '.mp3', result.audio, 'base64');
-                cb();
+                var speechfile = config.showLocation + path.sep + self.showname + path.sep + 'tmp' + path.sep + 'vo-block-' + id + '.mp3';
+                fs.writeFileSync( speechfile, result.audio, 'base64');
+                var mixer = new VOMixer(config);
+                var opts = {
+                    vo: speechfile,
+                    bed: config.mediaDirectory + path.sep + 'vo' + path.sep + config.showVOBed,
+                    fadeInDuration: 5,
+                    fadeOutDuration: 2,
+                    voDelay: 7,
+                    voEndPadding: 4,
+                    outFileSampleRate: 44100,
+                    outfile: config.showLocation + path.sep + self.showname + path.sep + 'vo-block-' + id + '.mp3'
+                };
+                mixer.mix(opts, cb);
             }
         });
     };

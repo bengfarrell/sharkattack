@@ -1,8 +1,15 @@
 var child_process = require("child_process");
 var xml2js = require('xml2js');
 var path = require('path');
-var FileUtils = require('../../utils/File.js');
+var FileUtils = require('./File.js');
 
+/**
+ * get media info for asset
+ * @param {String | Object} asset
+ * @param cb
+ * @param config
+ * @constructor
+ */
 function GetMediaInfo(asset, cb, config) {
 
     var self = this;
@@ -25,7 +32,7 @@ function GetMediaInfo(asset, cb, config) {
         if (error) {
             var e = new Error("Could not get Media Info for " + asset.filename + " (" + error.toString() + ")");
             self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
-            cb(e);
+            cb(e, asset);
             return;
         }
 
@@ -55,16 +62,21 @@ function GetMediaInfo(asset, cb, config) {
                 if (track.Overall_bit_rate) {
                     asset.bitrate = track.Overall_bit_rate;
                 }
+
+                if (track.Sampling_rate) {
+                    asset.samplingratelabel = track.Sampling_rate;
+                    asset.samplingrate = track.Sampling_rate.split(' ')[0] * 1000;
+                }
             });
         } else {
             var e = new Error("Could not get Media Info for " + asset.filename);
             self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
-            cb(e);
+            cb(e, asset);
             return;
         }
 
-        cb();
-    }
+        cb(null, asset);
+    };
 
     /**
      * parse duration
@@ -98,18 +110,26 @@ function GetMediaInfo(asset, cb, config) {
 
         var ttl = hrs * 3600 + min * 60 + sec;
         return ttl;
-    }
+    };
 
     var srcid;
-    if (asset.source && asset.source.id) { srcid = asset.source.id; }
-    if (asset.sourceid) { srcid = asset.sourceid; }
+    var ref;
 
-    var ref = FileUtils.prototype.getMediaFileRef(config.mediaDirectory + path.sep + srcid + path.sep + asset.filename);
+    // allow asset to be single file path or a SharkAttack asset object for usage elsewhere
+    if (typeof asset === 'string') {
+        ref = asset;
+        asset = { filename: asset };
+    } else {
+        if (asset.source && asset.source.id) { srcid = asset.source.id; }
+        if (asset.sourceid) { srcid = asset.sourceid; }
+        ref = FileUtils.prototype.getMediaFileRef(config.mediaDirectory + path.sep + srcid + path.sep + asset.filename);
+    }
+
 
     if (ref == null) {
         var e = new Error("Resolve File Download Error, File does not exist: " + asset.filename);
         self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
-        cb(e);
+        cb(e, asset);
         return;
     } else {
         child_process.execFile(config.mediaInfoExecutable, ["--Output=XML"].concat(ref), function(err, stdout, stderr) {

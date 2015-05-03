@@ -1,6 +1,6 @@
 var fs = require("fs"),
     util = require('util'),
-    ffmpeg = require('./ffmpeg-node'),
+    ffmpeg = require('../../utils/ffmpeg-node'),
     path = require('path'),
     FileUtils = require('../../utils/File.js');
 

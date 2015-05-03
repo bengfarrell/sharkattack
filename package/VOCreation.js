@@ -4,7 +4,7 @@
  *
  * Altered to not change output to Base64 String, and since I'm
  * modifying it for my own purposes, I'll make it more directly tied in
- * as a VO creation script (mix with bed if I can)
+ * as a VO creation script
  */
 
 var request = require('request');
@@ -54,6 +54,7 @@ var VOCreation = function(config) {
      * @param callback
      */
     this.create = function(languageLocale, words, callback) {
+        config.logging('VOCreation', 'Creating VO: ' + words, { date: new Date(), level: "verbose" });
         this.callback = callback;
         this.locale = languageLocale;
         var chunked = words.split(' ');
@@ -116,7 +117,7 @@ var VOCreation = function(config) {
         if ( fs.existsSync(config.mediaDirectory + path.sep + 'vosegments'  + path.sep + escape(txt) + '.mp3')) {
             var data = fs.readFileSync(config.mediaDirectory + path.sep + 'vosegments' + path.sep + escape(txt) + '.mp3', 'base64');
             self.data[self.data.length-1] += data;
-            console.log('using vo seg: ' + txt)
+            config.logging('VOCreation', 'Using previously created VO segment: ' + txt, { date: new Date(), level: "verbose" });
             self.onRequestComplete(txt);
             return;
         }
@@ -128,6 +129,7 @@ var VOCreation = function(config) {
             });
 
             response.on('end', function () {
+                config.logging('VOCreation', 'Created VO Segment: ' + txt, { date: new Date(), level: "verbose" });
                 self.onRequestComplete(txt);
             });
         });
@@ -138,6 +140,7 @@ var VOCreation = function(config) {
      */
     this.onRequestComplete = function(txt) {
         if (self.requests.length > 0 ) {
+            config.logging('VOCreation', 'Caching VO Segment: ' + txt, { date: new Date(), level: "verbose" });
             fs.writeFileSync(config.mediaDirectory + path.sep + 'vosegments' + path.sep + escape(txt) + '.mp3', self.data[self.data.length-1], 'base64');
             self.data.push('');
             self.nextRequest();

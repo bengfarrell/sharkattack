@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 
-var GetMediaInfo = require('../../discovery/assettasks/GetMediaInfo.js');
+var GetMediaInfo = require('../../utils/GetMediaInfo.js');
 
 var log = function(type, message) {
     console.log("\n" + type + " , " + message);

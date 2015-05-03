@@ -1,5 +1,5 @@
 var log = function(type, message) {
-    //console.log("\n" + type + " , " + message);
+   // console.log("\n" + type + " , " + message);
 };
 
 var config = {
@@ -10,6 +10,7 @@ var config = {
     showLocation: './localstore/shows',
     showIntro: 'VO_intro.mp3',
     showOutro: 'VO_outtro.mp3',
+    showVOBed: 'VO_musicbed.mp3',
     libLocation: './localstore/output.json',
     dbLocation: './localstore/database',
     allowYouTube: true,

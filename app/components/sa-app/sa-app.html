@@ -81,7 +81,7 @@ Element providing solution to no problem in particular.
     var BuildShow = require('../../../package/BuildShow.js');
     var log = function(type, message) {
       console.log("\n" + type + " , " + message);
-    }
+    };
 
     var config = {
       mediaInfoExecutable: './libs/MediaInfo.exe',
@@ -98,6 +98,7 @@ Element providing solution to no problem in particular.
       logging: log };
 
    Polymer('sa-app', {
+
 
     /** currently selected index */
     selected: 0,
@@ -135,7 +136,7 @@ Element providing solution to no problem in particular.
       * @method create a show from the last library refresh run
       */
      createShow: function() {
-       var show = 'SA159';
+       var show = 'SA161';
        this.showbuilder.on(BuildShow.prototype.COMPLETE, function() { config.logging("SharkAttack", "Show " + show + " created" ); });
        this.showbuilder.run(show, 10800, './localstore/output.json');
      },

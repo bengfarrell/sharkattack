@@ -21,13 +21,16 @@ var path = require('path'),
  */
 
 exports.exec = function (params, config, callback) {
+   console.log(params.join())
 
    if (params instanceof Array && params.length > 2) {
 
       var stderr = '', stdout = '',
          ffmpeg = spawn(config.ffmpegExecutable, params);
 
+
       ffmpeg.stderr.on('data', function (err) {
+         ///config.logging('FFMPEG', err.toString(), { date: new Date(), level: "error", error: err });
          stderr += err;
       });
 
