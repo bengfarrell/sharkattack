@@ -71,11 +71,11 @@ function BuildShow(config) {
 
         self.logging("Build Show", "Building Show", { date: new Date(), level: "verbose" });
 
-        rmdir(config.showLocation + path.sep + self.showname, function(error){
+        rmdir(config.packaging.showLocation + path.sep + self.showname, function(error){
             if (error) {
-                self.logging("Build Show", "Could not remove files in " + config.showLocation + path.sep + self.showname, { date: new Date(), level: "error", error: error });
+                self.logging("Build Show", "Could not remove files in " + config.packaging.showLocation + path.sep + self.showname, { date: new Date(), level: "error", error: error });
             } else {
-                self.logging("Build Show", "Removed all files in " + config.showLocation + path.sep + self.showname, { date: new Date(), level: "verbose" });
+                self.logging("Build Show", "Removed all files in " + config.packaging.showLocation + path.sep + self.showname, { date: new Date(), level: "verbose" });
             }
         });
         q.run(self.onAssetsVerified);
@@ -111,14 +111,14 @@ function BuildShow(config) {
         // add the show intro/outro
         var introVO = {
             "label": "intro VO",
-            "filename": config.showIntro,
+            "filename": config.packaging.showIntro,
             "mediaType": "mp3",
             "assetType": "audio",
             "sourceid": "vo"};
 
         var outroVO = {
             "label": "outtro VO",
-            "filename": config.showOutro,
+            "filename": config.packaging.showOutro,
             "mediaType": "mp3",
             "assetType": "audio",
             "sourceid": "vo"};
@@ -129,21 +129,21 @@ function BuildShow(config) {
 
         var pls = new Playlist(self.assets);
 
-        if (!fs.existsSync(config.showLocation + path.sep + self.showname)) {
-            fs.mkdirSync(config.showLocation + path.sep + self.showname);
-            fs.mkdirSync(config.showLocation + path.sep + self.showname + path.sep + 'tmp');
+        if (!fs.existsSync(config.packaging.showLocation + path.sep + self.showname)) {
+            fs.mkdirSync(config.packaging.showLocation + path.sep + self.showname);
+            fs.mkdirSync(config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp');
         }
 
-        fs.writeFileSync(config.showLocation + path.sep + self.showname + path.sep + self.showname + '.html', pls.exportToHTML());
-        fs.writeFileSync(config.showLocation + path.sep + self.showname + path.sep + self.showname + '.json', pls.exportToJSON());
-        fs.writeFileSync(config.showLocation + path.sep + self.showname + path.sep + self.showname + '.m3u8', pls.exportToM3U8());
+        fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.html', pls.exportToHTML());
+        fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.json', pls.exportToJSON());
+        fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.m3u8', pls.exportToM3U8());
 
         self.logging("Build Show", "Copying " + self.assets.length + " assets", { date: new Date(), level: "verbose" });
 
         self.assets.forEach( function(a) {
             var filename = a.filename;
             if (a.audioTranscodeFilename) { filename = a.audioTranscodeFilename; }
-            fs.writeFileSync(config.showLocation + path.sep + self.showname + path.sep + filename, fs.readFileSync(config.mediaDirectory + path.sep + a.sourceid + path.sep + filename));
+            fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + filename, fs.readFileSync(config.mediaDirectory + path.sep + a.sourceid + path.sep + filename));
         });
         self.emit(BuildShow.prototype.COMPLETE, pls);
         self.createVoiceOvers(pls);
@@ -179,7 +179,7 @@ function BuildShow(config) {
         });
 
         q.run(function() {
-            rmdir.sync(config.showLocation + path.sep + self.showname + path.sep + 'tmp');
+            rmdir.sync(config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp');
             self.emit(BuildShow.prototype.COMPLETE, pls);
         });
     };
@@ -215,18 +215,18 @@ function BuildShow(config) {
         var vo = new VOCreation(config);
         vo.create('en', txt, function(result) {
             if(result.success) {
-                var speechfile = config.showLocation + path.sep + self.showname + path.sep + 'tmp' + path.sep + 'vo-block-' + id + '.mp3';
+                var speechfile = config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp' + path.sep + 'vo-block-' + id + '.mp3';
                 fs.writeFileSync( speechfile, result.audio, 'base64');
                 var mixer = new VOMixer(config);
                 var opts = {
                     vo: speechfile,
-                    bed: config.mediaDirectory + path.sep + 'vo' + path.sep + config.showVOBed,
-                    fadeInDuration: 5,
-                    fadeOutDuration: 2,
-                    voDelay: 7,
-                    voEndPadding: 4,
-                    outFileSampleRate: 44100,
-                    outfile: config.showLocation + path.sep + self.showname + path.sep + 'vo-block-' + id + '.mp3'
+                    bed: config.mediaDirectory + path.sep + 'vo' + path.sep + config.packaging.showVOBed,
+                    fadeInDuration: config.packaging.voFadeInDuration,
+                    fadeOutDuration: config.packaging.voFadeOutDuration,
+                    voDelay: config.packaging.voDelay,
+                    voEndPadding: config.packaging.voEndPadding,
+                    outFileSampleRate: config.packaging.voOutFileSampleRate,
+                    outfile: config.packaging.showLocation + path.sep + self.showname + path.sep + 'vo-block-' + id + '.mp3'
                 };
                 mixer.mix(opts, cb);
             }

@@ -21,8 +21,6 @@ var path = require('path'),
  */
 
 exports.exec = function (params, config, callback) {
-   console.log(params.join())
-
    if (params instanceof Array && params.length > 2) {
 
       var stderr = '', stdout = '',

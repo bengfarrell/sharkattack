@@ -1,5 +1,5 @@
 var log = function(type, message) {
-   // console.log("\n" + type + " , " + message);
+    console.log("\n" + type + " , " + message);
 };
 
 var config = {
@@ -7,10 +7,17 @@ var config = {
     youtubedlExecutable: './libs/youtube-dl.exe',
     ffmpegExecutable: './libs/ffmpeg.exe',
     mediaDirectory: './localstore/media',
-    showLocation: './localstore/shows',
-    showIntro: 'VO_intro.mp3',
-    showOutro: 'VO_outtro.mp3',
-    showVOBed: 'VO_musicbed.mp3',
+    packaging: {
+        showLocation: './localstore/shows',
+        showIntro: 'VO_intro.mp3',
+        showOutro: 'VO_outtro.mp3',
+        showVOBed: 'VO_musicbed.mp3',
+        voFadeInDuration: 5,
+        voFadeOutDuration: 2,
+        voDelay: 7,
+        voEndPadding: 4,
+        voOutFileSampleRate: 44100,
+    },
     libLocation: './localstore/output.json',
     dbLocation: './localstore/database',
     allowYouTube: true,
