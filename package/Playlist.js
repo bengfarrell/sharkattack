@@ -1,8 +1,27 @@
 var Time = require('../utils/Time.js');
+var File = require('../utils/File.js');
 
 function Playlist(assets) {
 
     this.assets = assets;
+
+    /**
+     * insert a vo after a specific asset
+     * @param vo asset
+     * @param asset to place VO after
+     * @param offset by
+     */
+    this.insertVOAfterAsset = function(voasset, asset, offset) {
+        for (var c = 0; c <= this.assets.length; c++) {
+            // todo: this is only necessary to check the label because of duplicate files - fix this!
+            if (File.prototype.removeExtension(asset.filename) === File.prototype.removeExtension(this.assets[c].filename)
+                && asset.label === this.assets[c].label) {
+                this.assets.splice(c + 1 + offset, 0, voasset);
+                return;
+            }
+        }
+
+    };
 
     /**
      * get playlist length
@@ -10,13 +29,13 @@ function Playlist(assets) {
      */
     this.getLength = function() {
         var dur = 0;
-        for (var c in assets) {
-            if (assets[c].duration) {
-                dur += assets[c].duration;
+        for (var c in this.assets) {
+            if (this.assets[c].duration) {
+                dur += this.assets[c].duration;
             }
         }
         return dur;
-    }
+    };
 
     /**
      * export html playlist
@@ -62,7 +81,7 @@ function Playlist(assets) {
         output += "<h2>Total Time: " + Time.prototype.formatToString(currentTime)  + "</h2>\r\n"
         output += "</body></html>"
         return output;
-    }
+    };
 
     /**
      * export m3u8 playlist
@@ -86,7 +105,7 @@ function Playlist(assets) {
             output += localPath;
         }
         return output;
-    }
+    };
 
     /**
      * export json playlist

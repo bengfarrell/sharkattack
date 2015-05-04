@@ -116,27 +116,15 @@ function BuildShow(config) {
             "assetType": "audio",
             "sourceid": "vo"};
 
-        var outroVO = {
-            "label": "outtro VO",
-            "filename": config.packaging.showOutro,
-            "mediaType": "mp3",
-            "assetType": "audio",
-            "sourceid": "vo"};
-
         self.assets.push(introVO);
         self.assets = self.assets.reverse();
-        self.assets.push(outroVO);
 
-        var pls = new Playlist(self.assets);
+        self.pls = new Playlist(self.assets);
 
         if (!fs.existsSync(config.packaging.showLocation + path.sep + self.showname)) {
             fs.mkdirSync(config.packaging.showLocation + path.sep + self.showname);
             fs.mkdirSync(config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp');
         }
-
-        fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.html', pls.exportToHTML());
-        fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.json', pls.exportToJSON());
-        fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.m3u8', pls.exportToM3U8());
 
         self.logging("Build Show", "Copying " + self.assets.length + " assets", { date: new Date(), level: "verbose" });
 
@@ -145,67 +133,81 @@ function BuildShow(config) {
             if (a.audioTranscodeFilename) { filename = a.audioTranscodeFilename; }
             fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + filename, fs.readFileSync(config.mediaDirectory + path.sep + a.sourceid + path.sep + filename));
         });
-        self.emit(BuildShow.prototype.COMPLETE, pls);
-        self.createVoiceOvers(pls);
+        self.createVoiceOvers();
     };
 
     /**
      * create vo's from playlist
-     *
-     * @param pls
      */
-    this.createVoiceOvers = function(pls) {
+    this.createVoiceOvers = function() {
         q.stop();
         var vosongqueue = [];
         var vocount = 0;
-        self.assets.forEach( function(a) {
+        for (var c = 0; c < self.assets.length; c++ ) {
+            var a = self.assets[c];
             if (a.sourceid !== 'vo') {
                 if (vosongqueue.length == 0) {
-                    vosongqueue.push( { asset: a, intro: 'you just heard' } );
+                    vosongqueue.push({asset: a, intro: 'you just heard'});
                 } else if (vosongqueue.length < 3) {
-                    vosongqueue.push( { asset: a, intro: 'and before that you heard' } );
+                    vosongqueue.push({asset: a, intro: 'and after that you heard'});
                 } else {
-                    vosongqueue.push( { asset: a, intro: 'Next up is' } );
+                    vosongqueue.push({asset: a, intro: 'Next up is'});
                 }
 
-                if (vosongqueue.length > 3) {
-                    q.add(vosongqueue, function(voqueue, cb) {
-                        vocount ++;
-                        self.createVO(cb, voqueue, vocount);
+                if (c === self.assets.length - 1) {
+                    vosongqueue[vosongqueue.length - 1].outtro = 'And thats it for the Shark Attack this week, thanks for joining us!';
+                }
+
+                if (vosongqueue.length > 3 || c === self.assets.length - 1) {
+                    var playlistoffset = -1;
+                    if (c === self.assets.length - 1) {
+                        playlistoffset = 0;
+                    }
+                    q.add(vosongqueue, function (voqueue, cb) {
+                        vocount++;
+                        self.createVO(cb, voqueue, vocount, playlistoffset);
                     });
                     vosongqueue = [];
                 }
             }
-        });
+        }
 
         q.run(function() {
             rmdir.sync(config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp');
-            self.emit(BuildShow.prototype.COMPLETE, pls);
+            fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.html', self.pls.exportToHTML());
+            fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.json', self.pls.exportToJSON());
+            fs.writeFileSync(config.packaging.showLocation + path.sep + self.showname + path.sep + self.showname + '.m3u8', self.pls.exportToM3U8());
+            self.emit(BuildShow.prototype.COMPLETE, self.pls);
         });
     };
 
     /**
      * create VO from asset queue
      * @param assetqueue
+     * @param position in playlist offset
      */
-    this.createVO = function(cb, assetqueue, id) {
+    this.createVO = function(cb, assetqueue, id, positionInPlaylistOffset) {
         var txt = '';
         assetqueue = assetqueue.reverse();
+        var item; // preserve last asset used for later as a ref to add to playlist
         while (assetqueue.length > 0) {
-            var item = assetqueue.pop();
+            item = assetqueue.pop();
+
             if (item.intro) {
                 txt += VOCreation.SPEECHBREAK + item.intro + VOCreation.SPEECHBREAK;
             }
 
-            if (item.asset.title && item.asset.artist) {
-                txt += item.asset.title + VOCreation.SPEECHBREAK + ' by ' + VOCreation.SPEECHBREAK + item.asset.artist;
-            } else if (item.asset.label && item.asset.label !== File.prototype.removeExtension(item.asset.filename)) {
-                txt += item.asset.label;
-            } else {
-                txt += 'something'
-            }
+            if (item.asset) {
+                if (item.asset.title && item.asset.artist) {
+                    txt += item.asset.title + VOCreation.SPEECHBREAK + ' by ' + VOCreation.SPEECHBREAK + item.asset.artist;
+                } else if (item.asset.label && item.asset.label !== File.prototype.removeExtension(item.asset.filename)) {
+                    txt += item.asset.label;
+                } else {
+                    txt += 'something'
+                }
 
-            txt += VOCreation.SPEECHBREAK + ' found on ' + VOCreation.SPEECHBREAK + item.asset.sourcelabel + VOCreation.SPEECHBREAK;
+                txt += VOCreation.SPEECHBREAK + ' found on ' + VOCreation.SPEECHBREAK + item.asset.sourcelabel + VOCreation.SPEECHBREAK;
+            }
 
             if (item.outtro) {
                 txt += VOCreation.SPEECHBREAK + item.outtro + VOCreation.SPEECHBREAK;
@@ -228,7 +230,19 @@ function BuildShow(config) {
                     outFileSampleRate: config.packaging.voOutFileSampleRate,
                     outfile: config.packaging.showLocation + path.sep + self.showname + path.sep + 'vo-block-' + id + '.mp3'
                 };
-                mixer.mix(opts, cb);
+                mixer.mix(opts, function(mixedasset) {
+                    var voasset = {
+                        'label': 'Song Recap VO',
+                        'filename': 'vo-block-' + id + '.mp3',
+                        'mediaType': 'mp3',
+                        'assetType': 'audio',
+                        'sourceid': 'vo',
+                        'duration': mixedasset.duration
+                    };
+                    self.logging('Build Show', 'Add ' + 'vo-block-' + id + ' after ' + item.asset.label + ' with offset 1 '  , { date: new Date(), level: "verbose" });
+                    self.pls.insertVOAfterAsset(voasset, item.asset, positionInPlaylistOffset);
+                    cb();
+                });
             }
         });
     };

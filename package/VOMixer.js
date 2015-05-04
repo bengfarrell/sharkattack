@@ -49,7 +49,9 @@ var VOMixer = function(config) {
                     endPaddingSamples + '[VO];[VO][BED]amix=inputs=2:duration=shortest',
                     '-ar', opts.outFileSampleRate, opts.outfile], config,
                 function() {
-                    self.onMixComplete(callback);
+                    // update with new duration
+                    asset.duration = asset.duration + opts.voDelay + opts.voEndPadding;
+                    self.onMixComplete(callback, asset);
                 });
         }, config);
     };
@@ -57,8 +59,8 @@ var VOMixer = function(config) {
     /**
      * on mix complete
      */
-    this.onMixComplete = function(callback) {
-        callback.apply(self);
+    this.onMixComplete = function(callback, asset) {
+        callback.apply(self, [asset]);
     };
 
     this.init();
