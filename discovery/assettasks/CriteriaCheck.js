@@ -6,6 +6,9 @@ function CriteriaCheck(config) {
     /** database */
     var db = new Database(config);
 
+    /** asset list */
+    this.assets = [];
+
     if ( config && config.logging ) {
         this.logging = config.logging;
     } else {
@@ -22,6 +25,7 @@ function CriteriaCheck(config) {
         switch (step) {
             case "discover":
                 if (self.isBlacklisted(asset)) { return false; }
+                if (self.isDuplicate(asset)) { return false; }
                 if (self.isOutdated(asset)) { return false; }
                 return true;
                 break;
@@ -46,7 +50,24 @@ function CriteriaCheck(config) {
                 return true;
                 break;
         }
-    }
+    };
+
+    /**
+     * asset duplicate check
+     * @param asset
+     * @returns {boolean}
+     */
+    this.isDuplicate = function(asset) {
+        for (var c in this.assets) {
+            if (this.assets.filename === asset.filename) {
+                self.logging("Criteria Check", "Asset " + asset.filename + " is a duplicate" , { date: new Date(), level: "verbose", asset: asset });
+                return true;
+            }
+        }
+        this.assets.push(asset);
+        console.log(asset.filename)
+        return false;
+    };
 
     /**
      * asset duration check against source configuration
@@ -60,8 +81,7 @@ function CriteriaCheck(config) {
 
        self.logging("Criteria Check", "Asset " + asset.media + " is over duration at " + asset.duration + " compared to " + asset.source.maxDuration , { date: new Date(), level: "verbose", asset: asset });
         return false;
-    }
-
+    };
 
     /**
      * check if blacklisted asset
@@ -75,7 +95,7 @@ function CriteriaCheck(config) {
 
         self.logging("Criteria Check", "Asset " + asset.media + " is blacklisted" , { date: new Date(), level: "verbose", asset: asset });
         return true;
-    }
+    };
 
     /**
      * check if outdated

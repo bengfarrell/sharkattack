@@ -80,7 +80,7 @@ Element providing solution to no problem in particular.
     var Discover = require('../../../discovery/Discover.js');
     var BuildShow = require('../../../package/BuildShow.js');
     var log = function(type, message) {
-      console.log("\n" + type + " , " + message);
+     // console.log("\n" + type + " , " + message);
     };
 
     var config = {
@@ -88,9 +88,16 @@ Element providing solution to no problem in particular.
       youtubedlExecutable: './libs/youtube-dl.exe',
       ffmpegExecutable: './libs/ffmpeg.exe',
       mediaDirectory: './localstore/media',
-      showLocation: './localstore/shows',
-      showIntro: 'VO_intro.mp3',
-      showOutro: 'VO_outtro.mp3',
+      packaging: {
+        showLocation: './localstore/shows',
+        showIntro: 'VO_intro.mp3',
+        showVOBed: 'VO_musicbed.mp3',
+        voFadeInDuration: 5,
+        voFadeOutDuration: 2,
+        voDelay: 7,
+        voEndPadding: 4,
+        voOutFileSampleRate: 44100
+      },
       libLocation: './localstore/output.json',
       dbLocation: './localstore/database',
       allowYouTube: true,
@@ -136,7 +143,7 @@ Element providing solution to no problem in particular.
       * @method create a show from the last library refresh run
       */
      createShow: function() {
-       var show = 'SA161';
+       var show = 'SA162';
        this.showbuilder.on(BuildShow.prototype.COMPLETE, function() { config.logging("SharkAttack", "Show " + show + " created" ); });
        this.showbuilder.run(show, 10800, './localstore/output.json');
      },

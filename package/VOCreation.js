@@ -9,6 +9,7 @@
 
 var request = require('request');
 var fs = require('fs');
+var File = require('../utils/File')
 var http = require('http');
 var path = require('path');
 
@@ -114,8 +115,9 @@ var VOCreation = function(config) {
         var txt = self.requests.pop();
 
         // can we use a cached response?
+
         if ( fs.existsSync(config.mediaDirectory + path.sep + 'vosegments'  + path.sep + escape(txt) + '.mp3')) {
-            var data = fs.readFileSync(config.mediaDirectory + path.sep + 'vosegments' + path.sep + escape(txt) + '.mp3', 'base64');
+            var data = fs.readFileSync(config.mediaDirectory + path.sep + 'vosegments' + path.sep + File.prototype.safeFilename(txt) + '.mp3', 'base64');
             self.data[self.data.length-1] += data;
             config.logging('VOCreation', 'Using previously created VO segment: ' + txt, { date: new Date(), level: "verbose" });
             self.onRequestComplete(txt);
@@ -141,7 +143,7 @@ var VOCreation = function(config) {
     this.onRequestComplete = function(txt) {
         if (self.requests.length > 0 ) {
             config.logging('VOCreation', 'Caching VO Segment: ' + txt, { date: new Date(), level: "verbose" });
-            fs.writeFileSync(config.mediaDirectory + path.sep + 'vosegments' + path.sep + escape(txt) + '.mp3', self.data[self.data.length-1], 'base64');
+            fs.writeFileSync(config.mediaDirectory + path.sep + 'vosegments' + path.sep + File.prototype.safeFilename(txt) + '.mp3', self.data[self.data.length-1], 'base64');
             self.data.push('');
             self.nextRequest();
         } else {

@@ -3,6 +3,16 @@ var path = require('path');
 
 function File() {}
 
+/**
+ * convert to a safe filename
+ * @param dirs
+ */
+File.prototype.safeFilename = function(filename) {
+    filename = escape(filename);
+    filename = filename.replace(/\\|\//g, ' ');
+    return filename;
+};
+
 
 /**
  * make sure directories exist
@@ -14,7 +24,7 @@ File.prototype.ensureDirectoriesExist = function(dirs) {
             fs.mkdirSync(dirs[c]);
         }  catch(e) {}
     }
-}
+};
 
 /**
  * delete file list
@@ -27,7 +37,7 @@ File.prototype.deleteFiles = function(files, dir) {
             fs.unlinkSync(dir + path.sep + file)
         }
     }
-}
+};
 
 /**
  * delete all associated files in directory
@@ -53,7 +63,7 @@ File.prototype.deleteAllAssociatedFiles = function(files, dir) {
             fs.unlinkSync(dir + path.sep + file + ".flv")
         }
     }
-}
+};
 
 /**
  * filename from path
@@ -62,7 +72,7 @@ File.prototype.deleteAllAssociatedFiles = function(files, dir) {
  */
 File.prototype.convertPathToFilename = function(pth) {
     return pth.substr(pth.lastIndexOf(path.sep)+1, pth.length);
-}
+};
 
 /**
  * filename from link
@@ -94,7 +104,7 @@ File.prototype.convertLinkToFilename = function(link, type) {
         }
         return file;
     }
-}
+};
 
 /**
  * get file extension
@@ -106,7 +116,7 @@ File.prototype.getExtension = function(filename) {
         filename = filename.substr(filename.lastIndexOf(".")+1, filename.length);
     }
     return filename;
-}
+};
 
 /**
  * remove file extension
@@ -118,7 +128,7 @@ File.prototype.removeExtension = function(filename) {
         filename = filename.substr(0,filename.lastIndexOf("."));
     }
     return filename;
-}
+};
 
 /**
  * does media exist in any format?
@@ -141,7 +151,7 @@ File.prototype.getMediaFileRef = function(pth) {
         return File.prototype.removeExtension(pth) + ".webm";
     }
     return null;
-}
+};
 
 /**
  * does file exist?
@@ -155,7 +165,7 @@ File.prototype.doesExist = function(pth) {
     catch (e) {
         return false;
     }
-}
+};
 
 /**
  * check if directory
@@ -174,7 +184,7 @@ File.prototype.isDirectory = function(pth) {
     catch (e) {
         return false;
     }
-}
+};
 
 /**
  * copy files
@@ -208,7 +218,7 @@ File.prototype.copyFiles = function(files, source, dest, appendExtensions) {
         }
     }
     return uncopied;
-}
+};
 
 /**
  * write list of files
@@ -230,7 +240,7 @@ File.prototype.writeFiles = function(files) {
             throw "Can't write file: " + f.path;
         }
     }
-}
+};
 
 /**
  * clean a list of paths/files
@@ -251,7 +261,7 @@ File.prototype.clean = function(paths) {
             }
         }
     }
-}
+};
 
 /**
  * remove a directory recursively

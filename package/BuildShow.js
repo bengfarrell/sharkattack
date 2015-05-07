@@ -163,9 +163,9 @@ function BuildShow(config) {
                     if (c === self.assets.length - 1) {
                         playlistoffset = 0;
                     }
-                    q.add(vosongqueue, function (voqueue, cb) {
+                    q.add({ queue: vosongqueue, offset: playlistoffset }, function (opts, cb) {
                         vocount++;
-                        self.createVO(cb, voqueue, vocount, playlistoffset);
+                        self.createVO(cb, opts.queue, vocount, opts.offset);
                     });
                     vosongqueue = [];
                 }
