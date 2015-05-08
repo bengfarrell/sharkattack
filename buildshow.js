@@ -3,9 +3,9 @@ var log = function(type, message) {
 };
 
 var config = {
-    mediaInfoExecutable: './libs/MediaInfo.exe',
-    youtubedlExecutable: './libs/youtube-dl.exe',
-    ffmpegExecutable: './libs/ffmpeg.exe',
+    mediaInfoExecutable: './engine/libs/MediaInfo.exe',
+    youtubedlExecutable: './engine/libs/youtube-dl.exe',
+    ffmpegExecutable: './engine/libs/ffmpeg.exe',
     mediaDirectory: './localstore/media',
     packaging: {
         showLocation: './localstore/shows',
@@ -23,7 +23,7 @@ var config = {
     allowVimeo: true,
     logging: log };
 
-var BuildShow = require('./package/BuildShow.js');
+var BuildShow = require('./actions/package/BuildShow.js');
 var showbuilder = new BuildShow(config);
 var show = 'test';
 showbuilder.on(BuildShow.prototype.COMPLETE, function() { config.logging("SharkAttack", "Show " + show + " created" ); });

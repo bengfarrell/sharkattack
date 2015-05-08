@@ -1,14 +1,14 @@
 var Queue = require( '../utils/Queue');
 var File = require( '../utils/File');
-var Playlist = require('../package/Playlist');
+var Playlist = require('./Playlist');
 var GetMediaInfo = require('../utils/GetMediaInfo');
 var events = require('events');
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var rmdir = require('rimraf');
-var VOCreation = require('../package/VOCreation');
-var VOMixer = require('../package/VOMixer');
+var VOCreation = require('./VOCreation');
+var VOMixer = require('./VOMixer');
 
 /**
  * Build Show
@@ -123,6 +123,9 @@ function BuildShow(config) {
 
         if (!fs.existsSync(config.packaging.showLocation + path.sep + self.showname)) {
             fs.mkdirSync(config.packaging.showLocation + path.sep + self.showname);
+        }
+
+        if (!fs.existsSync(config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp')) {
             fs.mkdirSync(config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp');
         }
 

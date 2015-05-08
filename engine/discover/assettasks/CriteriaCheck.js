@@ -65,7 +65,6 @@ function CriteriaCheck(config) {
             }
         }
         this.assets.push(asset);
-        console.log(asset.filename)
         return false;
     };
 
