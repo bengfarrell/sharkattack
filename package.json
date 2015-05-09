@@ -12,6 +12,7 @@
     "flat-file-db": "^0.1.3",
     "flatdb": "0.0.1",
     "git-rev": "~0.2.1",
+    "osenv": "^0.1.0",
     "posh": "git+https://github.com/bengfarrell/posh.git#master",
     "rimraf": "^2.2.8",
     "xml2js": "0.1.x",
