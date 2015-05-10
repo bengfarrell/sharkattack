@@ -13,6 +13,29 @@ File.prototype.safeFilename = function(filename) {
     return filename;
 };
 
+/**
+ * get all files in a directory
+ * @param dir
+ * @param ignore directories
+ * @param files_
+ * @returns {*|Array}
+ */
+File.prototype.getAllFiles = function(dir, ignore, files_){
+    files_ = files_ || [];
+    var files = fs.readdirSync(dir);
+    for (var i in files){
+        var name = dir + path.sep + files[i];
+        if (fs.statSync(name).isDirectory()) {
+            if (ignore.indexOf(name) === -1) {
+                File.prototype.getAllFiles(name, ignore, files_);
+            }
+        } else {
+            files_.push(name);
+        }
+    }
+    return files_;
+};
+
 
 /**
  * make sure directories exist

@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 var osenv = require('osenv');
 
 /**
@@ -18,7 +19,6 @@ var Config = function() {
      * @param file
      */
     this.load = function(file) {
-        console.log(file)
         var cfg = JSON.parse(fs.readFileSync(file));
         this.parse(cfg);
         return cfg;
@@ -31,6 +31,22 @@ var Config = function() {
     this.parse = function(cfg) {
         cfg.vars = this.parsevars(cfg.vars);
         cfg = this.injectvars(cfg);
+        cfg = this.resolvePaths(cfg);
+        return cfg;
+    };
+
+    /**
+     * resolve/normalize paths in config
+     * @param cfg
+     */
+    this.resolvePaths = function(cfg) {
+        for ( var c in cfg ) {
+            if (typeof cfg[c] === 'string' && (cfg[c].indexOf('/') !== -1 || cfg[c].indexOf('\\') !== -1)) {
+                cfg[c] = path.resolve(cfg[c]);
+            } else if (typeof cfg[c] === 'object') {
+                cfg[c] = self.resolvePaths(cfg[c]);
+            }
+        }
         return cfg;
     };
 
