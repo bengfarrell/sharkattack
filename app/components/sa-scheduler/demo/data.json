@@ -1,0 +1,9 @@
+{
+  "discovery": [
+    { "day": 3, "time": "14:00" }, { "day": 5, "time": "14:00"}
+  ],
+
+  "packaging": [
+    { "day": 3, "time": "14:00"}, {"day": 5, "time": "14:00"}
+  ]
+}

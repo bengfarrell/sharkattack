@@ -13,10 +13,10 @@ var fs = require('fs');
 function Discover(config) {
     var self = this;
 
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     /** asset count */
@@ -30,6 +30,9 @@ function Discover(config) {
 
     /** asset library */
     var lib = {};
+
+    /** stats */
+    var stats = { totalAssets: 0 };
 
     /** asset flow/steps for completing discovery */
     var assetFlow = [
@@ -62,7 +65,7 @@ function Discover(config) {
             q.add(src, self.loadFeedSource, self.onSourceLoaded, true);
         });
         lib = data;
-        self.logging("Discover", "Running Feed Queue", { date: new Date(), level: "verbose" });
+        self.log("Discover", "Running Feed Queue", { date: new Date(), level: "verbose" });
         q.run(self.onComplete);
     };
 
@@ -83,7 +86,7 @@ function Discover(config) {
         asset._$flow.steps[asset._$flow.currentStep].success = true;
         asset._$flow.currentStep ++;
 
-        self.logging("Discover", "(" + asset._$flow.count + "/" + count + ") Flow step " + asset._$flow.steps[asset._$flow.currentStep].name + " for "  + asset.label, { date: new Date(), level: "verbose", asset: asset });
+        self.log("Discover", "(" + asset._$flow.count + "/" + count + ") Flow step " + asset._$flow.steps[asset._$flow.currentStep].name + " for "  + asset.label, { date: new Date(), level: "verbose", asset: asset });
         switch (asset._$flow.steps[asset._$flow.currentStep].name) {
             case "download":
                 q.add(asset, function(asset, cb) {
@@ -104,6 +107,7 @@ function Discover(config) {
                 break;
 
             case "complete":
+                stats.totalAssets ++;
                 break;
 
             default:
@@ -134,9 +138,9 @@ function Discover(config) {
     this.loadFeedSource = function(src, cb) {
         new Parser(src, function(items) {
             if (items) {
-                self.logging("Discover", items.length + " items found in " + src.label, { date: new Date(), level: "verbose", source: src });
+                self.log("Discover", items.length + " items found in " + src.label, { date: new Date(), level: "verbose", source: src });
             } else {
-                self.logging("Discover", "Found no items in " + src.label, { date: new Date(), level: "verbose", source: src });
+                self.log("Discover", "Found no items in " + src.label, { date: new Date(), level: "verbose", source: src });
                 cb();
                 return;
             }
@@ -148,7 +152,7 @@ function Discover(config) {
                 i.source = src;
 
                 if (!src.maxItems) {
-                    self.logging("Discover", "Max items is not defined, so no items will be added: " + src.label, { date: new Date(), level: "warning" });
+                    self.log("Discover", "Max items is not defined, so no items will be added: " + src.label, { date: new Date(), level: "warning" });
                 }
 
                 if (i.media && src.numItems < src.maxItems) {
@@ -190,8 +194,8 @@ function Discover(config) {
      */
     this.onComplete = function() {
         var out = new Output(lib, config);
-        self.emit(Discover.prototype.COMPLETE, out);
-        self.logging("Discover", "Finished");
+        self.emit(Discover.prototype.COMPLETE, lib, stats);
+        self.log("Discover", "Finished");
     };
 }
 

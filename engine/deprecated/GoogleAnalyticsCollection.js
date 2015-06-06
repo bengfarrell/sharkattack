@@ -29,10 +29,10 @@ function GoogleAnalyticsCollection() {
     this._favoritesList = [];
 
 
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     /**

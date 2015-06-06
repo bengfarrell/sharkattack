@@ -1,0 +1,28 @@
+{
+  "vars": {
+    "applicationStorage": "{{home}}/sharkattack",
+    "mediaDirectory": "{{applicationStorage}}/media"
+  },
+  "mediaInfoExecutable": "./engine/libs/MediaInfo.exe",
+  "youtubedlExecutable": "./engine/libs/youtube-dl.exe",
+  "ffmpegExecutable": "./engine/libs/ffmpeg.exe",
+  "mediaDirectory": "{{mediaDirectory}}",
+  "packaging": {
+    "showLocation": "{{applicationStorage}}/shows",
+    "showIntro": "VO_intro.mp3",
+    "showVOBed": "VO_musicbed.mp3",
+    "voFadeInDuration": 5,
+    "voFadeOutDuration": 2,
+    "voDelay": 7,
+    "voEndPadding": 4,
+    "voOutFileSampleRate": 44100
+  },
+  "cleaning": {
+    "ignoreDirectories": ["{{mediaDirectory}}/vo", "{{mediaDirectory}}/vosegments"]
+  },
+  "sourcefeed": "{{applicationStorage}}/feeds/feed-library.json",
+  "libLocation": "{{applicationStorage}}/output.json",
+  "dbLocation": "{{applicationStorage}}/database",
+  "allowYouTube": true,
+  "allowVimeo": true
+}

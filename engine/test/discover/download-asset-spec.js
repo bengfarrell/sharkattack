@@ -48,7 +48,7 @@ var souncloudasset = {
 
 var cfg = {
     mediaDirectory: "_temp",
-    logging: log,
+    log: log,
     youtubedlExecutable: './libs/youtube-dl.exe',
     ffmpegExecutable: './libs/ffmpeg.exe',
     "soundcloud": {

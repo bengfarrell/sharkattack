@@ -1,13 +1,16 @@
 var Config = require('./utils/Config');
-
-var log = function(type, message) {
-    console.log("\n" + type + " , " + message);
-};
+var Logging = require('./utils/Logging');
 
 var cfg = new Config().load('./engine/config.json');
-cfg.logging = log;
+cfg.log = Logging.console;
+Logging.config = cfg;
 
+var starttime = new Date();
 var Discover = require('./discover/Discover.js');
 var discover = new Discover(cfg);
-discover.on(Discover.prototype.COMPLETE, function() { cfg.logging("SharkAttack", "Discovery Finished"); });
+discover.on(Discover.prototype.COMPLETE, function(lib, stats) {
+    cfg.log("SharkAttack", "Discovery Finished");
+    Logging.recordTaskRun( { start: starttime, end: new Date(), name: 'discovery', details: stats.totalAssets + ' assets found' } );
+
+});
 discover.run(cfg.sourcefeed);

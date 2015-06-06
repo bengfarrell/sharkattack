@@ -10,7 +10,7 @@ describe("When connecting to a database asynchronously", function() {
 
     var db;
     before(function(done){
-        db = new Database( {logging: log, dbLocation: './database'} );
+        db = new Database( {log: log, dbLocation: './database'} );
         db.connect('testtable');
         db.on(Database.prototype.CONNECTED, function() { done(); } );
     });
@@ -44,7 +44,7 @@ describe("When connecting to a database asynchronously", function() {
 describe("When connecting to a database synchronously", function() {
     var db;
     before( function() {
-        db = new Database( {logging: log, dbLocation: './database'} );
+        db = new Database( {log: log, dbLocation: './database'} );
     });
 
     describe("can insert a record", function () {

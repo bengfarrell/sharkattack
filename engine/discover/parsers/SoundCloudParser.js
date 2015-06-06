@@ -11,10 +11,10 @@ function SoundCloudParser(source, cb, config) {
     /** found items */
     this._found = [];
 
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     /**
@@ -25,10 +25,10 @@ function SoundCloudParser(source, cb, config) {
      */
     this.onLoaded = function(error, response, body) {
         if (error) {
-            self.logging("SoundCloud Parser", error.toString(), { date: new Date(), level: "error", asset: source, error: error });
+            self.log("SoundCloud Parser", error.toString(), { date: new Date(), level: "error", asset: source, error: error });
             cb.apply(self,  []);
         }
-        self.logging("SoundCloud Parser", "Loaded " + source.url, { date: new Date(), level: "verbose", asset: source });
+        self.log("SoundCloud Parser", "Loaded " + source.url, { date: new Date(), level: "verbose", asset: source });
         if (!error && response.statusCode == 200) {
             parser.onopentag = function(tag) { self._onOpenTag(tag); }
             parser.onclosetag = function (tag) { self._onCloseTag(tag); }
@@ -127,9 +127,9 @@ function SoundCloudParser(source, cb, config) {
         return true;
     }
 
-    self.logging("SoundCloud Parser", "Loading " + source.url, { date: new Date(), level: "verbose", asset: source });
+    self.log("SoundCloud Parser", "Loading " + source.url, { date: new Date(), level: "verbose", asset: source });
     request.get({url: source.url + "?client_id=" + config.soundcloud.clientID}, this.onLoaded).on('error', function(e){
-        self.logging("SoundCloud Parser", "timeout on " + source.url, { date: new Date(), level: "error", asset: source, error: e });
+        self.log("SoundCloud Parser", "timeout on " + source.url, { date: new Date(), level: "error", asset: source, error: e });
         cb.apply(self,  []);
     }).end();
 

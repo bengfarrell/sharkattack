@@ -5,7 +5,7 @@ function Time() {}
  * @param seconds
  * @return {String}
  */
-Time.prototype.formatToString = function(seconds) {
+Time.formatToString = Time.prototype.formatToString = function(seconds) {
     seconds = parseInt(seconds);
     var negative = "";
     if (seconds < 0 ) {

@@ -19,7 +19,7 @@ describe("Queue", function() {
     var completecount = 0;
 
     before(function(){
-        q = new Queue( {logging: log} );
+        q = new Queue( {log: log} );
     });
 
     describe("can work configuration-less", function () {
@@ -33,7 +33,7 @@ describe("Queue", function() {
 
     describe("can work with config", function () {
         before(function(){
-            q = new Queue( {logging: log} );
+            q = new Queue( {log: log} );
         });
         it("should instantiate", function () {
             expect(q).to.not.be.undefined;
@@ -230,7 +230,7 @@ describe("Queue", function() {
         var result;
 
         before(function(done){
-            q = new Queue( {logging: log} );
+            q = new Queue( {log: log} );
             var task = function(item, cb) {
                 cb();
             }
@@ -258,7 +258,7 @@ describe("Queue", function() {
 
         before(function(done){
 
-            q = new Queue( {logging: log} );
+            q = new Queue( {log: log} );
             var task = function(item, cb) {
                 cb();
             }

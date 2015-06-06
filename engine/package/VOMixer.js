@@ -31,7 +31,7 @@ var VOMixer = function(config) {
      * @param callback
      */
     this.mix = function(opts, callback) {
-        config.logging('VOMixer', 'Mixing: ' + opts.vo + ' and  ' + opts.bed + ' to ' + opts.outfile, { date: new Date(), level: "verbose" });
+        config.log('VOMixer', 'Mixing: ' + opts.vo + ' and  ' + opts.bed + ' to ' + opts.outfile, { date: new Date(), level: "verbose" });
 
         new GetMediaInfo(opts.vo, function(err, asset) {
             /**

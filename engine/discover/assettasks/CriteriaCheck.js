@@ -9,10 +9,10 @@ function CriteriaCheck(config) {
     /** asset list */
     this.assets = [];
 
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     /**
@@ -60,7 +60,7 @@ function CriteriaCheck(config) {
     this.isDuplicate = function(asset) {
         for (var c in this.assets) {
             if (this.assets.filename === asset.filename) {
-                self.logging("Criteria Check", "Asset " + asset.filename + " is a duplicate" , { date: new Date(), level: "verbose", asset: asset });
+                self.log("Criteria Check", "Asset " + asset.filename + " is a duplicate" , { date: new Date(), level: "verbose", asset: asset });
                 return true;
             }
         }
@@ -78,7 +78,7 @@ function CriteriaCheck(config) {
         if (!asset.source.maxDuration) { return true; } // no duration limit - pass
         if (asset.source.maxDuration > asset.duration) { return true; } // duration check passes
 
-       self.logging("Criteria Check", "Asset " + asset.media + " is over duration at " + asset.duration + " compared to " + asset.source.maxDuration , { date: new Date(), level: "verbose", asset: asset });
+       self.log("Criteria Check", "Asset " + asset.media + " is over duration at " + asset.duration + " compared to " + asset.source.maxDuration , { date: new Date(), level: "verbose", asset: asset });
         return false;
     };
 
@@ -92,7 +92,7 @@ function CriteriaCheck(config) {
         var result = db.find(asset.media);
         if (!result) { return false; } // not blacklisted: pass
 
-        self.logging("Criteria Check", "Asset " + asset.media + " is blacklisted" , { date: new Date(), level: "verbose", asset: asset });
+        self.log("Criteria Check", "Asset " + asset.media + " is blacklisted" , { date: new Date(), level: "verbose", asset: asset });
         return true;
     };
 
@@ -108,7 +108,7 @@ function CriteriaCheck(config) {
         var daysOld = diff / 1000 / 60 / 60 / 24;
         if (daysOld < asset.source.maxAge) { return false; }
 
-        self.logging("Criteria Check", "Asset " + asset.media + " is " + daysOld + " and greater than max age of " + asset.source.maxAge , { date: new Date(), level: "verbose", asset: asset });
+        self.log("Criteria Check", "Asset " + asset.media + " is " + daysOld + " and greater than max age of " + asset.source.maxAge , { date: new Date(), level: "verbose", asset: asset });
         return true;
     }
 }

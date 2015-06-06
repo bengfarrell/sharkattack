@@ -14,10 +14,10 @@ function GetMediaInfo(asset, cb, config) {
 
     var self = this;
 
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     /**
@@ -31,14 +31,14 @@ function GetMediaInfo(asset, cb, config) {
 
         if (error) {
             var e = new Error("Could not get Media Info for " + asset.filename + " (" + error.toString() + ")");
-            self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
+            self.log("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
             cb(e, asset);
             return;
         }
 
         if (info && info.File && info.File.track && info.File.track.length) {
             info.File.track.forEach(function (track) {
-                self.logging("GetMediaInfo", "Resolved " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
+                self.log("GetMediaInfo", "Resolved " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
                 if (track.Album) {
                     asset.album = track.Album;
                 }
@@ -70,7 +70,7 @@ function GetMediaInfo(asset, cb, config) {
             });
         } else {
             var e = new Error("Could not get Media Info for " + asset.filename);
-            self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
+            self.log("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
             cb(e, asset);
             return;
         }
@@ -92,7 +92,7 @@ function GetMediaInfo(asset, cb, config) {
         var hrs = 0;
 
         if (time.length < 2) {
-            self.logging("GetMediaInfo", "Problem getting file duration", { date: new Date(), level: "error", asset: asset, error: new Error("Problem getting file duration")});
+            self.log("GetMediaInfo", "Problem getting file duration", { date: new Date(), level: "error", asset: asset, error: new Error("Problem getting file duration")});
             return 0;
         }
 
@@ -128,7 +128,7 @@ function GetMediaInfo(asset, cb, config) {
 
     if (ref == null) {
         var e = new Error("Resolve File Download Error, File does not exist: " + asset.filename);
-        self.logging("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
+        self.log("GetMediaInfo", e.toString(), { date: new Date(), level: "error", asset: asset, error: e });
         cb(e, asset);
         return;
     } else {

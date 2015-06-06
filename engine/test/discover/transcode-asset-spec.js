@@ -24,7 +24,7 @@ var asset = {
 
 var cfg = {
     mediaDirectory: "_temp",
-    logging: log
+    log: log
 }
 
 describe("When transcoding a video asset", function () {

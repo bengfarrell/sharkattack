@@ -28,7 +28,7 @@ exports.exec = function (params, config, callback) {
 
 
       ffmpeg.stderr.on('data', function (err) {
-         ///config.logging('FFMPEG', err.toString(), { date: new Date(), level: "error", error: err });
+         ///config.log('FFMPEG', err.toString(), { date: new Date(), level: "error", error: err });
          stderr += err;
       });
 

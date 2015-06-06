@@ -3,10 +3,10 @@ var MediaFinder = require('./MediaFinder.js');
 var FileUtils = require('../../utils/File.js');
 
 function WebpageParser (source, cb, config) {
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     var self = this;
@@ -18,7 +18,7 @@ function WebpageParser (source, cb, config) {
         this._label = label;
         this._url = url;
         request.get({url:url}, this.onPageLoaded).on('error', function(e){
-            self.logging("Webpage Parser", "Webpage timeout on " + this._url, { date: new Date(), level: "error", source: source });
+            self.log("Webpage Parser", "Webpage timeout on " + this._url, { date: new Date(), level: "error", source: source });
             cb();
         }).end()
     }
@@ -61,11 +61,11 @@ function WebpageParser (source, cb, config) {
                 if (newitm.filename && self._checkUniqueness(newitm, itms) == true) {
                     itms.push(newitm);
                 } else if (!newitm.filename) {
-                    self.logging("Webpage Parser", "No filename found for " + newitm.media, { date: new Date(), level: "verbose", source: source });
+                    self.log("Webpage Parser", "No filename found for " + newitm.media, { date: new Date(), level: "verbose", source: source });
                 }
             }
         } else {
-            self.logging("Webpage Parser", "Webpage 404 on " + this._url, { date: new Date(), level: "error", source: source });
+            self.log("Webpage Parser", "Webpage 404 on " + this._url, { date: new Date(), level: "error", source: source });
         }
         cb.apply(self,  [itms]);
     }

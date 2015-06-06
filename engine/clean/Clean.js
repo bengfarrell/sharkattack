@@ -66,9 +66,9 @@ function Clean(config) {
             allmediasize += fs.statSync(mediafiles[c]).size
         }
 
-        config.logging('Clean', 'All Media : ' + mediafiles.length + ' files (' + (allmediasize / 1000000.0).toFixed(2) + 'MB)', { date: new Date(), level: "normal" });
-        config.logging('Clean', 'Current Library : ' + libassets.length + ' files (' + (libsize / 1000000.0).toFixed(2) + 'MB)', { date: new Date(), level: "normal" });
-        config.logging('Clean', 'To Clean: ' + orphaned.length + ' files (' + (orphanedsize / 1000000.0).toFixed(2) + 'MB)', { date: new Date(), level: "normal" });
+        config.log('Clean', 'All Media : ' + mediafiles.length + ' files (' + (allmediasize / 1000000.0).toFixed(2) + 'MB)', { date: new Date(), level: "normal" });
+        config.log('Clean', 'Current Library : ' + libassets.length + ' files (' + (libsize / 1000000.0).toFixed(2) + 'MB)', { date: new Date(), level: "normal" });
+        config.log('Clean', 'To Clean: ' + orphaned.length + ' files (' + (orphanedsize / 1000000.0).toFixed(2) + 'MB)', { date: new Date(), level: "normal" });
 
         return orphaned;
     };

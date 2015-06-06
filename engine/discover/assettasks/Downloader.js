@@ -2,14 +2,14 @@ var LinkDownloader = require('./downloaders/LinkDownloader');
 var YouTubeDownloader = require('./downloaders/YouTubeDownloader')
 
 function Downloader(asset, cb, config) {
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     if (!asset.media) {
-        this.logging(this, "Downloader", "No media found to download", { date: new Date(), level: "error", asset: asset });
+        this.log(this, "Downloader", "No media found to download", { date: new Date(), level: "error", asset: asset });
         return;
     }
 
@@ -24,7 +24,7 @@ function Downloader(asset, cb, config) {
             break;
 
         default:
-            this.logging(this, "Downloader", "No media handler found", { date: new Date(), level: "error", asset: asset });
+            this.log(this, "Downloader", "No media handler found", { date: new Date(), level: "error", asset: asset });
             cb();
     }
 }

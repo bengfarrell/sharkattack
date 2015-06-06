@@ -4,10 +4,10 @@ var SoundCloud = require('./SoundCloudParser');
 var GoogleAnalytics = require('./GoogleAnalyticsParser');
 
 function Parser(source, cb, config) {
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     switch(source.type) {
@@ -28,7 +28,7 @@ function Parser(source, cb, config) {
             break;
 
         default:
-            this.logging("Parser", "No parser found for this source", { date: new Date(), level: "error", source: source });
+            this.log("Parser", "No parser found for this source", { date: new Date(), level: "error", source: source });
             cb();
             break;
     }

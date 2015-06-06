@@ -26,7 +26,7 @@ describe("When using Discovery to parse an RSS feed", function() {
         var d = new Discover( {
             mediaDirectory: "_temp",
             dbLocation: './localstore/database',
-            logging: log } );
+            log: log } );
 
         d.on(Discover.prototype.COMPLETE, function (data) {
             result = data.sources;
@@ -73,7 +73,7 @@ describe("When using Discovery to parse a normal webpage", function() {
             dbLocation: './localstore/database',
             allowYouTube: true,
             allowVimeo: true,
-            logging: log } );
+            log: log } );
 
         d.on(Discover.prototype.COMPLETE, function (data) {
             result = data;
@@ -121,7 +121,7 @@ describe("When using Discovery to parse a SoundCloud playlist", function() {
             "soundcloud": {
                 "clientID": soundcloudkey
             },
-            logging: log } );
+            log: log } );
 
         d.on(Discover.prototype.COMPLETE, function (data) {
             result = data;
@@ -163,7 +163,7 @@ describe("When using Discovery to parse a SoundCloud playlist", function() {
 
         var d = new Discover( {
             mediaDirectory: "_temp",
-            logging: log } );
+            log: log } );
 
         d.on(Discover.prototype.COMPLETE, function (data) {
             result = data;

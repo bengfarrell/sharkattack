@@ -18,10 +18,10 @@ var VOMixer = require('./VOMixer');
 function BuildShow(config) {
     var self = this;
 
-    if (config && config.logging) {
-        this.logging = config.logging;
+    if (config && config.log) {
+        this.log = config.log;
     } else {
-        this.logging = function () {
+        this.log = function () {
         };
     }
 
@@ -69,13 +69,13 @@ function BuildShow(config) {
             });
         });
 
-        self.logging("Build Show", "Building Show", { date: new Date(), level: "verbose" });
+        self.log("Build Show", "Building Show", { date: new Date(), level: "verbose" });
 
         rmdir(config.packaging.showLocation + path.sep + self.showname, function(error){
             if (error) {
-                self.logging("Build Show", "Could not remove files in " + config.packaging.showLocation + path.sep + self.showname, { date: new Date(), level: "error", error: error });
+                self.log("Build Show", "Could not remove files in " + config.packaging.showLocation + path.sep + self.showname, { date: new Date(), level: "error", error: error });
             } else {
-                self.logging("Build Show", "Removed all files in " + config.packaging.showLocation + path.sep + self.showname, { date: new Date(), level: "verbose" });
+                self.log("Build Show", "Removed all files in " + config.packaging.showLocation + path.sep + self.showname, { date: new Date(), level: "verbose" });
             }
         });
         q.run(self.onAssetsVerified);
@@ -95,7 +95,7 @@ function BuildShow(config) {
         orderbydate.forEach( function(a) { dur += a.duration; });
         var deletetime = dur - self.duration;
 
-        self.logging("Build Show", "Removing overtime assets (" + Math.ceil(deletetime/60) + " minutes worth)", { date: new Date(), level: "verbose" });
+        self.log("Build Show", "Removing overtime assets (" + Math.ceil(deletetime/60) + " minutes worth)", { date: new Date(), level: "verbose" });
         // delete all overtime assets
         while (deletetime > 0) {
             var del = orderbydate.pop();
@@ -129,7 +129,7 @@ function BuildShow(config) {
             fs.mkdirSync(config.packaging.showLocation + path.sep + self.showname + path.sep + 'tmp');
         }
 
-        self.logging("Build Show", "Copying " + self.assets.length + " assets", { date: new Date(), level: "verbose" });
+        self.log("Build Show", "Copying " + self.assets.length + " assets", { date: new Date(), level: "verbose" });
 
         self.assets.forEach( function(a) {
             var filename = a.filename;
@@ -242,7 +242,7 @@ function BuildShow(config) {
                         'sourceid': 'vo',
                         'duration': mixedasset.duration
                     };
-                    self.logging('Build Show', 'Add ' + 'vo-block-' + id + ' after ' + item.asset.label + ' with offset 1 '  , { date: new Date(), level: "verbose" });
+                    self.log('Build Show', 'Add ' + 'vo-block-' + id + ' after ' + item.asset.label + ' with offset 1 '  , { date: new Date(), level: "verbose" });
                     self.pls.insertVOAfterAsset(voasset, item.asset, positionInPlaylistOffset);
                     cb();
                 });

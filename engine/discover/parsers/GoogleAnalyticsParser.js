@@ -13,10 +13,10 @@ function GoogleAnalyticsParser(source, cb, config) {
 
     var self = this;
 
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     /**
@@ -63,12 +63,12 @@ function GoogleAnalyticsParser(source, cb, config) {
      */
     this._onAuthenticated = function(err, tok) {
         if (err) {
-            self.logging("Google Analytics Parser", "Google Analytics Login Failed", { date: new Date(), level: "error", source: source, error: err });
+            self.log("Google Analytics Parser", "Google Analytics Login Failed", { date: new Date(), level: "error", source: source, error: err });
             cb.apply(self, []);
             return;
         }
 
-        self.logging("Google Analytics Parser", "Google Analytics Login Success", { date: new Date(), level: "verbose", source: source });
+        self.log("Google Analytics Parser", "Google Analytics Login Success", { date: new Date(), level: "verbose", source: source });
         var options = {
             'ids': 'ga:' + source.account,
             'start-date': self.startDate,
@@ -116,18 +116,18 @@ function GoogleAnalyticsParser(source, cb, config) {
                     var data = JSON.parse(data_data).rows;
 
                     if (!data) {
-                        self.logging("Google Analytics Parser", "Google Analytics No valid data Error", { date: new Date(), level: "error", source: source, error: JSON.parse(data_data).error });
+                        self.log("Google Analytics Parser", "Google Analytics No valid data Error", { date: new Date(), level: "error", source: source, error: JSON.parse(data_data).error });
                     }
 
                     for (var c in data) {
                         results.push( self._createAsset(data[c][0], data[c][1]) );
                     }
 
-                    self.logging("Google Analytics Parser", "Google Analytics Returned " + results.length + " results", { date: new Date(), level: "verbose", source: source });
+                    self.log("Google Analytics Parser", "Google Analytics Returned " + results.length + " results", { date: new Date(), level: "verbose", source: source });
                     cb.apply(self, [results]);
                 } catch (error) {
                     console.log(error)
-                    self.logging("Google Analytics Parser", "Google Analytics Error", { date: new Date(), level: "error", source: source, error: error });
+                    self.log("Google Analytics Parser", "Google Analytics Error", { date: new Date(), level: "error", source: source, error: error });
                     cb.apply(self, []);
                 }
             });
@@ -200,7 +200,7 @@ function GoogleAnalyticsParser(source, cb, config) {
 
     this.startDate = source.startDate.getFullYear() + "-" + this._addLeadingZero(source.startDate.getMonth()+1) + "-" + this._addLeadingZero(source.startDate.getDate());;
     this.endDate = source.endDate.getFullYear() + "-" + this._addLeadingZero(source.endDate.getMonth()+1) + "-" + this._addLeadingZero(source.endDate.getDate());;
-    self.logging("Google Analytics Parser", "Google Analytics Date Range: " + self.startDate + " , " + self.endDate, { date: new Date(), level: "verbose", source: source });
+    self.log("Google Analytics Parser", "Google Analytics Date Range: " + self.startDate + " , " + self.endDate, { date: new Date(), level: "verbose", source: source });
     self.login(source.username, source.password);
 
 }

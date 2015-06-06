@@ -8,10 +8,10 @@ function Transcoder(asset, cb, config) {
 
     var self = this;
 
-    if ( config && config.logging ) {
-        this.logging = config.logging;
+    if ( config && config.log ) {
+        this.log = config.log;
     } else {
-        this.logging = function(){};
+        this.log = function(){};
     }
 
     /**
@@ -21,10 +21,10 @@ function Transcoder(asset, cb, config) {
     this.onTranscodeAssetComplete = function(error, response) {
         //error is too chatty and seems to mark files as completely errored out
         if (!FileUtils.prototype.doesExist(config.mediaDirectory + path.sep + asset.source.id + path.sep + FileUtils.prototype.removeExtension(asset.filename)+".mp3"))  {
-            self.logging("Transcoder", "Video Transcode Error: " + asset.filename, { date: new Date(), level: "error", asset: asset });
+            self.log("Transcoder", "Video Transcode Error: " + asset.filename, { date: new Date(), level: "error", asset: asset });
             cb(new Error("Video transcode error, output file not found " + asset.filename));
         } else {
-            self.logging("Transcoder", "Video Transcode Complete: " +asset.filename, { date: new Date(), level: "verbose", asset: asset });
+            self.log("Transcoder", "Video Transcode Complete: " +asset.filename, { date: new Date(), level: "verbose", asset: asset });
             asset.audioTranscodeFilename = FileUtils.prototype.removeExtension(asset.filename)+".mp3";
             cb();
         }
@@ -36,12 +36,12 @@ function Transcoder(asset, cb, config) {
             var outfile = config.mediaDirectory + path.sep + asset.source.id + path.sep + FileUtils.prototype.removeExtension(asset.filename)+".mp3";
             // check if file exists
             if (FileUtils.prototype.doesExist(outfile)) {
-                self.logging("Transcoder", "Video already transcoded: " + infile + " -- " + outfile, { date: new Date(), level: "verbose", asset: asset });
+                self.log("Transcoder", "Video already transcoded: " + infile + " -- " + outfile, { date: new Date(), level: "verbose", asset: asset });
                 asset.audioTranscodeFilename = FileUtils.prototype.removeExtension(asset.filename)+".mp3";
                 cb();
                 return;
             }
-            self.logging("Transcoder", "Transcoding Video: " + infile + " to " + outfile, { date: new Date(), level: "verbose", asset: asset });
+            self.log("Transcoder", "Transcoding Video: " + infile + " to " + outfile, { date: new Date(), level: "verbose", asset: asset });
             // todo: get original audio bitrate and use it for transcodes
 
             ffmpeg.exec(["-i", infile, "-ab", "128k", "-map_metadata", "0", "-id3v2_version", "3", outfile], config, self.onTranscodeAssetComplete);
@@ -49,7 +49,7 @@ function Transcoder(asset, cb, config) {
 
         // already in the format we need
         default:
-            self.logging("Transcoder", "No need to transcode " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
+            self.log("Transcoder", "No need to transcode " + asset.filename, { date: new Date(), level: "verbose", asset: asset });
             cb();
             break;
     }
