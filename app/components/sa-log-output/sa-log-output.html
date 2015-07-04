@@ -1,0 +1,210 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <sa-log-output></sa-log-output>
+
+-->
+<dom-module id="sa-log-output" attributes="messages">
+
+  <style>
+    :host {
+      font-family: 'Roboto', 'Noto', sans-serif;
+      background-color: #F2F8EE;
+      display: inline-block;
+    }
+
+    .switch-container {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .switch {
+      display: flex;
+      margin-right: 20px;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      overflow-y: scroll;
+      height: 100%;
+      width: 100%;
+    }
+
+    li {
+      list-style: none;
+      margin-bottom: 10px;
+      background-color: #efeeef;
+    }
+
+    li.error {
+      background-color: #f8b7b2;
+    }
+
+    li .log-message {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: calc(100% - 230px);
+      display: inline-block;
+      vertical-align: sub;
+    }
+
+    li .log-type {
+      font-weight: bold;
+      padding: 5px;
+      background-color: #b8b8b8;
+      display: inline-block;
+    }
+
+    li .log-date {
+      padding: 5px;
+      background-color: #9a9a9a;
+      width: 60px;
+      display: inline-block;
+    }
+  </style>
+
+  <template>
+    <ul>
+      <template is="dom-repeat" items="[[messages]]">
+        <li class$="[[item.details.level]]">
+          <div class="log-date">[[formatTime(item.details.date)]]</div>
+          <div class="log-type">{{item.type}}</div>
+          <div class="log-message">[[item.message]]</div></li>
+      </template>
+    </ul>
+    <div class="switch-container">
+      <div class="switch">
+        <div>Verbose</div>
+        <input type="checkbox" id="filter-verbose" on-change="onFilterChange">
+      </div>
+      <div class="switch">
+        <div>Errors</div>
+        <input type="checkbox" id="filter-error" on-change="onFilterChange">
+      </div>
+    </div>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'sa-log-output',
+
+    properties: {
+      /**
+       * filters
+       */
+      filters: {
+        type: Object,
+        value: {
+          'filter-verbose': true,
+          'filter-error': true
+        }
+      },
+
+      /**
+       * log messages
+       */
+      rawmessages: {
+        type: Array,
+        value: []
+      },
+
+      /**
+       * log messages (filtered/sorted/etc)
+       */
+      messages: {
+        type: Array,
+        value: []
+      }
+    },
+
+    /**
+     * on filter box change
+     */
+    onFilterChange: function(e) {
+      this.filters[e.target.id] = e.target.checked;
+      var filtered = this.rawmessages.filter(this.filterMessages, this.filters);
+      this.set('messages', filtered);
+    },
+
+    /**
+     * add message
+     * @param log
+     */
+    addMessage: function(log) {
+      this.push('rawmessages', log);
+      var filtered = this.rawmessages.filter(this.filterMessages, this.filters);
+      this.set('messages', filtered);
+    },
+
+    /**
+     * clear messages
+     * @param log
+     */
+    clearMessages: function() {
+      this.rawmessages = [];
+    },
+
+    /**
+     * filter messages
+     */
+    filterMessages: function(message) {
+      if(!message.details) { return true; }
+      if (this['filter-' + message.details.level] === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    /**
+     * format timestamp for log
+     */
+    formatTime: function(date) {
+      var d = new Date(date);
+      var m = d.getMinutes();
+      var s = d.getSeconds();
+      if (m.toString().length === 1) { m = '0' + m; }
+      if (s.toString().length === 1) { s = '0' + s; }
+      return d.getHours() + ':' + m + ':' + s;
+    },
+
+    // Element Lifecycle
+
+    ready: function() {
+
+      // initialize the checkbox filters based on the data structure
+      for (var c in this.filters) {
+        if (this.$[c]) {
+          this.$[c].checked = this.filters[c];
+        }
+      }
+    },
+
+    attached: function() {
+      // `attached` fires once the element and its parents have been inserted
+      // into a document.
+      //
+      // This is a good place to perform any work related to your element's
+      // visual state or active behavior (measuring sizes, beginning animations,
+      // loading resources, etc).
+    },
+
+    detached: function() {
+      // The analog to `attached`, `detached` fires when the element has been
+      // removed from a document.
+      //
+      // Use this to clean up anything you did in `attached`.
+    }
+  });
+
+</script>
