@@ -1,0 +1,29 @@
+{
+  "name": "sa-scheduler",
+  "version": "0.0.0",
+  "authors": [
+    "Anonymous <anonymous@example.com>"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer"
+  ],
+  "main": "sa-scheduler.html",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bengfarrell/sa-scheduler"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/bengfarrell/sa-scheduler/",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#v0.8.0-rc.7"
+  },
+  "devDependencies": {
+    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^0.8.8"
+  }
+}

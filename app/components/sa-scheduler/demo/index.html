@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>sa-scheduler Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../sa-scheduler.html">
+  </head>
+  <p>
+
+    <p>An example of <code>&lt;sa-scheduler&gt;</code>:</p>
+
+      <button onclick="triggerTask('discovery', true)">Start Discovery Run</button>
+      <button onclick="triggerTask('discovery', false)">Stop Discovery Run</button>
+
+      <button onclick="triggerTask('packaging', true)">Start Packaging Run</button>
+      <button onclick="triggerTask('packaging', false)">Stop Packaging Run</button>
+    </p>
+
+
+    <sa-scheduler>
+    </sa-scheduler>
+
+    <script>
+      function triggerTask(task, toggle) {
+        if (task === 'discovery') {
+          document.querySelector('sa-scheduler').toggleAttribute('discoveryrunning', toggle);
+        } else if (task === 'packaging') {
+          document.querySelector('sa-scheduler').toggleAttribute('packagingrunning', toggle);
+        }
+      }
+
+      var xmlhttp = new XMLHttpRequest();
+
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+          if (xmlhttp.status == 200) {
+            document.querySelector('sa-scheduler').setAttribute('schedule', xmlhttp.responseText);
+          }
+        }
+      };
+
+      xmlhttp.open("GET", "data.json", true);
+      xmlhttp.send();
+    </script>
+
+  </body>
+</html>

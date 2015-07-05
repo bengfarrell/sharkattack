@@ -1,0 +1,210 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<script src="../later/later.min.js" type="text/javascript"></script>
+
+<!--
+SharkAttack Job Scheduler
+
+Example:
+
+    <sa-scheduler></sa-scheduler>
+
+See http://bunkat.github.io/later/parsers.html for possible Schedule entries
+
+-->
+<dom-module id="sa-scheduler" attributes="schedule running">
+
+  <style>
+    :host {
+      font-family: 'Roboto', 'Noto', sans-serif;
+    }
+
+    .next-run {
+      margin-top: 10px;
+      margin-left: 5px;
+      font-size: 10px;
+    }
+
+
+    .action-container {
+      display: flex;
+    }
+
+    .action {
+      flex: 1;
+    }
+
+    paper-button {
+      background: #62ad35;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    paper-button[disabled] {
+      background: #97b895;
+      color: #608a62;
+      font-size: 14px;
+    }
+  </style>
+
+  <template>
+    <content></content>
+    <div class="action-container">
+      <div class="action">
+        <paper-button on-click="onTaskClick" class="task-button" id="discovery-btn" raised>Discover Now</paper-button><span>{{formatCountdownTime(nextRun.discovery, now)}}</span>
+        <div class="next-run">Next run: <span>{{formatDate(nextRun.discovery)}}</span></div>
+      </div>
+
+      <div class="action">
+        <paper-button on-click="onTaskClick" class="task-button" id="packaging-btn" raised>Package Now</paper-button><span>{{formatCountdownTime(nextRun.packaging, now)}}</span>
+        <div class="next-run">Next run: <span>{{formatDate(nextRun.packaging)}}</span></div>
+      </div>
+
+      <div class="action">
+        <paper-button on-click="onTaskClick" class="task-button" id="cleaning-btn" raised>Clean Now</paper-button><span>{{formatCountdownTime(nextRun.cleaning, now)}}</span>
+        <div class="next-run">Next run: <span>{{formatDate(nextRun.cleaning)}}</span></div>
+      </div>
+    </div>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'sa-scheduler',
+
+    properties: {
+      /**
+       * now
+       */
+      now: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * schedule data
+       */
+      schedule: {
+        type: Object,
+        value: [],
+        observer: 'onScheduleUpdated'
+      },
+
+      /**
+       * next run times
+       */
+      nextRun: {
+        type: Object,
+        value: {}
+      },
+
+      /**
+       * currently runnning
+       */
+      running: {
+        type: Object,
+        value: {},
+        observer: 'onRunningChanged'
+      }
+    },
+
+    /**
+     * on task button click
+     */
+    onTaskClick: function(e) {
+      var task = e.target.id.split('-')[0];
+      this.running[task] = !this.running[task];
+      this.fire('taskrun', { action: task, running: this.running[task] });
+    },
+
+    /**
+     * on task button click
+     */
+    onRunningChanged: function() {
+      for (var c in this.running) {
+        this.$[c.split('-')[0]].setAttribute('disabled', this.running[c] );
+      }
+    },
+
+
+    /**
+     * schedule change handler
+     * @param new value
+     * @param old value
+     */
+    onScheduleUpdated: function(newval, oldval) {
+      this.nextRun = {};
+      for (var c in this.schedule ) {
+        var sched = later.parse.text(this.schedule[c]);
+        this.set('nextRun.' + c, later.schedule(sched).next(1));
+      }
+    },
+
+    /**
+     * format countdown
+     * @param date
+     * @return format string
+     */
+    formatCountdownTime: function(date) {
+      if (!date) { return ''; }
+      var upcoming = new Date(date).getTime();
+      var seconds = parseInt((upcoming - this.now)/1000);
+
+      var secs = seconds % 60;
+      var mins = parseInt(seconds / 60);
+
+      var hrs = parseInt(mins/60);
+      mins = parseInt(mins % 60);
+
+      var days = parseInt(hrs/24);
+      hrs = parseInt(hrs % 24);
+
+      return days + 'd ' + hrs + 'h ' + mins + 'm ' + secs + 's';
+    },
+
+    /**
+     * format date/time for next run
+     * @param date
+     * @param formatted date string
+     */
+    formatDate: function(date) {
+      if (!date || date === '') { return 'Not Scheduled'; }
+      var date = new Date(date);
+      var out = date.toDateString();
+      var amppm = 'AM';
+      var hrs = date.getHours();
+      if (hrs > 12) { hrs -= 12; amppm = 'PM'; }
+      var mins = date.getMinutes();
+      if (mins.toString().length === 1) {
+        mins = '0' + mins;
+      }
+      return out + ' at ' + hrs + ':' + mins + ' ' + amppm;
+
+    },
+
+    /**
+     * timer tick
+     */
+    tick: function() {
+      this.now = new Date().getTime();
+      this.async( this.tick, 500);
+    },
+
+    // Element Lifecycle
+    attached: function() {
+      later.date.localTime();
+      var taskbuttons = document.querySelectorAll('.task-button');
+      for (var c in taskbuttons) {
+        this.running[taskbuttons[c].id] = false;
+      }
+
+      this.tick();
+    }
+
+  });
+
+</script>

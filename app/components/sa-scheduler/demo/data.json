@@ -1,9 +1,2 @@
-{
-  "discovery": [
-    { "day": 3, "time": "14:00" }, { "day": 5, "time": "14:00"}
-  ],
-
-  "packaging": [
-    { "day": 3, "time": "14:00"}, {"day": 5, "time": "14:00"}
-  ]
-}
+{"packaging": "at 10:15 am on Tuesday",
+"discovery": "at 8:15 am" }
