@@ -1,0 +1,114 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../sa-scheduler/sa-scheduler.html">
+<link rel="import" href="../sa-log-output/sa-log-output.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <sa-app-runcontrols></sa-app-runcontrols>
+
+-->
+<dom-module id="sa-app-runcontrols">
+
+  <style>
+    sa-log-output {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+
+  <template>
+    <content>
+      <sa-scheduler id="scheduler" on-taskrun="runTask"></sa-scheduler>
+      <sa-log-output id="log"></sa-log-output>
+    </content>
+  </template>
+
+</dom-module>
+
+<script>
+
+  var Config = require('../../../../engine/utils/Config');
+  var Scheduler = require('../../../../engine/schedule/Scheduler');
+  var Logging = require('../../../../engine/utils/Logging');
+  var Discover = require('../../../../engine/discover/Discover.js');
+  var BuildShow = require('../../../../engine/package/BuildShow.js');
+  var Clean = require('../../../../engine/clean/Clean.js');
+
+  Polymer({
+
+    is: 'sa-app-runcontrols',
+
+    properties: {
+    },
+
+    /**
+     * run a task
+     * @param task
+     */
+    runTask: function(task) {
+      var self = this;
+      if (typeof task === 'object') {
+        task = task.detail.task;
+      }
+      this.cfg.log('SharkAttack', 'Run task ' + task, { date: new Date(), level: 'verbose' });
+      var starttime = new Date();
+      switch(task) {
+        case 'discovery':
+          self.$.scheduler.setRunningState(task, true);
+          var discover = new Discover(this.cfg);
+          discover.on(Discover.prototype.COMPLETE, function(lib, stats) {
+            self.cfg.log('SharkAttack', 'Discovery Finished', { date: new Date(), level: 'verbose' });
+            Logging.recordTaskRun( { start: starttime, end: new Date(), name: 'discovery', details: stats.totalAssets + ' assets found' } );
+            self.$.scheduler.setRunningState(task, false);
+          });
+          discover.run(this.cfg.sourcefeed);
+          break;
+
+        case 'packaging':
+          var showbuilder = new BuildShow(cfg);
+          var shonum = 165;
+          var show = 'SA' + shownum;
+          showbuilder.on(BuildShow.prototype.COMPLETE, function(stats) {
+            this.cfg.log("SharkAttack", "Show " + show + " created" );
+            Logging.recordTaskRun(this.cfg, { start: starttime, end: new Date(), name: 'packaging', details: 'Show ' + show + ' created', shownum: shownum } );
+          });
+          showbuilder.run(show, 10800, this.cfg.libLocation);
+          break;
+
+        case 'cleaning':
+          var clean = new Clean(this.cfg);
+          clean.on(Clean.prototype.COMPLETE, function(deleted) {
+            this.cfg.log("SharkAttack", "Cleanup Finished");
+            Logging.recordTaskRun( { start: starttime, end: new Date(), name: 'packaging', details: deleted.length + ' files deleted' } );
+          });
+          clean.run(this.cfg.mediaDirectory, this.cfg.cleaning.ignoreDirectories, this.cfg.libLocation);
+          break;
+      }
+    },
+
+    // Element Lifecycle
+
+    ready: function() {
+      this.cfg = new Config().load('engine/config.json');
+      var self = this;
+      this.cfg.log = function(type, message, details) {
+        self.$.log.addMessage({type: type, message: message, details: details});
+      };
+      Logging.config = this.cfg;
+
+      this.$.scheduler.schedule = this.cfg.schedule;
+      var schedule = new Scheduler(this.cfg);
+      schedule.on(Scheduler.RUN_TASK, function(task) {
+        var starttime = new Date();
+        this.runTask(task);
+      });
+    }
+
+    // Element Behavior
+
+  });
+
+</script>
