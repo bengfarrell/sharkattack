@@ -58,6 +58,7 @@ var VOCreation = function(config) {
         config.log('VOCreation', 'Creating VO: ' + words, { date: new Date(), level: "verbose" });
         this.callback = callback;
         this.locale = languageLocale;
+        //words = words.replace('*', 'o');
         var chunked = words.split(' ');
         this.requests = [''];
 

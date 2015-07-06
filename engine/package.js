@@ -8,7 +8,7 @@ Logging.config = cfg;
 var starttime = new Date();
 var BuildShow = require('./package/BuildShow.js');
 var showbuilder = new BuildShow(cfg);
-var show = 'test';//'SA164';
+var show = 'SA168';//'SA164';
 
 showbuilder.on(BuildShow.prototype.COMPLETE, function(stats) {
     cfg.log("SharkAttack", "Show " + show + " created" );
