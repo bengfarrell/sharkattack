@@ -27,10 +27,9 @@ function Scheduler(config) {
      * refresh configuration
      */
     this.refresh = function() {
-        console.log(config.schedule)
         for (var c in config.schedule ) {
             var sched = later.parse.text(config.schedule[c]);
-            config.log('Schedule', 'Next run of '  + c + ' scheduled for ' + later.schedule(sched).next(1));
+            config.log('Schedule', 'Next run of '  + c + ' scheduled for ' + later.schedule(sched).next(1), { date: new Date(), level: "verbose" });
             this.tasks.push({ task: c, schedule: sched, timer: later.setTimeout(function() {
                 self.emit(this.RUN_TASK, task);
             }, sched)});

@@ -1,5 +1,9 @@
 {
-    "name": "my-posh-app",
-    "version": "0.0.1",
-    "main": "main.js"
+  "name": "my-posh-app",
+  "version": "0.0.1",
+  "main": "main.js",
+  "dependencies": {
+    "later": "^1.1.6",
+    "tron-app": "^0.2.0"
+  }
 }

@@ -42,6 +42,9 @@ File.prototype.getAllFiles = function(dir, ignore, files_){
  * @param dirs
  */
 File.prototype.ensureDirectoriesExist = function(dirs) {
+    if (typeof dirs === 'string') {
+        dirs = [dirs];
+    }
     for (var c in dirs) {
         try {
             fs.mkdirSync(dirs[c]);

@@ -113,20 +113,29 @@ See http://bunkat.github.io/later/parsers.html for possible Schedule entries
     },
 
     /**
-     * on task button click
+     * set running state
+     * @param {String} task
+     * @param {Boolean} state
      */
-    onTaskClick: function(e) {
-      var task = e.target.id.split('-')[0];
-      this.running[task] = !this.running[task];
-      this.fire('taskrun', { action: task, running: this.running[task] });
+    setRunningState: function(task, state) {
+      this.running[task] = state;
+      this.onRunningChanged();
     },
 
     /**
      * on task button click
      */
+    onTaskClick: function(e) {
+      var task = e.target.parentNode.id.split('-')[0];
+      this.fire('taskrun', { task: task, running: this.running[task] });
+    },
+
+    /**
+     * on running changed
+     */
     onRunningChanged: function() {
       for (var c in this.running) {
-        this.$[c.split('-')[0]].setAttribute('disabled', this.running[c] );
+        this.$[c + '-btn'].toggleAttribute('disabled', this.running[c] );
       }
     },
 
@@ -199,7 +208,9 @@ See http://bunkat.github.io/later/parsers.html for possible Schedule entries
       later.date.localTime();
       var taskbuttons = document.querySelectorAll('.task-button');
       for (var c in taskbuttons) {
-        this.running[taskbuttons[c].id] = false;
+        if (taskbuttons[c].id) {
+          this.running[taskbuttons[c].id.split('-')[0]] = false;
+        }
       }
 
       this.tick();

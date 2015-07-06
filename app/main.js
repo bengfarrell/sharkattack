@@ -1,2 +1,2 @@
-var posh = require('posh');
-var app = new posh.app();
+var tron = require('tron-app');
+var app = new tron.app();

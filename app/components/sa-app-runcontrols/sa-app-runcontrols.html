@@ -55,6 +55,8 @@ Example:
       }
       this.cfg.log('SharkAttack', 'Run task ' + task, { date: new Date(), level: 'verbose' });
       var starttime = new Date();
+
+      Logging.newJob(task);
       switch(task) {
         case 'discovery':
           self.$.scheduler.setRunningState(task, true);
@@ -96,6 +98,7 @@ Example:
       var self = this;
       this.cfg.log = function(type, message, details) {
         self.$.log.addMessage({type: type, message: message, details: details});
+        Logging.write(type, message, details);
       };
       Logging.config = this.cfg;
 
