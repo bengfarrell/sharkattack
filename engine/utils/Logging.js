@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var util = require('util');
 var File = require('./File');
 var time = require('./Time');
 
@@ -49,7 +50,7 @@ Logging.write = function(type, message, details) {
     Logging._filestreams[file].write(details.date + '\t' + type + '\t' + message + '\n');
 
     if (loglevel === 'error') {
-        Logging._filestreams[file].write(JSON.stringify(details) + '\n');
+        Logging._filestreams[file].write(util.inspect(details, { showHidden: true, depth: null }) + '\n');
     }
 
     Logging._filestreams[file].write('\n\n');

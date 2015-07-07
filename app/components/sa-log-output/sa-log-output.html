@@ -73,7 +73,7 @@ Example:
     <ul>
       <template is="dom-repeat" items="[[messages]]">
         <li class$="[[item.details.level]]">
-          <div class="log-date">[[formatTime(item.details.date)]]</div>
+          <div class="log-date">[[formatTime(item.details.datestring)]]</div>
           <div class="log-type">{{item.type}}</div>
           <div class="log-message">[[item.message]]</div></li>
       </template>
